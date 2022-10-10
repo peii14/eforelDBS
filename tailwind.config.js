@@ -32,11 +32,11 @@ module.exports = {
       },
       colors: {
         // 500 for gradient, 600 for hover
-        primary: { DEFAULT: "#FF4C4C", HOVER: "#c91b0e" },
+        primary: { DEFAULT: "#497B2F", 500: "#80A36D",400:"#C8D7C1" },
         sec: { DEFAULT: "#FEB803" },
         third: { DEFAULT: "#ECCFAF" },
         forth: { DEFAULT: "#F0F0F0" },
-        background:{DEFAULT: '#F7F6F2'}
+        background:{DEFAULT: '#F5F7FB'}
 
       },
       screens: {
