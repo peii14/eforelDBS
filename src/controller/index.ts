@@ -1,12 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient } from '@prisma/client'
 
-export default async function handler(
+async function userReq(
     req: NextApiRequest,
     res: NextApiResponse,
 ){
     const prisma = new PrismaClient();
-
     if(req.method === "GET")
     {
         const users = await prisma.user.findMany();
@@ -20,3 +19,24 @@ export default async function handler(
         return res.status(201).send(newUser)
     }
 }
+
+async function comproReq(
+    req: NextApiRequest,
+    res: NextApiResponse,
+){
+    const prisma = new PrismaClient();
+    if(req.method === "GET")
+    {
+        const compro = await prisma.compro.findMany();
+        return res.send(compro)
+    }
+    else if(req.method === "POST")
+    {
+        const {body: data} = req;
+        console.log(data);
+        const newUser = await prisma.user.create({data});
+        return res.status(201).send(newUser)
+    }
+}
+
+export default {userReq, comproReq}
