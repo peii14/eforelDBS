@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         domain: {
           label: "Domain",
-          type: "text ",
+          type: "text",
           placeholder: "CORPNET",
           value: "CORPNET",
         },

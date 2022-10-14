@@ -43,12 +43,12 @@ export default function LoginScreen() {
     }
   };
   return (
-    <Layout title={"Login"}>
+    <Layout title={"Login"} session={false}>
       <div className="flex h-screen -mt-16 w-screen">
         <div className="m-auto w-1/3">
           <Neuromorphism whichNeuro={1}>
             <form
-              className="mx-auto max-w-screen-md p-5 text-primary"
+              className="mx-auto max-w-screen-md p-5 text-secondary"
               onSubmit={handleSubmit(submitHandler)}
             >
               <h1 className="mb-4 font-semibold text-4xl text-center">Login</h1>
@@ -109,12 +109,6 @@ export default function LoginScreen() {
                 <button className="primary-button">
                   <Button btn={"Login"} />
                 </button>
-              </div>
-              <div className="mb-4 ">
-                <p>Don&apos;t have an account? &nbsp;</p>
-                <Link href={`/Register?redirect=${redirect || "/"}`}>
-                  <p className="font-bold cursor-pointer w-max">Register</p>
-                </Link>
               </div>
             </form>
           </Neuromorphism>

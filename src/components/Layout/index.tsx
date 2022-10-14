@@ -7,9 +7,10 @@ import Footer from "./footer";
 type Props = {
   children?: ReactNode;
   title?: string;
+  session?: boolean;
 };
 
-const Layout = ({ children, title = "Eforel" }: Props) => (
+const Layout = ({ children, title = "Eforel", session = false }: Props) => (
   <div className="">
     <Head>
       <title>{title}</title>
@@ -17,7 +18,7 @@ const Layout = ({ children, title = "Eforel" }: Props) => (
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
     <div className="z-0 min-w-screen min-h-screen bg-background flex flex-col">
-      <header>
+      <header className={`${session ? "block" : "hidden"}`}>
         <Navbar />
       </header>
       <div>

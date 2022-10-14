@@ -18,8 +18,8 @@ module.exports = {
         '2s': '200vh',      
       },
       textColor: {
-        primary: "#FF4C4C",
-        secondary: "#F7F6F2",
+        primary: "#497B2F",
+        secondary: "#282828",
         danger: "#771011",
         textSecond:"#777777",
         
