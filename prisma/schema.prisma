@@ -16,8 +16,8 @@ model compro {
   comp_poscode  String @db.VarChar(20)
   comp_phone    String
 
-  USER_U_ID     Int    @unique
-  user          user   @relation(fields: [USER_U_ID], references: [id])
+  USER_U_ID Int  @unique
+  user      user @relation(fields: [USER_U_ID], references: [id])
 }
 
 model user {
@@ -26,9 +26,10 @@ model user {
   fullname  String
   role      Boolean  @default(false)
   userEmail String   @unique
+  password  String
+  isAdmin   Boolean
   user_area Int
   user_code String   @db.Char(2)
-  username  String
 
-  compro    compro?
+  compro compro?
 }
