@@ -3,6 +3,9 @@ import Link from "next/link";
 import Head from "next/head";
 import Navbar from "./navbar";
 import Footer from "./footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 type Props = {
   children?: ReactNode;
@@ -22,6 +25,13 @@ const Layout = ({ children, title = "Eforel", session = false }: Props) => (
         <Navbar />
       </header>
       <div>
+      <ToastContainer
+        rtl={false}
+        autoClose={3000}
+        position="bottom-center"
+        limit={5}
+        pauseOnFocusLoss
+      />
         <main className="min-h-screen">{children}</main>
         <footer>
           <Footer />
