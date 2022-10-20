@@ -38,6 +38,7 @@ export default function LoginScreen() {
       if (result.error) {
         toast.error(result.error);
       }
+      router.push("/eforel/dashboard");
     } catch (err) {
       toast.error(getError(err));
     }

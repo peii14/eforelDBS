@@ -24,10 +24,9 @@ model user {
   id        Int      @id @default(autoincrement())
   created   DateTime @default(now())
   fullname  String
-  role      Boolean  @default(false)
   userEmail String   @unique
-  password  String
-  isAdmin   Boolean
+  password  String   @db.LongText
+  isAdmin   Boolean  @default(false)
   user_area Int
   user_code String   @db.Char(2)
 

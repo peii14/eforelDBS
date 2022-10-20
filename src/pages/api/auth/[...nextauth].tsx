@@ -11,7 +11,20 @@ export const authOptions: NextAuthOptions = {
     updateAge: 24 * 60 * 60,
   },
   adapter: PrismaAdapter(prisma),
-  callbacks: {},
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user?.id) token._id = user.id;
+      if (user?.email) token.email = user.email;
+      return token;
+    },
+    async session({ session, token }: any) {
+      if (token?._id) session.user._id = token._id;
+      if (token?.isAdmin) session.user.isAdmin = token.isAdmin;
+      if (token?.isValid) session.user.isValid = token.isValid;
+      if (token?.emailToken) session.user.emailToken = token.emailToken;
+      return session;
+    },
+  },
   providers: [
     CredentialsProvider({
       async authorize(credentials, req) {
@@ -27,8 +40,7 @@ export const authOptions: NextAuthOptions = {
           return {
             _id: user.id,
             name: user.fullname,
-            email: user.userEmail,
-            image: "f",
+            userEmail: user.userEmail,
             isAdmin: user.isAdmin,
           };
         }
