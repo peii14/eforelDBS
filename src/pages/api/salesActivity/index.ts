@@ -9,21 +9,14 @@ export default async function handler(
 
     if(req.method === "GET")
     {
-        const users = await prisma.user.findMany({
-            where: {
-                Sales_Activity_S_ID: 1
-            },
-            include:{
-                salesActivity: true
-            }
-        });
-        return res.send(users)
+        const salesActivity = await prisma.salesActivity.findMany();
+        return res.send(salesActivity)
     }
     else if(req.method === "POST")
     {
         const {body: data} = req;
         console.log(data);
-        const newUser = await prisma.user.create({data});
-        return res.status(201).send(newUser)
+        const newSalesActivity = await prisma.salesActivity.create({data});
+        return res.status(201).send(newSalesActivity)
     }
 }
