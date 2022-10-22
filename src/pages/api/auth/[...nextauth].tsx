@@ -4,6 +4,7 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/utils/prisma-db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -18,19 +19,20 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }: any) {
-      if (token?._id) session.user._id = token._id;
+      if (token?.id) session.user.id = token.id;
       if (token?.isAdmin) session.user.isAdmin = token.isAdmin;
-      if (token?.isValid) session.user.isValid = token.isValid;
-      if (token?.emailToken) session.user.emailToken = token.emailToken;
       return session;
     },
+  },
+  pages: {
+    signIn: "/",
   },
   providers: [
     CredentialsProvider({
       async authorize(credentials, req) {
         const user = await prisma.user.findUnique({
           where: {
-            userEmail: credentials.username,
+            userEmail: credentials.email,
           },
         });
         if (
@@ -47,13 +49,7 @@ export const authOptions: NextAuthOptions = {
         throw new Error("Invalid email or password");
       },
       credentials: {
-        domain: {
-          label: "Domain",
-          type: "text",
-          placeholder: "CORPNET",
-          value: "CORPNET",
-        },
-        username: { label: "Username", type: "text ", placeholder: "jsmith" },
+        username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
       },
     }),

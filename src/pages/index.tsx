@@ -19,7 +19,7 @@ export default function LoginScreen() {
 
   useEffect(() => {
     if (session?.user) {
-      router.push(redirect || "/");
+      router.push(redirect || "/eforel/index");
     }
   }, [router, session, redirect]);
 
@@ -37,8 +37,9 @@ export default function LoginScreen() {
       });
       if (result.error) {
         toast.error(result.error);
+      } else {
+        router.push("/eforel");
       }
-      router.push("/eforel/dashboard");
     } catch (err) {
       toast.error(getError(err));
     }

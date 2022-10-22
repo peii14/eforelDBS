@@ -236,17 +236,17 @@
   resolved "https://registry.yarnpkg.com/@phc/format/-/format-1.0.0.tgz#b5627003b3216dc4362125b13f48a4daa76680e4"
   integrity sha512-m7X9U6BG2+J+R1lSOdCiITLLrxm+cWlNI3HUFA92oLO77ObGNzaKdh8pMLqdZcshtkKuV84olNNXDfMc4FezBQ==
 
-"@prisma/client@^4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-4.4.0.tgz#45f59c172dd3621ecc92d7cf9bc765d85e6c7d56"
-  integrity sha512-ciKOP246x1xwr04G9ajHlJ4pkmtu9Q6esVyqVBO0QJihaKQIUvbPjClp17IsRJyxqNpFm4ScbOc/s9DUzKHINQ==
+"@prisma/client@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-4.5.0.tgz#f708549bee3da396d5741d846b4e4306b120210c"
+  integrity sha512-B2cV0OPI1smhdYUxsJoLYQLoMlLH06MUxgFUWQnHodGMX98VRVXKmQE/9OcrTNkqtke5RC+YU24Szxd04tZA2g==
   dependencies:
-    "@prisma/engines-version" "4.4.0-66.f352a33b70356f46311da8b00d83386dd9f145d6"
+    "@prisma/engines-version" "4.5.0-43.0362da9eebca54d94c8ef5edd3b2e90af99ba452"
 
-"@prisma/engines-version@4.4.0-66.f352a33b70356f46311da8b00d83386dd9f145d6":
-  version "4.4.0-66.f352a33b70356f46311da8b00d83386dd9f145d6"
-  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-4.4.0-66.f352a33b70356f46311da8b00d83386dd9f145d6.tgz#00875863bb30b670a586a5b5794a000f7f3ad976"
-  integrity sha512-P5v/PuEIJLYXZUZBvOLPqoyCW+m6StNqHdiR6te++gYVODpPdLakks5HVx3JaZIY+LwR02juJWFlwpc9Eog/ug==
+"@prisma/engines-version@4.5.0-43.0362da9eebca54d94c8ef5edd3b2e90af99ba452":
+  version "4.5.0-43.0362da9eebca54d94c8ef5edd3b2e90af99ba452"
+  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-4.5.0-43.0362da9eebca54d94c8ef5edd3b2e90af99ba452.tgz#5b7fae294ee9bd9790d0e7b7a0b0912e4222ac08"
+  integrity sha512-o7LyVx8PPJBLrEzLl6lpxxk2D5VnlM4Fwmrbq0NoT6pr5aa1OuHD9ZG+WJY6TlR/iD9bhmo2LNcxddCMr5Rv2A==
 
 "@prisma/engines@4.4.0":
   version "4.4.0"
@@ -956,10 +956,10 @@ nanoid@^3.3.4:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
 
-next-auth@^4.13.0:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.13.0.tgz#93d312cec2513ac3c5eb583ee0665da50059a902"
-  integrity sha512-FtkPpeb9Bax6yKDaxcaGIvZZjvr10JaU2AsBYv1yv4N6rP86Xa7/4Ro1Aq94YGwsYzk+YKS52CRjD2DqCcSmVA==
+next-auth@^4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.14.0.tgz#d2c6d4ebeac5e7e9ba1519fb778c65f6efe00079"
+  integrity sha512-pD5sin6kq/uIx3Cod2/0JFnViEnngBTTNy4CdfRaYc2QzV2zwpWAbQny2Ezlg0GjEozDhKC53JJxRRE4AmNKEw==
   dependencies:
     "@babel/runtime" "^7.16.3"
     "@panva/hkdf" "^1.0.1"

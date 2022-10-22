@@ -8,7 +8,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => (
         <Component {...pageProps} />
       </Auth>
     ) : (
-  <Component {...pageProps} />
+      <Component {...pageProps} />
     )}
   </SessionProvider>
 );
