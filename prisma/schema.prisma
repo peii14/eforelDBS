@@ -32,8 +32,8 @@ model user {
   isAdmin   Boolean   @default(false)
   username  String
 
-  Sales_Activity_S_ID Int           @unique @default(0)
-  salesActivity       SalesActivity @relation(fields: [Sales_Activity_S_ID], references: [S_ID])
+  // Sales_Activity_S_ID Int           @unique @default(0)
+  // salesActivity       SalesActivity @relation(fields: [Sales_Activity_S_ID], references: [S_ID])
 
   companyProfile companyProfile?
   areas          Area[]
@@ -59,7 +59,7 @@ model SalesActivity {
   Customer_Cust_ID Int      @unique
   customer         Customer @relation(fields: [Customer_Cust_ID], references: [cust_id])
 
-  user user[]
+  // user user[]
 }
 
 model Customer {
