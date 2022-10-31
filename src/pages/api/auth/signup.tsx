@@ -8,43 +8,45 @@ import { User } from "@/Model/User";
 const prisma = new PrismaClient();
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") {
-    return;
-  }
-  const { name, email, password } = req.body;
-  if (
-    !name ||
-    !email ||
-    !email.includes("@") ||
-    !password ||
-    password.trim().length < 5
-  ) {
-    res.status(422).json({
-      message: "Validation error",
-    });
-    return;
-  }
+  // if (req.method !== "POST") {
+  //   return;
+  // }
+  // const { name, email, password } = req.body;
+  // if (
+  //   !name ||
+  //   !email ||
+  //   !email.includes("@") ||
+  //   !password ||
+  //   password.trim().length < 5
+  // ) {
+  //   res.status(422).json({
+  //     message: "Validation error",
+  //   });
+  //   return;
+  // }
 
-  const existingUser = await prisma.user.findUnique({
-    where: {
-      userEmail: email,
-    },
-  });
-  if (existingUser) {
-    res.status(422).json({ message: "User exists already!" });
+  // const existingUser = await prisma.user.findUnique({
+  //   where: {
+  //     userEmail: email,
+  //   },
+  // });
+  // if (existingUser) {
+  //   res.status(422).json({ message: "User exists already!" });
 
-    return;
-  }
+  //   return;
+  // }
   // const user: User = {};
 
   const newUser = await prisma.user.create({
     data: {
-      userEmail: email,
-      fullname: name,
+      username: "admin",
+      userEmail: "admin@gmail.com",
+      fullname: "admin",
       isAdmin: false,
-      password: password,
+      password: await argon2.hash("123123123"),
       user_area: 1,
       user_code: "BD",
+      Sales_Activity_S_ID: 1231,
     },
   });
 

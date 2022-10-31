@@ -8,8 +8,6 @@ import { useRouter } from "next/router";
 import Neuromorphism from "@/components/Object/Neuromorphism";
 import Layout from "@/components/Layout";
 import Button from "@/components/Object/Button";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export default function LoginScreen() {
   const { data: session } = useSession();
@@ -19,7 +17,7 @@ export default function LoginScreen() {
 
   useEffect(() => {
     if (session?.user) {
-      router.push(redirect || "/eforel/index");
+      router.push(redirect || "/eforel");
     }
   }, [router, session, redirect]);
 
@@ -118,17 +116,4 @@ export default function LoginScreen() {
       </div>
     </Layout>
   );
-}
-
-export async function getServerSideProps(context) {
-  const session: any = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
-  return {
-    props: {
-      session: session,
-    },
-  };
 }

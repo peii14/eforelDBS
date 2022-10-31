@@ -13,7 +13,7 @@ const Navbar = () => {
     <div className=" w-36 h-screen fixed top-1/2 -translate-y-1/2 z-20 shadow-xl bg-white  shadow-slate-700 p-5 px-2 rounded-xl ">
       <ul className="flex text-center flex-col justify-center align-middle h-screen gap-2">
         <li className="cursor-pointer px-3 py-2 hover:bg-primary hover:text-white duration-300 rounded-xl">
-          <Link href={"/eforel/dashboard"}>
+          <Link href={"/eforel/"}>
             <a className="flex flex-col gap-1 items-center">
               <FaHome size={20} />
               <p className="basis-2/3 text-sm">Dashboard</p>

@@ -13,7 +13,7 @@ export default async function handler(
                 COMP_ID: 1
             },
             include: {
-                user: true
+                user: true 
             }
         });
         return res.send(companyProfile)
