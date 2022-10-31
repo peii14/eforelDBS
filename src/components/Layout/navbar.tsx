@@ -10,9 +10,11 @@ import { HiDocumentAdd } from "react-icons/hi";
 
 const Navbar = () => {
   return (
-    <div className=" w-36 h-screen fixed top-1/2 -translate-y-1/2 z-20 shadow-xl bg-white  shadow-slate-700 p-5 px-2 rounded-xl ">
+    <div className=" w-36 h-screen fixed top-1/2 -translate-y-1/2 z-20 shadow-lg bg-white  shadow-slate-700 p-5 px-2 rounded-xl ">
       <ul className="flex text-center flex-col justify-center align-middle h-screen gap-2">
-        <li className="cursor-pointer px-3 py-2 hover:bg-primary hover:text-white duration-300 rounded-xl">
+        <li
+          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+        >
           <Link href={"/eforel/"}>
             <a className="flex flex-col gap-1 items-center">
               <FaHome size={20} />
@@ -20,7 +22,9 @@ const Navbar = () => {
             </a>
           </Link>
         </li>
-        <li className="cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl">
+        <li
+          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+        >
           <Link href={"/eforel/addCustomer"}>
             <a className="flex flex-col gap-1 items-center">
               <FaPeopleArrows size={20} />
@@ -28,7 +32,9 @@ const Navbar = () => {
             </a>
           </Link>
         </li>
-        <li className="cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl">
+        <li
+          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+        >
           <Link href={"/eforel/addPIC"}>
             <a className="flex flex-col gap-1 items-center">
               <AiOutlineUsergroupAdd size={20} />
@@ -36,7 +42,9 @@ const Navbar = () => {
             </a>
           </Link>
         </li>
-        <li className="cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl">
+        <li
+          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+        >
           <Link href={"/eforel/addVM"}>
             <a className="flex py-2 flex-col gap-1 items-center">
               <FaRegBuilding size={20} />
@@ -44,7 +52,9 @@ const Navbar = () => {
             </a>
           </Link>
         </li>
-        <li className="cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl">
+        <li
+          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+        >
           <Link href={"/eforel/addQuotation"}>
             <a className="flex py-2 flex-col gap-1 items-center">
               <MdOutlineRequestQuote size={20} />
@@ -52,7 +62,9 @@ const Navbar = () => {
             </a>
           </Link>
         </li>
-        <li className="cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl">
+        <li
+          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+        >
           <Link href={"/eforel/addMOP"}>
             <a className="flex py-2 flex-col gap-1 items-center">
               <HiDocumentAdd size={20} />
@@ -60,7 +72,9 @@ const Navbar = () => {
             </a>
           </Link>
         </li>
-        <li className="cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl">
+        <li
+          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+        >
           <Link href={"/eforel/salesActivity"}>
             <a className="flex py-2 flex-col gap-1 items-center">
               <AiOutlineSchedule size={20} />
@@ -68,7 +82,9 @@ const Navbar = () => {
             </a>
           </Link>
         </li>
-        <li className="cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl">
+        <li
+          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+        >
           <Link href={"/admin/settings"}>
             <a className="flex py-2 flex-col gap-1 items-center">
               <AiOutlineSetting size={20} />

@@ -1,13 +1,22 @@
 import n from "@/styles/Neuromorphism.module.css";
-const Neuromorphism = (props: any): JSX.Element => {
-  if (props.whichNeuro == 1) {
-    return <div className={n.NeuroMember}>{props.children}</div>;
-  } else if (props.whichNeuro == 3) {
-    return <div className={n.NeuroDisc}>{props.children}</div>;
+
+type NeuroProps = {
+  whichNeuro: number;
+  children: React.ReactNode;
+};
+
+const Neuromorphism = ({
+  whichNeuro = 1,
+  children,
+}: NeuroProps): JSX.Element => {
+  if (whichNeuro == 1) {
+    return <div className={n.NeuroMember}>{children}</div>;
+  } else if (whichNeuro == 3) {
+    return <div className={n.NeuroDisc}>{children}</div>;
   } else {
     return (
       <div className="cursor-pointer">
-        <div className={n.Neuro}>{props.children}</div>
+        <div className={n.Neuro}>{children}</div>
       </div>
     );
   }

@@ -35,7 +35,7 @@ const Layout = ({ children, title = "Eforel" }: Props) => {
           <header className={`basis-1/12 ${session ? "block" : "hidden"}`}>
             <Navbar />
           </header>
-          <div className="basis-5/6 pl-0 p-10 h-screen overflow-y-hidden">
+          <div className="basis-5/6 pl-0 p-10 min-h-screen overflow-y-hidden">
             <main className="">{children}</main>
           </div>
         </div>

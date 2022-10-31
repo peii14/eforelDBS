@@ -3,7 +3,6 @@ import { PrismaClient, Prisma } from "@prisma/client";
 // import VerificationMail from "@/utils/mailer";
 // import html from "@/utils/emailVerif";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { User } from "@/Model/User";
 
 const prisma = new PrismaClient();
 
@@ -42,11 +41,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       username: "admin",
       userEmail: "admin@gmail.com",
       fullname: "admin",
-      isAdmin: false,
+      isAdmin: true,
       password: await argon2.hash("123123123"),
       user_area: 1,
       user_code: "BD",
-      Sales_Activity_S_ID: 1231,
     },
   });
 
