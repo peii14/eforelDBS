@@ -1,6 +1,5 @@
 import Layout from "@/components/Layout";
 import Title from "@/components/Layout/Title";
-import AutoCompleteBox from "@/components/Object/AutoCompleteBox";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { renameKey } from "@/utils/renameKey";
@@ -10,112 +9,98 @@ import Neuromorphism from "@/components/Object/Neuromorphism";
 import { toast } from "react-toastify";
 import { getError } from "@/utils/error";
 import Button from "@/components/Object/Button";
+import AutoCompleteBox from "@/components/Object/AutoCompleteBox";
 
-const AddQuotation = () => {
-  let [customer_name, setCustomerNames]: any = useState([{}]);
+const AddMOP = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  let [mop, setMOP]: any = useState([{}]);
   let [pic_name, setPICNames]: any = useState([{}]);
-  const [whichCustomer, setCustomer] = useState(customer_name[0]);
+  const [whichMOP, setWhichMOP] = useState(mop[0]);
+  const [whichCustomer, setWichCustomer]: any = useState([{}]);
   const [whichPIC, setPIC] = useState(pic_name[0]);
 
   const { data: session }: any = useSession();
-  const [isLoading, setIsLoading] = useState(true);
+
   const {
     handleSubmit,
     register,
     getValues,
     formState: { errors },
   }: any = useForm();
-  const [nameQuery, setNameQuery] = useState("'-'");
-  const [picQuery, setPicQuery] = useState("'-'");
+  const [mopQuery, setmopQuery] = useState("'-'");
 
   useEffect(() => {
     setIsLoading(true);
-    const getCustomerName = async () => {
-      const { data } = await axios.get("/api/customer", {
-        params: { q: nameQuery },
+    const getQuotation = async () => {
+      const { data } = await axios.get("/api/quotation", {
+        params: { q: mopQuery },
       });
-      data.forEach((obj) => renameKey(obj, "cust_name", "name"));
-      setCustomerNames(data);
+      data.forEach((obj) => renameKey(obj, "Q_num", "name"));
+      setMOP(data);
     };
-    getCustomerName();
+    getQuotation();
     setIsLoading(false);
-  }, [nameQuery]);
+  }, [mopQuery]);
 
   useEffect(() => {
-    try {
-      const getPIC = async () => {
-        const { data } = await axios.get("/api/pic", {
-          params: { q: picQuery },
-        });
-        data.forEach((obj) => renameKey(obj, "P_name", "name"));
-        setPICNames(data);
-      };
-      getPIC();
-    } catch (err) {
-      toast.error(err);
-    }
-  }, [picQuery]);
+    let q = "";
+
+    if (whichMOP.Customer_Cust_ID !== undefined) q = whichMOP.Customer_Cust_ID;
+    else return;
+
+    const getCustomer = async () => {
+      const { data } = await axios.get("/api/customer/id", {
+        params: { q: q },
+      });
+      setWichCustomer(data);
+    };
+    getCustomer();
+  }, [whichMOP]);
 
   const submitHandler = async ({ vertical_market, group }) => {
     try {
       const salesCode = session.user.user_code;
-      await axios.post("/api/vertical_market", {
-        cust_name: vertical_market,
-        cust_code: group,
-      });
+      await axios.post("/api/mop", {});
     } catch (err) {
       toast.error(getError(err));
     }
     toast.success("Customer has been added");
   };
+
   return (
-    <Layout title="Add Quotation">
-      <Title title="Add Quotation" />
+    <Layout title="Add MOP">
+      <Title title="Add MOP" />
       <form onSubmit={handleSubmit(submitHandler)}>
         <section className="flex flex-col space-y-10">
           <div className="grid w-max items-center mx-auto gap-5 grid-cols-3">
-            <p>Choose Customer</p>
+            <p>Choose Quotation Number</p>
             <div className="col-span-2">
               {isLoading ? (
                 <p>Loading</p>
               ) : (
                 <AutoCompleteBox
-                  list={customer_name}
-                  selected={whichCustomer}
-                  query={nameQuery}
-                  setQuery={setNameQuery}
-                  setSelected={setCustomer}
-                />
-              )}
-            </div>
-            <p>Choose PIC</p>
-            <div className="col-span-2">
-              {isLoading ? (
-                <p>Loading</p>
-              ) : (
-                <AutoCompleteBox
-                  list={pic_name}
-                  selected={whichPIC}
-                  query={picQuery}
-                  setQuery={setPicQuery}
-                  setSelected={setPIC}
+                  list={mop}
+                  selected={whichMOP}
+                  query={mopQuery}
+                  setQuery={setmopQuery}
+                  setSelected={setWhichMOP}
                 />
               )}
             </div>
           </div>
           <Neuromorphism whichNeuro={1}>
             <div className="p-5 grid-cols-4 gap-5 items-center grid">
-              <p>Nama Customer</p>
+              <p>Quotation Number</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.name}` : ""}
+                {whichMOP ? `${whichMOP.name}` : ""}
               </div>
               <div className="row-span-5 border-2 w-max p-5 mx-auto shadow-xl rounded-3xl text-center border-gray-800">
                 <p>Sales Code</p>
                 <h1 className="text-sec text-5xl">{session.user.user_code}</h1>
               </div>
-              <p>Customer Code</p>
+              <p>Customer Name</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.cust_code}` : ""}
+                {whichCustomer ? `${whichCustomer.cust_name}` : ""}
               </div>
               <p>Area</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
@@ -123,11 +108,11 @@ const AddQuotation = () => {
               </div>
               <p>Vertical Market</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.postal_code}` : ""}
+                {whichCustomer ? `${whichCustomer.vertical_market}` : ""}
               </div>
               <p>Group</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.postal_code}` : ""}
+                {whichMOP ? `${whichMOP.postal_code}` : ""}
               </div>
             </div>
           </Neuromorphism>
@@ -156,23 +141,23 @@ const AddQuotation = () => {
               <div className="p-5 grid grid-cols-4 gap-5 mx-auto">
                 <p>Alamat Customer</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichCustomer ? `${whichCustomer.address}` : ""}
+                  {whichMOP ? `${whichMOP.address}` : ""}
                 </div>
                 <p>Kota</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichCustomer ? `${whichCustomer.city}` : ""}
+                  {whichMOP ? `${whichMOP.city}` : ""}
                 </div>
                 <p>Provinsi</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichCustomer ? `${whichCustomer.province}` : ""}
+                  {whichMOP ? `${whichMOP.province}` : ""}
                 </div>
                 <p>Kode Pos</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichCustomer ? `${whichCustomer.postal_code}` : ""}
+                  {whichMOP ? `${whichMOP.postal_code}` : ""}
                 </div>
                 <p>Telp. Customer</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichCustomer ? `${whichCustomer.cust_phone}` : ""}
+                  {whichMOP ? `${whichMOP.cust_phone}` : ""}
                 </div>
               </div>
             </Neuromorphism>
@@ -237,5 +222,5 @@ const AddQuotation = () => {
   );
 };
 
-AddQuotation.auth = true;
-export default AddQuotation;
+AddMOP.auth = true;
+export default AddMOP;

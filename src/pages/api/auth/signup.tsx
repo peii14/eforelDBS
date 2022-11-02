@@ -1,10 +1,7 @@
 import * as argon2 from "argon2";
-import { PrismaClient, Prisma } from "@prisma/client";
 // import VerificationMail from "@/utils/mailer";
 // import html from "@/utils/emailVerif";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-const prisma = new PrismaClient();
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   // if (req.method !== "POST") {

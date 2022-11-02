@@ -1,17 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const prisma = new PrismaClient();
   const type = req.query.param;
   const query = req.query.q;
   if (req.method === "GET") {
     if (type === "nameOnly") {
-      const customer = await prisma.quotation.findMany({});
-      return res.send(customer);
+      const quotation = await prisma.quotation.findMany({
+        where: {
+          Q_num: { contains: query.toString() },
+        },
+      });
+      return res.send(quotation);
     } else {
       const quotation = await prisma.quotation.findMany();
       return res.send(quotation);

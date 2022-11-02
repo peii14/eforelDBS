@@ -7,13 +7,19 @@ import {
 } from "react-icons/ai";
 import { MdOutlineRequestQuote } from "react-icons/md";
 import { HiDocumentAdd } from "react-icons/hi";
+import { useRouter } from "next/router";
+import React from "react";
 
 const Navbar = () => {
+  const { asPath } = useRouter();
+
   return (
     <div className=" w-36 h-screen fixed top-1/2 -translate-y-1/2 z-20 shadow-lg bg-background  shadow-slate-700 p-5 px-2 rounded-xl ">
       <ul className="flex text-center flex-col justify-center align-middle h-screen gap-2">
         <li
-          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+          className={`${
+            asPath === "/eforel" ? "bg-primary text-white" : ""
+          } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
           <Link href={"/eforel/"}>
             <a className="flex flex-col gap-1 items-center">
@@ -23,7 +29,9 @@ const Navbar = () => {
           </Link>
         </li>
         <li
-          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+          className={`${
+            asPath === "/eforel/addCustomer" ? "bg-primary text-white" : ""
+          } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
           <Link href={"/eforel/addCustomer"}>
             <a className="flex flex-col gap-1 items-center">
@@ -33,7 +41,9 @@ const Navbar = () => {
           </Link>
         </li>
         <li
-          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+          className={`${
+            asPath === "/eforel/addPIC" ? "bg-primary text-white" : ""
+          } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
           <Link href={"/eforel/addPIC"}>
             <a className="flex flex-col gap-1 items-center">
@@ -43,7 +53,9 @@ const Navbar = () => {
           </Link>
         </li>
         <li
-          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+          className={`${
+            asPath === "/eforel/addVM" ? "bg-primary text-white" : ""
+          } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
           <Link href={"/eforel/addVM"}>
             <a className="flex py-2 flex-col gap-1 items-center">
@@ -53,7 +65,9 @@ const Navbar = () => {
           </Link>
         </li>
         <li
-          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+          className={`${
+            asPath === "/eforel/addQuotation" ? "bg-primary text-white" : ""
+          } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
           <Link href={"/eforel/addQuotation"}>
             <a className="flex py-2 flex-col gap-1 items-center">
@@ -63,7 +77,9 @@ const Navbar = () => {
           </Link>
         </li>
         <li
-          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+          className={`${
+            asPath === "/eforel/addMOP" ? "bg-primary text-white" : ""
+          } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
           <Link href={"/eforel/addMOP"}>
             <a className="flex py-2 flex-col gap-1 items-center">
@@ -73,7 +89,9 @@ const Navbar = () => {
           </Link>
         </li>
         <li
-          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+          className={`${
+            asPath === "/eforel/salesActivity" ? "bg-primary text-white" : ""
+          } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
           <Link href={"/eforel/salesActivity"}>
             <a className="flex py-2 flex-col gap-1 items-center">
@@ -83,7 +101,9 @@ const Navbar = () => {
           </Link>
         </li>
         <li
-          className={`cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
+          className={`${
+            asPath === "/admin/settings" ? "bg-primary text-white" : ""
+          } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
           <Link href={"/admin/settings"}>
             <a className="flex py-2 flex-col gap-1 items-center">
