@@ -6,19 +6,18 @@ export default async function handler(
     res: NextApiResponse,
 ){
     const prisma = new PrismaClient();
-    const query = req.query.param
+    // const type = req.query.param
+    const query = req.query.q
     if(req.method === "GET"){
-        if(query === 'nameOnly'){
             const customer = await prisma.customer.findMany({
-                select:{
-                    cust_name:true, 
+                where:{
+                cust_name:{
+                     contains: query.toString()
+                }
                 }
             });
             return res.send(customer)
-        }else{
-            const customer = await prisma.customer.findMany();
-            return res.send(customer)
-        }
+     
     }
     else if(req.method === "POST")
     {

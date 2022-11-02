@@ -9,30 +9,32 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { getError } from "@/utils/error";
 import Button from "@/components/Object/Button";
+import { renameKey } from "@/utils/renameKey";
 
 const AddPIC = () => {
   let [customer_name, setCustomerNames]: any = useState([{}]);
   const [whichCustomer, setCustomer] = useState(customer_name[0]);
   const { data: session }: any = useSession();
-
+  const [isLoading, setIsLoading] = useState(true);
   const {
     handleSubmit,
     register,
     getValues,
     formState: { errors },
   }: any = useForm();
-
+  const [query, setQuery] = useState("''");
   useEffect(() => {
+    setIsLoading(true);
     const getCustomerName = async () => {
       const { data } = await axios.get("/api/customer", {
-        params: { param: "nameOnly" },
+        params: { q: query },
       });
+      data.forEach((obj) => renameKey(obj, "cust_name", "name"));
       setCustomerNames(data);
-      // console.log(data[0].cust_name);
     };
     getCustomerName();
-    console.log(customer_name[0].cust_name);
-  }, [2]);
+    setIsLoading(false);
+  }, [query]);
 
   const submitHandler = async ({ name, position, email, phone }) => {
     try {
@@ -43,6 +45,7 @@ const AddPIC = () => {
         P_email: email,
         P_phone: phone,
         P_sales_code: salesCode,
+        Customer_Cust_ID: whichCustomer.cust_id,
       });
     } catch (err) {
       return toast.error(getError(err));
@@ -58,11 +61,17 @@ const AddPIC = () => {
             <Neuromorphism whichNeuro={1}>
               <div className="p-5 flex flex-row items-center justify-between">
                 <p>Customer Name:</p>
-                <AutoCompleteBox
-                  list={customer_name}
-                  selected={whichCustomer}
-                  setSelected={setCustomer}
-                />
+                {isLoading ? (
+                  <p>Loading</p>
+                ) : (
+                  <AutoCompleteBox
+                    list={customer_name}
+                    selected={whichCustomer}
+                    query={query}
+                    setQuery={setQuery}
+                    setSelected={setCustomer}
+                  />
+                )}
               </div>
             </Neuromorphism>
           </div>

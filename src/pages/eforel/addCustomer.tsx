@@ -69,7 +69,6 @@ const AddCustomer = () => {
             <Neuromorphism whichNeuro={1}>
               <div className="p-5 grid grid-cols-3 gap-5">
                 <p>Nama Customer</p>
-                {/* <div> */}
                 <div className="col-span-2">
                   <input
                     {...register("cust_name", {
@@ -81,7 +80,6 @@ const AddCustomer = () => {
                     <div className="text-red-500">{errors.name.message}</div>
                   )}
                 </div>
-                {/* </div> */}
                 <p>Kode Customer</p>
                 <div className="col-span-2">
                   <input

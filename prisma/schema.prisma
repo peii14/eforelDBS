@@ -20,16 +20,21 @@ model companyProfile {
   user      user @relation(fields: [USER_U_ID], references: [id])
 }
 
+// redundancy on mcode q code area
+
+// user punya column area
+// username itu email
+// create feat super admin can create admin
 model user {
-  id        Int       @id @default(autoincrement())
-  created   DateTime  @default(now())
-  updated   DateTime? @updatedAt
-  fullname  String
-  userEmail String    @unique
-  user_area Int
-  user_code String    @db.Char(2)
-  password  String    @db.LongText
-  isAdmin   Boolean   @default(false)
+  id         Int       @id @default(autoincrement())
+  created    DateTime  @default(now())
+  updated    DateTime? @updatedAt
+  fullname   String
+  user_email String    @unique
+  user_area  Int
+  user_code  String    @db.Char(2)
+  password   String    @db.LongText
+  isAdmin    Boolean   @default(false)
   // username  String
 
   // Sales_Activity_S_ID Int           @unique @default(0)
@@ -39,6 +44,7 @@ model user {
   areas          Area[]
 }
 
+// apus
 model Area {
   AR_ID   Int      @id @default(autoincrement())
   area    Int
@@ -50,11 +56,14 @@ model Area {
   user      user @relation(fields: [USER_U_ID], references: [id])
 }
 
+// one customer banya sales activity
+
 model SalesActivity {
-  S_ID          Int      @id @default(autoincrement())
-  date          String   //fix to date later
+  S_ID          Int     @id @default(autoincrement())
+  date          String //fix to date later
+  // fix
   type_followup Boolean
-  job_desc      String   @db.VarChar(100)
+  job_desc      String  @db.VarChar(100)
 
   Customer_Cust_ID Int      @unique
   customer         Customer @relation(fields: [Customer_Cust_ID], references: [cust_id])
@@ -81,17 +90,18 @@ model Customer {
 }
 
 model PIC {
-  P_ID         Int @id @default(autoincrement())
+  P_ID         Int    @id @default(autoincrement())
   P_name       String @db.VarChar(50)
   P_position   String @db.VarChar(50)
   P_email      String @db.VarChar(50)
   P_phone      String @db.VarChar(20)
   P_sales_code String @db.Char(2)
 
-  Quotation_Q_ID   Int       @unique
-  Quotation        Quotation @relation(fields: [Quotation_Q_ID], references: [Q_ID])
+  // Quotation_Q_ID   Int       @unique
+  // Quotation        Quotation @relation(fields: [Quotation_Q_ID], references: [Q_ID])
   Customer_Cust_ID Int
-  customer         Customer  @relation(fields: [Customer_Cust_ID], references: [cust_id])
+  customer         Customer    @relation(fields: [Customer_Cust_ID], references: [cust_id])
+  Quotation        Quotation[]
 }
 
 model Quotation {
@@ -104,9 +114,10 @@ model Quotation {
   Customer_Cust_ID Int
   customer         Customer @relation(fields: [Customer_Cust_ID], references: [cust_id])
 
-  PIC           PIC?
+  PIC           PIC?           @relation(fields: [pICP_ID], references: [P_ID])
   MOP           MOP?
   SalesPipeline SalesPipeline?
+  pICP_ID       Int?
 }
 
 model MOP {
@@ -119,18 +130,18 @@ model MOP {
 }
 
 model SalesPipeline {
-  Pi_ID            Int      @id @default(autoincrement())
-  date             String    //fix to date later
-  close_estimation String    //fix to date later
-  sales_code       String   @db.Char(2)
-  cust_name        String   @db.VarChar(50)
-  project_name     String   @db.VarChar(50)
-  product          String   @db.VarChar(50)
+  Pi_ID            Int    @id @default(autoincrement())
+  date             String //fix to date later
+  close_estimation String //fix to date later
+  sales_code       String @db.Char(2)
+  cust_name        String @db.VarChar(50)
+  project_name     String @db.VarChar(50)
+  product          String @db.VarChar(50)
   quantity         Int
-  Pi_status        String   @db.VarChar(5)
-  M_num            String   @db.VarChar(50)
-  close_date       String    //fix to date later
-  note             String   @db.VarChar(150)
+  Pi_status        String @db.VarChar(5)
+  M_num            String @db.VarChar(50)
+  close_date       String //fix to date later
+  note             String @db.VarChar(150)
 
   Quotation_Q_ID Int       @unique
   Quotation      Quotation @relation(fields: [Quotation_Q_ID], references: [Q_ID])

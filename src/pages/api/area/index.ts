@@ -14,6 +14,7 @@ export default async function handler(
             },
             include: {
                 user: true
+                
             }
         });
         return res.send(Area)

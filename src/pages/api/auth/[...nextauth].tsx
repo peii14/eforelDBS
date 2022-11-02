@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials: any, req) {
         const user = await prisma.user.findUnique({
           where: {
-            userEmail: credentials.email,
+            user_email: credentials.email,
           },
         });
         if (
@@ -42,9 +42,9 @@ export const authOptions: NextAuthOptions = {
           (await argon2.verify(user.password, credentials.password))
         ) {
           return {
-            _id: user.id,
+            id: user.id,
             name: user.fullname,
-            userEmail: user.userEmail,
+            userEmail: user.user_email,
             user_code: user.user_code,
             isAdmin: user.isAdmin,
           };
