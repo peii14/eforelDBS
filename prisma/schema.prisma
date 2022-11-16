@@ -39,28 +39,18 @@ model user {
   companyProfile companyProfile?
 }
 
-// apus
-// model Area {
-//   area_id   Int      @id @default(autoincrement())
-//   area    Int
-//   Q_code  String   @db.VarChar(10)
-//   M_code  String   @db.VarChar(10)
-//   created DateTime @default(now())
-
-//   USER_U_ID Int  @unique
-//   user      user @relation(fields: [USER_U_ID], references: [id])
-// }
-
 model SalesActivity {
   salesActivity_id       Int      @id @default(autoincrement())
   salesActivity_date     DateTime
   // follow up type nya boolean aja?
-  salesActivity_followup Boolean
+  // jadi string aja (nelpon, email, & meeting)
+  salesActivity_followup String   @db.VarChar(20)
   salesActivity_jobDesc  String   @db.VarChar(100)
 
   salesActivity_customerID Int      @unique
   customer                 Customer @relation(fields: [salesActivity_customerID], references: [customer_id])
   // mau banyak ato satu?
+  // gangerti
   // user user[]
   user user?
 }
@@ -90,6 +80,7 @@ model PIC {
   pic_phone      String @db.VarChar(20)
   pic_sales_code String @db.Char(2)
   // ini apaan
+  // kemaren nyambung sama quotation, hapus aja jd tabel ini buat hook ke quotation langsung
   // Quotation_Q_ID   Int       @unique
   // Quotation        Quotation @relation(fields: [Quotation_Q_ID], references: [Q_ID])
   pic_customerID Int
@@ -124,17 +115,14 @@ model MOP {
 
 model SalesPipeline {
   salesPipeline_id              Int      @id @default(autoincrement())
-  salesPipeline_date            DateTime
-  salesPipeline_closeEstimation DateTime
+  salesPipeline_date            String
+  salesPipeline_closeEstimation String
   salesPipeline_salesCode       String   @db.Char(2)
   salesPipeline_projectName     String   @db.VarChar(50)
   salesPipeline_product         String   @db.VarChar(50)
   salesPipeline_quantity        Int
   salesPipeline_status          String   @db.VarChar(5)
-  // ini apa? masuk dari mana?
-  // kalo dari db lain masuk ke relation aja
-  M_num                         String   @db.VarChar(50)
-  salesPipeline_closeDate       DateTime
+  salesPipeline_closeDate       String
   salesPipeline_note            String   @db.VarChar(150)
 
   salesPipeline_quotationID Int       @unique
