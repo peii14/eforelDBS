@@ -15,7 +15,7 @@ const AddPIC = () => {
   let [customer_name, setCustomerNames]: any = useState([{}]);
   const [whichCustomer, setCustomer] = useState(customer_name[0]);
   const { data: session }: any = useSession();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleSubmit,
     register,
@@ -24,16 +24,22 @@ const AddPIC = () => {
   }: any = useForm();
   const [query, setQuery] = useState("''");
   useEffect(() => {
-    setIsLoading(true);
-    const getCustomerName = async () => {
-      const { data } = await axios.get("/api/customer", {
-        params: { q: query },
-      });
-      data.forEach((obj) => renameKey(obj, "cust_name", "name"));
-      setCustomerNames(data);
-    };
-    getCustomerName();
-    setIsLoading(false);
+    try {
+      if (query.length >= 3) {
+        setIsLoading(true);
+        const getCustomerName = async () => {
+          const { data } = await axios.get("/api/customer", {
+            params: { q: query },
+          });
+          data.forEach((obj) => renameKey(obj, "cust_name", "name"));
+          setCustomerNames(data);
+        };
+        getCustomerName();
+        setIsLoading(false);
+      }
+    } catch (err) {
+      toast.error(err);
+    }
   }, [query]);
 
   const submitHandler = async ({ name, position, email, phone }) => {

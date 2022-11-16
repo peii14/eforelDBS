@@ -6,35 +6,35 @@ async function main(){
     for(let i = 0; i < 100; i++){
         await prisma.customer.create({
             data:{
-                cust_name:`${faker.name.fullName()}`,
-                cust_code:`dsfkl`,
-                sales_code:`${faker.address.countryCode('alpha-2')}`,
+                customer_name:`${faker.name.fullName()}`,
+                customer_code:`dsfkl`,
+                customer_salesCode:`${faker.address.countryCode('alpha-2')}`,
                 vertical_market:'industry',
-                address:`${faker.address.streetAddress()}`,
-                province:`${faker.address.country()}`,
-                city:`${faker.address.city()}`,
-                postal_code:`${faker.address.zipCode()}`,
-                cust_phone:`${faker.phone.number('+62 ### ## ##')}`,
+                customer_address:`${faker.address.streetAddress()}`,
+                customer_province:`${faker.address.country()}`,
+                customer_city:`${faker.address.city()}`,
+                customer_postal_code:`${faker.address.zipCode()}`,
+                customer_phone:`${faker.phone.number('+62 ### ## ##')}`,
 
                 Quotation:{
                     create:{
-                        Q_num:`${faker.random.alphaNumeric(7)}`,
-                        Q_value:`${faker.commerce.product()}`,
-                        product:`${faker.commerce.productName()}`,
-                        quantity:Number(faker.random.numeric(1)),
+                        quotation_num:`${faker.random.alphaNumeric(7)}`,
+                        quotation_value:`${faker.commerce.product()}`,
+                        quotation_product:`${faker.commerce.productName()}`,
+                        quotation_quantity:Number(faker.random.numeric(1)),
 
                         MOP:{
                             create:{
-                                M_num:`${faker.random.alphaNumeric(7)}`,
-                                M_value:`${faker.commerce.product()}`
+                                mop_num:`${faker.random.alphaNumeric(7)}`,
+                                mop_value:`${faker.commerce.product()}`
                             }
                         },
                         SalesPipeline:{
                             create:{
-                                date:`${faker.date.recent()}`,
-                                close_estimation:`${faker.date.recent()}`,
-                                sales_code:`${faker.address.countryCode('alpha-2')}`,
-                                cust_name:`${faker.name.fullName()}`,
+                                salesPipeline_date:`${faker.date.recent()}`,
+                                salesPipeline_closeEstimation:`${faker.date.recent()}`,
+                                salesPipeline_salesCode:`${faker.address.countryCode('alpha-2')}`,
+                                salesPipeline_cust_name:`${faker.name.fullName()}`,
                                 project_name:`${faker.name.jobTitle()}`,
                                 product:`${faker.commerce.product()}`,
                                 quantity:Number(faker.random.numeric(1)),

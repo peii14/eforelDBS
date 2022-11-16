@@ -8,80 +8,73 @@ datasource db {
 }
 
 model companyProfile {
-  COMP_ID       Int    @id @default(autoincrement())
-  comp_name     String
-  comp_address  String
-  comp_city     String
-  comp_province String @db.VarChar(7)
-  comp_poscode  String @db.VarChar(20)
-  comp_phone    String
+  company_id       Int    @id @default(autoincrement())
+  company_name     String
+  company_address  String
+  company_city     String
+  company_province String @db.VarChar(7)
+  company_poscode  String @db.VarChar(20)
+  company_phone    String
 
-  USER_U_ID Int  @unique
-  user      user @relation(fields: [USER_U_ID], references: [id])
+  company_userID Int  @unique
+  user           user @relation(fields: [company_userID], references: [user_id])
 }
 
 // redundancy on mcode q code area
-
-// user punya column area
-// username itu email
 // create feat super admin can create admin
 model user {
-  id         Int       @id @default(autoincrement())
-  created    DateTime  @default(now())
-  updated    DateTime? @updatedAt
-  fullname   String
-  user_email String    @unique
-  user_area  Int
-  user_code  String    @db.Char(2)
-  password   String    @db.LongText
-  isAdmin    Boolean   @default(false)
-  // username  String
+  user_id       Int       @id @default(autoincrement())
+  user_created  DateTime  @default(now())
+  user_updated  DateTime? @updatedAt
+  user_fullname String
+  user_email    String    @unique
+  user_area     Int
+  user_code     String    @db.Char(2)
+  user_password String    @db.LongText
+  user_isAdmin  Boolean   @default(false)
 
-  // Sales_Activity_S_ID Int           @unique @default(0)
-  // salesActivity       SalesActivity @relation(fields: [Sales_Activity_S_ID], references: [S_ID])
+  user_salesActivity Int           @unique @default(0)
+  salesActivity      SalesActivity @relation(fields: [user_salesActivity], references: [salesActivity_id])
 
   companyProfile companyProfile?
-  areas          Area[]
 }
 
 // apus
-model Area {
-  AR_ID   Int      @id @default(autoincrement())
-  area    Int
-  Q_code  String   @db.VarChar(10)
-  M_code  String   @db.VarChar(10)
-  created DateTime @default(now())
+// model Area {
+//   area_id   Int      @id @default(autoincrement())
+//   area    Int
+//   Q_code  String   @db.VarChar(10)
+//   M_code  String   @db.VarChar(10)
+//   created DateTime @default(now())
 
-  USER_U_ID Int  @unique
-  user      user @relation(fields: [USER_U_ID], references: [id])
-}
-
-// one customer banya sales activity
+//   USER_U_ID Int  @unique
+//   user      user @relation(fields: [USER_U_ID], references: [id])
+// }
 
 model SalesActivity {
-  S_ID          Int     @id @default(autoincrement())
-  date          String //fix to date later
-  // fix
-  type_followup Boolean
-  job_desc      String  @db.VarChar(100)
+  salesActivity_id       Int      @id @default(autoincrement())
+  salesActivity_date     DateTime
+  // follow up type nya boolean aja?
+  salesActivity_followup Boolean
+  salesActivity_jobDesc  String   @db.VarChar(100)
 
-  Customer_Cust_ID Int      @unique
-  customer         Customer @relation(fields: [Customer_Cust_ID], references: [cust_id])
-
+  salesActivity_customerID Int      @unique
+  customer                 Customer @relation(fields: [salesActivity_customerID], references: [customer_id])
+  // mau banyak ato satu?
   // user user[]
+  user user?
 }
 
 model Customer {
-  cust_id         Int    @id @default(autoincrement())
-  cust_name       String @db.VarChar(50)
-  cust_code       String @db.VarChar(10)
-  sales_code      String @db.Char(2)
-  vertical_market String @db.VarChar(30)
-  address         String @db.VarChar(100)
-  province        String @db.VarChar(50)
-  city            String @db.VarChar(50)
-  postal_code     String @db.VarChar(10)
-  cust_phone      String @db.VarChar(20)
+  customer_id         Int    @id @default(autoincrement())
+  customer_name       String @db.VarChar(50)
+  customer_code       String @db.VarChar(10)
+  customer_salesCode  String @db.Char(2)
+  customer_address    String @db.VarChar(100)
+  customer_province   String @db.VarChar(50)
+  customer_city       String @db.VarChar(50)
+  customer_postalCode String @db.VarChar(10)
+  customer_phone      String @db.VarChar(20)
 
   salesActivity  SalesActivity[]
   PIC            PIC[]
@@ -90,81 +83,82 @@ model Customer {
 }
 
 model PIC {
-  P_ID         Int    @id @default(autoincrement())
-  P_name       String @db.VarChar(50)
-  P_position   String @db.VarChar(50)
-  P_email      String @db.VarChar(50)
-  P_phone      String @db.VarChar(20)
-  P_sales_code String @db.Char(2)
-
+  pic_id         Int    @id @default(autoincrement())
+  pic_name       String @db.VarChar(50)
+  pic_position   String @db.VarChar(50)
+  pic_email      String @db.VarChar(50)
+  pic_phone      String @db.VarChar(20)
+  pic_sales_code String @db.Char(2)
+  // ini apaan
   // Quotation_Q_ID   Int       @unique
   // Quotation        Quotation @relation(fields: [Quotation_Q_ID], references: [Q_ID])
-  Customer_Cust_ID Int
-  customer         Customer    @relation(fields: [Customer_Cust_ID], references: [cust_id])
-  Quotation        Quotation[]
+  pic_customerID Int
+  customer       Customer    @relation(fields: [pic_customerID], references: [customer_id])
+  Quotation      Quotation[]
 }
 
 model Quotation {
-  Q_ID     Int    @id @default(autoincrement())
-  Q_num    String @db.VarChar(50)
-  Q_value  String @db.VarChar(50)
-  product  String @db.VarChar(50)
-  quantity Int
+  quotation_id       Int    @id @default(autoincrement())
+  quotation_num      String @db.VarChar(50)
+  quotation_value    String @db.VarChar(50)
+  quotation_product  String @db.VarChar(50)
+  quotation_quantity Int
 
-  Customer_Cust_ID Int
-  customer         Customer @relation(fields: [Customer_Cust_ID], references: [cust_id])
+  quotation_customerID Int
+  customer             Customer @relation(fields: [quotation_customerID], references: [customer_id])
 
-  PIC           PIC?           @relation(fields: [pICP_ID], references: [P_ID])
-  MOP           MOP?
-  SalesPipeline SalesPipeline?
-  pICP_ID       Int?
+  quotation_PIC_ID Int?
+  PIC              PIC?           @relation(fields: [quotation_PIC_ID], references: [pic_id])
+  MOP              MOP?
+  SalesPipeline    SalesPipeline?
 }
 
 model MOP {
-  M_ID    Int    @id @default(autoincrement())
-  M_num   String @db.VarChar(50)
-  M_value String @db.VarChar(50)
+  mop_id    Int    @id @default(autoincrement())
+  mop_num   String @db.VarChar(50)
+  mop_value String @db.VarChar(50)
 
-  Quotation_Q_ID Int       @unique
-  Quotation      Quotation @relation(fields: [Quotation_Q_ID], references: [Q_ID])
+  mop_quotationID Int       @unique
+  Quotation       Quotation @relation(fields: [mop_quotationID], references: [quotation_id])
 }
 
 model SalesPipeline {
-  Pi_ID            Int    @id @default(autoincrement())
-  date             String //fix to date later
-  close_estimation String //fix to date later
-  sales_code       String @db.Char(2)
-  cust_name        String @db.VarChar(50)
-  project_name     String @db.VarChar(50)
-  product          String @db.VarChar(50)
-  quantity         Int
-  Pi_status        String @db.VarChar(5)
-  M_num            String @db.VarChar(50)
-  close_date       String //fix to date later
-  note             String @db.VarChar(150)
+  salesPipeline_id              Int      @id @default(autoincrement())
+  salesPipeline_date            DateTime
+  salesPipeline_closeEstimation DateTime
+  salesPipeline_salesCode       String   @db.Char(2)
+  salesPipeline_projectName     String   @db.VarChar(50)
+  salesPipeline_product         String   @db.VarChar(50)
+  salesPipeline_quantity        Int
+  salesPipeline_status          String   @db.VarChar(5)
+  // ini apa? masuk dari mana?
+  // kalo dari db lain masuk ke relation aja
+  M_num                         String   @db.VarChar(50)
+  salesPipeline_closeDate       DateTime
+  salesPipeline_note            String   @db.VarChar(150)
 
-  Quotation_Q_ID Int       @unique
-  Quotation      Quotation @relation(fields: [Quotation_Q_ID], references: [Q_ID])
+  salesPipeline_quotationID Int       @unique
+  Quotation                 Quotation @relation(fields: [salesPipeline_quotationID], references: [quotation_id])
 }
 
 model VerticalMarket {
-  VM_ID           Int       @id @default(autoincrement())
-  vertical_market String    @db.VarChar(50)
-  created         DateTime  @default(now())
-  updated         DateTime? @updatedAt
+  verticalMarket_id       Int       @id @default(autoincrement())
+  verticalMarket_name     String    @db.VarChar(50)
+  verticalMarkert_created DateTime  @default(now())
+  verticalMarket_updated  DateTime? @updatedAt
 
-  Customer_Cust_ID Int      @unique
-  customer         Customer @relation(fields: [Customer_Cust_ID], references: [cust_id])
+  verticalMarket_customerID Int      @unique
+  customer                  Customer @relation(fields: [verticalMarket_customerID], references: [customer_id])
 
   Group Group[]
 }
 
 model Group {
-  G_ID    Int       @id @default(autoincrement())
-  group   String    @db.VarChar(50)
-  created DateTime  @default(now())
-  updated DateTime? @updatedAt
+  group_id      Int       @id @default(autoincrement())
+  group_name    String    @db.VarChar(50)
+  group_created DateTime  @default(now())
+  group_updated DateTime? @updatedAt
 
-  Vertical_Market_VM_ID Int            @unique
-  VerticalMarket        VerticalMarket @relation(fields: [Vertical_Market_VM_ID], references: [VM_ID])
+  group_verticalMarket Int            @unique
+  VerticalMarket       VerticalMarket @relation(fields: [group_verticalMarket], references: [verticalMarket_id])
 }

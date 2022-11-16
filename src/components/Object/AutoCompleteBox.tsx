@@ -14,7 +14,7 @@ type AutoCompleteBox = {
 export default function AutoCompleteBox({
   list = [],
   selected = list[0],
-  query = "",
+  query = "-",
   setSelected,
   setQuery,
 }: AutoCompleteBox) {

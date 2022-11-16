@@ -12,7 +12,7 @@ import Button from "@/components/Object/Button";
 import AutoCompleteBox from "@/components/Object/AutoCompleteBox";
 
 const AddMOP = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   let [mop, setMOP]: any = useState([{}]);
   let [pic_name, setPICNames]: any = useState([{}]);
   const [whichMOP, setWhichMOP] = useState(mop[0]);
@@ -30,16 +30,22 @@ const AddMOP = () => {
   const [mopQuery, setmopQuery] = useState("'-'");
 
   useEffect(() => {
-    setIsLoading(true);
-    const getQuotation = async () => {
-      const { data } = await axios.get("/api/quotation", {
-        params: { q: mopQuery },
-      });
-      data.forEach((obj) => renameKey(obj, "Q_num", "name"));
-      setMOP(data);
-    };
-    getQuotation();
-    setIsLoading(false);
+    try {
+      if (mopQuery.length >= 2) {
+        setIsLoading(true);
+        const getQuotation = async () => {
+          const { data } = await axios.get("/api/quotation", {
+            params: { q: mopQuery },
+          });
+          data.forEach((obj) => renameKey(obj, "Q_num", "name"));
+          setMOP(data);
+        };
+        getQuotation();
+        setIsLoading(false);
+      }
+    } catch (err) {
+      toast.error(err);
+    }
   }, [mopQuery]);
 
   useEffect(() => {
@@ -102,7 +108,7 @@ const AddMOP = () => {
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
                 {whichCustomer ? `${whichCustomer.cust_name}` : ""}
               </div>
-              <p>Area</p>
+              <p>Customer Code</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
                 {whichCustomer ? `${whichCustomer.city}` : ""}
               </div>
@@ -163,43 +169,18 @@ const AddMOP = () => {
             </Neuromorphism>
           </div>
           <Neuromorphism whichNeuro={1}>
-            <div className="p-5 grid grid-cols-5 gap-5">
+            <div className="p-5 grid grid-cols-2 w-1/2 mx-auto gap-5">
               <p>Quotation Value (Rp)</p>
-              <div className="col-span-4">
-                <input
-                  {...register("Quotation_value", {
-                    required: "Please enter Quotation Value",
-                  })}
-                  className="px-2 w-full"
-                />
-                {errors.quotation_value && (
-                  <div className="text-red-500">
-                    {errors.group.quotation_value}
-                  </div>
-                )}
+              <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
+                {whichMOP ? `${whichMOP.M_value}` : ""}
               </div>
-              <p>Product</p>
-              <div className="col-span-2">
+              <p>MOP Value</p>
+              <div className="">
                 <input
                   {...register("Quotation_value", {
                     required: "Please enter Quotation Value",
                   })}
                   className="px-2 w-full"
-                />
-                {errors.quotation_value && (
-                  <div className="text-red-500">
-                    {errors.group.quotation_value}
-                  </div>
-                )}
-              </div>
-              <p>Qty</p>
-              <div className="col-span-1">
-                <input
-                  {...register("Quotation_value", {
-                    required: "Please enter Quotation Value",
-                  })}
-                  className="px-2 w-full"
-                  type="number"
                 />
                 {errors.quotation_value && (
                   <div className="text-red-500">

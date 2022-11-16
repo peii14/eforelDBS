@@ -18,7 +18,7 @@ const AddQuotation = () => {
   const [whichPIC, setPIC] = useState(pic_name[0]);
 
   const { data: session }: any = useSession();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleSubmit,
     register,
@@ -29,28 +29,36 @@ const AddQuotation = () => {
   const [picQuery, setPicQuery] = useState("'-'");
 
   useEffect(() => {
-    setIsLoading(true);
-    const getCustomerName = async () => {
-      const { data } = await axios.get("/api/customer", {
-        params: { q: nameQuery },
-      });
-      data.forEach((obj) => renameKey(obj, "cust_name", "name"));
-      setCustomerNames(data);
-    };
-    getCustomerName();
-    setIsLoading(false);
+    try {
+      if (nameQuery.length >= 3) {
+        setIsLoading(true);
+        const getCustomerName = async () => {
+          const { data } = await axios.get("/api/customer", {
+            params: { q: nameQuery },
+          });
+          data.forEach((obj) => renameKey(obj, "cust_name", "name"));
+          setCustomerNames(data);
+        };
+        getCustomerName();
+        setIsLoading(false);
+      } else setNameQuery("-");
+    } catch (err) {
+      toast.error(err);
+    }
   }, [nameQuery]);
 
   useEffect(() => {
     try {
-      const getPIC = async () => {
-        const { data } = await axios.get("/api/pic", {
-          params: { q: picQuery },
-        });
-        data.forEach((obj) => renameKey(obj, "P_name", "name"));
-        setPICNames(data);
-      };
-      getPIC();
+      if (picQuery.length >= 3) {
+        const getPIC = async () => {
+          const { data } = await axios.get("/api/pic", {
+            params: { q: picQuery },
+          });
+          data.forEach((obj) => renameKey(obj, "P_name", "name"));
+          setPICNames(data);
+        };
+        getPIC();
+      } else setPicQuery("-");
     } catch (err) {
       toast.error(err);
     }
