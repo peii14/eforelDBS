@@ -8,7 +8,11 @@ export default async function handler(
 
     if(req.method === "GET")
     {
-        const salesActivity = await prisma.salesActivity.findMany();
+        const salesActivity = await prisma.salesActivity.findMany({
+            where:{
+                
+            }
+        });
         return res.send(salesActivity)
     }
     else if(req.method === "POST")

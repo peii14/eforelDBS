@@ -9,7 +9,7 @@ export default async function handler(
 
   const data = await prisma.customer.findUnique({
     where: {
-      cust_id: Number(query),
+      customer_id: Number(query),
     },
   });
   return res.send(data);

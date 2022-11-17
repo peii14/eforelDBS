@@ -40,18 +40,13 @@ model user {
 }
 
 model SalesActivity {
-  salesActivity_id       Int      @id @default(autoincrement())
-  salesActivity_date     DateTime
-  // follow up type nya boolean aja?
-  // jadi string aja (nelpon, email, & meeting)
-  salesActivity_followup String   @db.VarChar(20)
-  salesActivity_jobDesc  String   @db.VarChar(100)
-
+  salesActivity_id         Int      @id @default(autoincrement())
+  salesActivity_date       DateTime
+  salesActivity_followup   String   @db.VarChar(20)
+  salesActivity_jobDesc    String   @db.VarChar(100)
   salesActivity_customerID Int      @unique
   customer                 Customer @relation(fields: [salesActivity_customerID], references: [customer_id])
-  // mau banyak ato satu?
-  // gangerti
-  // user user[]
+
   user user?
 }
 
@@ -73,12 +68,12 @@ model Customer {
 }
 
 model PIC {
-  pic_id         Int    @id @default(autoincrement())
-  pic_name       String @db.VarChar(50)
-  pic_position   String @db.VarChar(50)
-  pic_email      String @db.VarChar(50)
-  pic_phone      String @db.VarChar(20)
-  pic_sales_code String @db.Char(2)
+  pic_id         Int         @id @default(autoincrement())
+  pic_name       String      @db.VarChar(50)
+  pic_position   String      @db.VarChar(50)
+  pic_email      String      @db.VarChar(50)
+  pic_phone      String      @db.VarChar(20)
+  pic_sales_code String      @db.Char(2)
   // ini apaan
   // kemaren nyambung sama quotation, hapus aja jd tabel ini buat hook ke quotation langsung
   // Quotation_Q_ID   Int       @unique
@@ -114,16 +109,16 @@ model MOP {
 }
 
 model SalesPipeline {
-  salesPipeline_id              Int      @id @default(autoincrement())
+  salesPipeline_id              Int    @id @default(autoincrement())
   salesPipeline_date            String
   salesPipeline_closeEstimation String
-  salesPipeline_salesCode       String   @db.Char(2)
-  salesPipeline_projectName     String   @db.VarChar(50)
-  salesPipeline_product         String   @db.VarChar(50)
+  salesPipeline_salesCode       String @db.Char(2)
+  salesPipeline_projectName     String @db.VarChar(50)
+  salesPipeline_product         String @db.VarChar(50)
   salesPipeline_quantity        Int
-  salesPipeline_status          String   @db.VarChar(5)
+  salesPipeline_status          String @db.VarChar(5)
   salesPipeline_closeDate       String
-  salesPipeline_note            String   @db.VarChar(150)
+  salesPipeline_note            String @db.VarChar(150)
 
   salesPipeline_quotationID Int       @unique
   Quotation                 Quotation @relation(fields: [salesPipeline_quotationID], references: [quotation_id])

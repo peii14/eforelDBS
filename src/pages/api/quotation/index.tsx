@@ -10,7 +10,7 @@ export default async function handler(
     if (type === "nameOnly") {
       const quotation = await prisma.quotation.findMany({
         where: {
-          Q_num: { contains: query.toString() },
+          quotation_num: { contains: query.toString() },
         },
       });
       return res.send(quotation);

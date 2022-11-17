@@ -66,7 +66,15 @@ async function main(){
                             }
                         }
                     }
-                }
+                },
+
+                // salesActivity:{
+                //     create:{
+                //         salesActivity_date:`${faker.date.recent()}`,
+                //         salesActivity_followup:faker.datatype.string(),
+                //         salesActivity_jobDesc:`${faker.company.catchPhrase()}`
+                //     }
+                // },
 
                 // Quotation:{
                 //     create:{
@@ -108,13 +116,7 @@ async function main(){
                 //         }
                 //     }
                 // },
-                // salesActivity:{
-                //     create:{
-                //         date:`${faker.date.recent()}`,
-                //         type_followup:faker.datatype.boolean(),
-                //         job_desc:`${faker.company.catchPhrase()}`
-                //     }
-                // },
+               
                 // PIC:{
                 //     create:{
                 //         P_name:"testing",

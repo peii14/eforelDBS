@@ -36,7 +36,7 @@ const AddQuotation = () => {
           const { data } = await axios.get("/api/customer", {
             params: { q: nameQuery },
           });
-          data.forEach((obj) => renameKey(obj, "cust_name", "name"));
+          data.forEach((obj) => renameKey(obj, "customer_name", "name"));
           setCustomerNames(data);
         };
         getCustomerName();
@@ -54,7 +54,7 @@ const AddQuotation = () => {
           const { data } = await axios.get("/api/pic", {
             params: { q: picQuery },
           });
-          data.forEach((obj) => renameKey(obj, "P_name", "name"));
+          data.forEach((obj) => renameKey(obj, "pic_name", "name"));
           setPICNames(data);
         };
         getPIC();
@@ -123,19 +123,19 @@ const AddQuotation = () => {
               </div>
               <p>Customer Code</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.cust_code}` : ""}
+                {whichCustomer ? `${whichCustomer.customer_code}` : ""}
               </div>
               <p>Area</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.city}` : ""}
+                {whichCustomer ? `${whichCustomer.customer_city}` : ""}
               </div>
               <p>Vertical Market</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.postal_code}` : ""}
+                {whichCustomer ? `${whichCustomer.customer_postalCode}` : ""}
               </div>
               <p>Group</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.postal_code}` : ""}
+                {whichCustomer ? `${whichCustomer.customer_postal_code}` : ""}
               </div>
             </div>
           </Neuromorphism>
@@ -148,15 +148,15 @@ const AddQuotation = () => {
                 </div>
                 <p>Posisi</p>
                 <div className="min-h-max col-span-3 border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichPIC ? `${whichPIC.P_position}` : ""}
+                  {whichPIC ? `${whichPIC.pic_position}` : ""}
                 </div>
                 <p>Email</p>
                 <div className="min-h-max  col-span-3 border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichPIC ? `${whichPIC.P_email}` : ""}
+                  {whichPIC ? `${whichPIC.pic_email}` : ""}
                 </div>
                 <p>Phone</p>
                 <div className="min-h-max col-span-3 border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichPIC ? `${whichPIC.P_phone}` : ""}
+                  {whichPIC ? `${whichPIC.pic_phone}` : ""}
                 </div>
               </div>
             </Neuromorphism>
@@ -164,23 +164,23 @@ const AddQuotation = () => {
               <div className="p-5 grid grid-cols-4 gap-5 mx-auto">
                 <p>Alamat Customer</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichCustomer ? `${whichCustomer.address}` : ""}
+                  {whichCustomer ? `${whichCustomer.customer_address}` : ""}
                 </div>
                 <p>Kota</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichCustomer ? `${whichCustomer.city}` : ""}
+                  {whichCustomer ? `${whichCustomer.customer_city}` : ""}
                 </div>
                 <p>Provinsi</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichCustomer ? `${whichCustomer.province}` : ""}
+                  {whichCustomer ? `${whichCustomer.customer_province}` : ""}
                 </div>
                 <p>Kode Pos</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichCustomer ? `${whichCustomer.postal_code}` : ""}
+                  {whichCustomer ? `${whichCustomer.customer_postalCode}` : ""}
                 </div>
                 <p>Telp. Customer</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichCustomer ? `${whichCustomer.cust_phone}` : ""}
+                  {whichCustomer ? `${whichCustomer.customer_phone}` : ""}
                 </div>
               </div>
             </Neuromorphism>

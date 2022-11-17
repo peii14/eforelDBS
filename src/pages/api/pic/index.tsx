@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -9,7 +8,7 @@ export default async function handler(
   if (req.method === "GET") {
     const pic = await prisma.pIC.findMany({
       where: {
-        P_name: {
+        pic_name: {
           contains: query.toString(),
         },
       },

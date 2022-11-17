@@ -2,19 +2,21 @@ import Layout from "@/components/Layout";
 import Title from "@/components/Layout/Title";
 import Neuromorphism from "@/components/Object/Neuromorphism";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import axios from "axios";
+import { area } from "@/utils/area";
+
 const SalesActivity = () => {
   const { data: session }: any = useSession();
-  const area = [
-    {
-      city: "Surabaya",
-    },
-    {
-      city: "Bandung",
-    },
-    {
-      city: "Jakarta",
-    },
-  ];
+  useEffect(() => {
+    const getLastUpdate = async () => {
+      const { data } = await axios.get("/api/salesActivity", {
+        params: { whichSales: session.user.user_id },
+      });
+      return data.data;
+    };
+    const salesActivity = getLastUpdate();
+  });
   return (
     <Layout title="Sales Activity">
       <Title title="Sales Activity " />

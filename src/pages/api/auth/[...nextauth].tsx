@@ -18,6 +18,8 @@ export const authOptions: NextAuthOptions = {
       if (user?.user_email) token.email = user.user_email;
       if (user?.user_code) token.user_code = user.user_code;
       if (user?.user_area) token.user_area = user.user_area;
+      if (user?.user_salesActivity)
+        token.user_salesActivity = user.user_salesActity;
       return token;
     },
     async session({ session, token }: any) {
@@ -25,6 +27,8 @@ export const authOptions: NextAuthOptions = {
       if (token?.user_isAdmin) session.user.isAdmin = token.isAdmin;
       if (token?.user_code) session.user.user_code = token.user_code;
       if (token?.user_area) session.user.user_area = token.user_area;
+      if (token?.user_salesActivity)
+        session.user.user_salesActivity = token.user_salesActivity;
       return session;
     },
   },
@@ -41,15 +45,16 @@ export const authOptions: NextAuthOptions = {
         });
         if (
           user &&
-          (await argon2.verify(user.password, credentials.password))
+          (await argon2.verify(user.user_password, credentials.password))
         ) {
           return {
-            id: user.id,
-            name: user.fullname,
+            id: user.user_id,
+            name: user.user_fullname,
             userEmail: user.user_email,
             user_code: user.user_code,
             user_area: user.user_area,
-            isAdmin: user.isAdmin,
+            isAdmin: user.user_isAdmin,
+            user_salesActivity: user.user_salesActivity,
           };
         }
         throw new Error("Invalid email or password");

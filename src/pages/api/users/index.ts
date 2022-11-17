@@ -10,7 +10,7 @@ export default async function handler(
     {
         const users = await prisma.user.findMany({
             where: {
-                Sales_Activity_S_ID: 1
+                user_salesActivity: 1
             },
             include:{
                 salesActivity: true

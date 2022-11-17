@@ -9,7 +9,7 @@ export default async function handler(
     if(req.method === "GET"){
             const customer = await prisma.customer.findMany({
                 where:{
-                cust_name:{
+                customer_name:{
                      contains: query.toString()
                 }
                 }

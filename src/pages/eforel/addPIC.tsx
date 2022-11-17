@@ -31,7 +31,7 @@ const AddPIC = () => {
           const { data } = await axios.get("/api/customer", {
             params: { q: query },
           });
-          data.forEach((obj) => renameKey(obj, "cust_name", "name"));
+          data.forEach((obj) => renameKey(obj, "customer_name", "name"));
           setCustomerNames(data);
         };
         getCustomerName();
@@ -46,12 +46,12 @@ const AddPIC = () => {
     try {
       const salesCode = session.user.user_code;
       await axios.post("/api/pic", {
-        P_name: name,
-        P_position: position,
-        P_email: email,
-        P_phone: phone,
-        P_sales_code: salesCode,
-        Customer_Cust_ID: whichCustomer.cust_id,
+        pic_name: name,
+        pic_position: position,
+        pic_email: email,
+        pic_phone: phone,
+        pic_sales_code: salesCode,
+        pic_customerID: whichCustomer.cust_id,
       });
     } catch (err) {
       return toast.error(getError(err));

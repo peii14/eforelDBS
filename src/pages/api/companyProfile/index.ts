@@ -9,7 +9,7 @@ export default async function handler(
     {
         const companyProfile = await prisma.companyProfile.findMany({
             where: {
-                COMP_ID: 1
+                company_id: 1
             },
             include: {
                 user: true 
