@@ -68,13 +68,14 @@ async function main(){
                     }
                 },
 
-                // salesActivity:{
-                //     create:{
-                //         salesActivity_date:`${faker.date.recent()}`,
-                //         salesActivity_followup:faker.datatype.string(),
-                //         salesActivity_jobDesc:`${faker.company.catchPhrase()}`
-                //     }
-                // },
+                salesActivity:{
+                    create:{
+                        salesActivity_date:`${faker.date.recent()}`,
+                        salesActivity_followup:faker.datatype.string(),
+                        salesActivity_jobDesc:`${faker.company.catchPhrase()}`,
+                        // salesActivity_customerID:1
+                    }
+                },
 
                 // Quotation:{
                 //     create:{

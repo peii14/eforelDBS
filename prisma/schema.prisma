@@ -33,10 +33,11 @@ model user {
   user_password String    @db.LongText
   user_isAdmin  Boolean   @default(false)
 
-  user_salesActivity Int           @unique @default(0)
-  salesActivity      SalesActivity @relation(fields: [user_salesActivity], references: [salesActivity_id])
+  // user_salesActivity Int
+  // salesActivity      SalesActivity @relation(fields: [user_salesActivity], references: [salesActivity_user])
 
   companyProfile companyProfile?
+  salesActivity  SalesActivity[]
 }
 
 model SalesActivity {
@@ -47,7 +48,8 @@ model SalesActivity {
   salesActivity_customerID Int      @unique
   customer                 Customer @relation(fields: [salesActivity_customerID], references: [customer_id])
 
-  user user?
+  salesActivity_userId Int  @default(1)
+  user                 user @relation(fields: [salesActivity_userId], references: [user_id])
 }
 
 model Customer {
@@ -74,8 +76,6 @@ model PIC {
   pic_email      String      @db.VarChar(50)
   pic_phone      String      @db.VarChar(20)
   pic_sales_code String      @db.Char(2)
-  // ini apaan
-  // kemaren nyambung sama quotation, hapus aja jd tabel ini buat hook ke quotation langsung
   // Quotation_Q_ID   Int       @unique
   // Quotation        Quotation @relation(fields: [Quotation_Q_ID], references: [Q_ID])
   pic_customerID Int
