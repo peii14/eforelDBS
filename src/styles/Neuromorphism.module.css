@@ -4,7 +4,7 @@
     -webkit-transition-duration: 0.3s;
     -ms-transition-duration: 0.3s;
     -moz-transition-duration: 0.3s;
-    background: #f0f0f0;
+    background: #f0f0f04d;
     box-shadow: -10px -10px 30px #ffffff, 10px 10px 30px rgba(174, 174, 192, 0.4);
     border-radius: 20px;
     padding: 30px ;
@@ -23,7 +23,7 @@
     -webkit-transition-duration: 0.3s;
     -ms-transition-duration: 0.3s;
     -moz-transition-duration: 0.3s;
-    background: #f0f0f04d;
+    background: #ffffff;
     box-shadow: -10px -10px 30px #ffffff, 10px 10px 30px rgba(174, 174, 192, 0.4);
     border-radius: 15px;
     padding: 10px 10px;

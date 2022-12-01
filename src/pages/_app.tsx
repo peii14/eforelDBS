@@ -1,6 +1,6 @@
 import { SessionProvider, useSession } from "next-auth/react";
 import "@/styles/globals.css";
-
+import { Suspense } from "react";
 const App = ({ Component, pageProps: { session, ...pageProps } }) => (
   <SessionProvider session={session}>
     {Component.auth ? (
