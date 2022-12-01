@@ -23,6 +23,7 @@ const AddPIC = () => {
     formState: { errors },
   }: any = useForm();
   const [query, setQuery] = useState("''");
+  
   useEffect(() => {
     try {
       if (query.length >= 3) {

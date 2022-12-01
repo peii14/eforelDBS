@@ -30,10 +30,10 @@ const Navbar = () => {
         </li>
         <li
           className={`${
-            asPath === "/eforel/addCustomer" ? "bg-primary text-white" : ""
+            asPath === "/eforel/add-customer" ? "bg-primary text-white" : ""
           } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
-          <Link href={"/eforel/addCustomer"}>
+          <Link href={"/eforel/add-customer"}>
             <a className="flex flex-col gap-1 items-center">
               <FaPeopleArrows size={20} />
               <p className="basis-2/3 text-sm">Add Customer</p>
@@ -42,10 +42,10 @@ const Navbar = () => {
         </li>
         <li
           className={`${
-            asPath === "/eforel/addPIC" ? "bg-primary text-white" : ""
+            asPath === "/eforel/add-pic" ? "bg-primary text-white" : ""
           } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
-          <Link href={"/eforel/addPIC"}>
+          <Link href={"/eforel/add-pic"}>
             <a className="flex flex-col gap-1 items-center">
               <AiOutlineUsergroupAdd size={20} />
               <p className="basis-2/3 text-sm">Add PIC</p>
@@ -54,10 +54,10 @@ const Navbar = () => {
         </li>
         <li
           className={`${
-            asPath === "/eforel/addVM" ? "bg-primary text-white" : ""
+            asPath === "/eforel/add-vm" ? "bg-primary text-white" : ""
           } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
-          <Link href={"/eforel/addVM"}>
+          <Link href={"/eforel/add-vm"}>
             <a className="flex py-2 flex-col gap-1 items-center">
               <FaRegBuilding size={20} />
               <p className="basis-2/3 text-sm">Add Vertikal Market & Group</p>
@@ -66,10 +66,10 @@ const Navbar = () => {
         </li>
         <li
           className={`${
-            asPath === "/eforel/addQuotation" ? "bg-primary text-white" : ""
+            asPath === "/eforel/add-quotation" ? "bg-primary text-white" : ""
           } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
-          <Link href={"/eforel/addQuotation"}>
+          <Link href={"/eforel/add-quotation"}>
             <a className="flex py-2 flex-col gap-1 items-center">
               <MdOutlineRequestQuote size={20} />
               <p className="basis-2/3 text-sm">Add Quotation</p>
@@ -78,10 +78,10 @@ const Navbar = () => {
         </li>
         <li
           className={`${
-            asPath === "/eforel/addMOP" ? "bg-primary text-white" : ""
+            asPath === "/eforel/add-mop" ? "bg-primary text-white" : ""
           } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
-          <Link href={"/eforel/addMOP"}>
+          <Link href={"/eforel/add-mop"}>
             <a className="flex py-2 flex-col gap-1 items-center">
               <HiDocumentAdd size={20} />
               <p className="basis-2/3 text-sm">Add MOP</p>
@@ -90,10 +90,12 @@ const Navbar = () => {
         </li>
         <li
           className={`${
-            asPath === "/eforel/salesActivity" ? "bg-primary text-white" : ""
+            asPath.includes("/eforel/sales-activity")
+              ? "bg-primary text-white"
+              : ""
           } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
         >
-          <Link href={"/eforel/salesActivity"}>
+          <Link href={"/eforel/sales-activity"}>
             <a className="flex py-2 flex-col gap-1 items-center">
               <AiOutlineSchedule size={20} />
               <p className="basis-2/3 text-sm">Sales Activity</p>
@@ -108,7 +110,7 @@ const Navbar = () => {
           <Link href={"/admin/settings"}>
             <a className="flex py-2 flex-col gap-1 items-center">
               <AiOutlineSetting size={20} />
-              <p className="basis-2/3 text-sm">Add MOP</p>
+              <p className="basis-2/3 text-sm">Settings</p>
             </a>
           </Link>
         </li>
