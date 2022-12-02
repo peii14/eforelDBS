@@ -42,7 +42,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       user_password: await argon2.hash("123123123"),
       user_area: 1,
       user_code: "BD",
-      user_salesActivity: 1,
     },
   });
 

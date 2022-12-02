@@ -5,77 +5,74 @@ import moment, { Moment } from "moment";
 const prisma = new PrismaClient();
 
 async function main(){
-    for(let i = 0; i < 100; i++){
-        await prisma.customer.create({
+    for(let i = 0; i < 10; i++){
+        await prisma.verticalMarket.create({
             data:{
-                customer_name:`${faker.name.fullName()}`,
-                customer_code:`dsfkl`,
-                customer_salesCode:`${faker.address.countryCode('alpha-2')}`,
-                customer_address:`${faker.address.streetAddress()}`,
-                customer_province:`${faker.address.country()}`,
-                customer_city:`${faker.address.city()}`,
-                customer_postalCode:`${faker.address.zipCode()}`,
-                customer_phone:`${faker.phone.number('+62 ### ## ##')}`,
-
-                PIC:{
+                verticalMarket_name:`${faker.company.companySuffix()}`,
+                customer:{
                     create:{
-                        pic_name:`${faker.name.fullName()}`,
-                        pic_position:`Sales`,
-                        pic_email:`${faker.internet.email()}`,
-                        pic_phone:`${faker.phone.number('+62 ### ## ##')}`,
-                        pic_sales_code:`${faker.address.countryCode('alpha-2')}`,
-                    }
-                },
+                        customer_name:`${faker.name.fullName()}`,
+                        customer_code:`dsfkl`,
+                        customer_salesCode:`${faker.address.countryCode('alpha-2')}`,
+                        customer_address:`${faker.address.streetAddress()}`,
+                        customer_province:`${faker.address.country()}`,
+                        customer_city:`${faker.address.city()}`,
+                        customer_postalCode:`${faker.address.zipCode()}`,
+                        customer_phone:`${faker.phone.number('+62 ### ## ##')}`,
 
-                Quotation:{
-                    create:{
-                        quotation_num:`${faker.random.alphaNumeric(7)}`,
-                        quotation_value:`${faker.commerce.product()}`,
-                        quotation_product:`${faker.commerce.productName()}`,
-                        quotation_quantity:Number(faker.random.numeric(1)),
-
-                        MOP:{
+                        PIC:{
                             create:{
-                                mop_num:`${faker.random.alphaNumeric(7)}`,
-                                mop_value:`${faker.commerce.product()}`
+                                pic_name:`${faker.name.fullName()}`,
+                                pic_position:`Sales`,
+                                pic_email:`${faker.internet.email()}`,
+                                pic_phone:`${faker.phone.number('+62 ### ## ##')}`,
+                                pic_sales_code:`${faker.address.countryCode('alpha-2')}`,
                             }
                         },
-                        SalesPipeline:{
+                        Quotation:{
                             create:{
-                                salesPipeline_date:new Date().toISOString().slice(0, 19).replace('T', ' '),
-                                salesPipeline_closeEstimation:new Date().toISOString().slice(0, 19).replace('T', ' '),
-                                salesPipeline_salesCode:`${faker.address.countryCode('alpha-2')}`,
-                                salesPipeline_projectName:`${faker.name.jobTitle()}`,
-                                salesPipeline_product:`${faker.commerce.product()}`,
-                                salesPipeline_quantity:Number(faker.random.numeric(1)),
-                                salesPipeline_status:`${faker.random.alphaNumeric(5)}`,
-                                salesPipeline_closeDate:new Date().toISOString().slice(0, 19).replace('T', ' '),
-                                salesPipeline_note:`${faker.commerce.productDescription()}`
+                                quotation_num:`${faker.random.alphaNumeric(7)}`,
+                                quotation_value:`${faker.commerce.product()}`,
+                                quotation_product:`${faker.commerce.productName()}`,
+                                quotation_quantity:Number(faker.random.numeric(1)),
+        
+                                MOP:{
+                                    create:{
+                                        mop_num:`${faker.random.alphaNumeric(7)}`,
+                                        mop_value:`${faker.commerce.product()}`
+                                    }
+                                },
+                                SalesPipeline:{
+                                    create:{
+                                        salesPipeline_date:new Date().toISOString().slice(0, 19).replace('T', ' '),
+                                        salesPipeline_closeEstimation:new Date().toISOString().slice(0, 19).replace('T', ' '),
+                                        salesPipeline_salesCode:`${faker.address.countryCode('alpha-2')}`,
+                                        salesPipeline_projectName:`${faker.name.jobTitle()}`,
+                                        salesPipeline_product:`${faker.commerce.product()}`,
+                                        salesPipeline_quantity:Number(faker.random.numeric(1)),
+                                        salesPipeline_status:`${faker.random.alphaNumeric(5)}`,
+                                        salesPipeline_closeDate:new Date().toISOString().slice(0, 19).replace('T', ' '),
+                                        salesPipeline_note:`${faker.commerce.productDescription()}`
+                                    }
+                                }
+                            }
+                        },
+                        salesActivity:{
+                            create:{
+                                salesActivity_date: new Date(`${faker.date.recent()}`),
+                                salesActivity_followup:'phone',
+                                salesActivity_jobDesc:`${faker.company.catchPhrase()}`
                             }
                         }
-                    }
+                    },
                 },
-
-                VerticalMarket:{
+                Group:{
                     create:{
-                        verticalMarket_name:`${faker.company.companySuffix()}`,
-
-                        Group:{
-                            create:{
-                                group_name:`${faker.company.companySuffix()}`
-                            }
-                        }
+                        group_name:`${faker.company.companySuffix()}`
                     }
-                },
+                }
 
-                salesActivity:{
-                    create:{
-                        salesActivity_date:`${faker.date.recent()}`,
-                        salesActivity_followup:faker.datatype.string(),
-                        salesActivity_jobDesc:`${faker.company.catchPhrase()}`,
-                        // salesActivity_customerID:1
-                    }
-                },
+                
 
                 // Quotation:{
                 //     create:{

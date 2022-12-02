@@ -186,6 +186,13 @@ export async function getStaticProps(context) {
     where: {
       user_id: Number(query),
     },
+    select: {
+      user_id: true,
+      user_fullname: true,
+      user_email: true,
+      user_area: true,
+      user_code: true,
+    },
   });
 
   return {

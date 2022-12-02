@@ -81,7 +81,9 @@ const Activites = ({ path = "", activities, customers }: ActivitiesProps) => {
           error: "Something went wrong 🤯",
         }
       );
-      router.push(`/eforel/sales-activity/sales/${activities.salesActivity_customerID}`);
+      router.push(
+        `/eforel/sales-activity/sales/${activities.salesActivity_userID}`
+      );
     } catch (err) {
       toast.error(err);
     }

@@ -37,19 +37,16 @@ model user {
   // salesActivity      SalesActivity @relation(fields: [user_salesActivity], references: [salesActivity_user])
 
   companyProfile companyProfile?
-  salesActivity  SalesActivity[]
 }
 
 model SalesActivity {
-  salesActivity_id         Int      @id @default(autoincrement())
-  salesActivity_date       DateTime
-  salesActivity_followup   String   @db.VarChar(20)
-  salesActivity_jobDesc    String   @db.VarChar(100)
+  salesActivity_id       Int      @id @default(autoincrement())
+  salesActivity_date     DateTime
+  salesActivity_followup String   @db.VarChar(20)
+  salesActivity_jobDesc  String   @db.VarChar(100)
+
   salesActivity_customerID Int      @unique
   customer                 Customer @relation(fields: [salesActivity_customerID], references: [customer_id])
-
-  salesActivity_userId Int  @default(1)
-  user                 user @relation(fields: [salesActivity_userId], references: [user_id])
 }
 
 model Customer {
@@ -58,15 +55,18 @@ model Customer {
   customer_code       String @db.VarChar(10)
   customer_salesCode  String @db.Char(2)
   customer_address    String @db.VarChar(100)
-  customer_province   String @db.VarChar(50)
+  customer_province   String @db.VarChar(100)
   customer_city       String @db.VarChar(50)
   customer_postalCode String @db.VarChar(10)
   customer_phone      String @db.VarChar(20)
 
-  salesActivity  SalesActivity[]
-  PIC            PIC[]
-  Quotation      Quotation[]
-  VerticalMarket VerticalMarket[]
+  customer_verticalMarketID Int
+  VerticalMarket            VerticalMarket @relation(fields: [customer_verticalMarketID], references: [verticalMarket_id])
+
+  salesActivity SalesActivity[]
+  PIC           PIC[]
+  Quotation     Quotation[]
+  // VerticalMarket VerticalMarket[]
 }
 
 model PIC {
@@ -130,10 +130,10 @@ model VerticalMarket {
   verticalMarkert_created DateTime  @default(now())
   verticalMarket_updated  DateTime? @updatedAt
 
-  verticalMarket_customerID Int      @unique
-  customer                  Customer @relation(fields: [verticalMarket_customerID], references: [customer_id])
-
-  Group Group[]
+  // verticalMarket_customerID Int      @unique
+  // customer                  Customer @relation(fields: [verticalMarket_customerID], references: [customer_id])
+  customer Customer[]
+  Group    Group[]
 }
 
 model Group {
