@@ -29,7 +29,7 @@ model user {
   user_fullname String
   user_email    String    @unique
   user_area     Int
-  user_code     String    @db.Char(2)
+  user_code     String    @unique @db.Char(2)
   user_password String    @db.LongText
   user_isAdmin  Boolean   @default(false)
 

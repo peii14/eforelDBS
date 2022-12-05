@@ -54,7 +54,6 @@ export const authOptions: NextAuthOptions = {
             user_code: user.user_code,
             user_area: user.user_area,
             isAdmin: user.user_isAdmin,
-            user_salesActivity: user.user_salesActivity,
           };
         }
         throw new Error("Invalid email or password");

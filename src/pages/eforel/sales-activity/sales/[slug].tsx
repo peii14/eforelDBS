@@ -167,11 +167,11 @@ export async function getStaticPaths() {
   const prisma = new PrismaClient();
   const user = await prisma.user.findMany({
     select: {
-      user_id: true,
+      user_code: true,
     },
   });
   const users = user.map((post) => ({
-    params: { slug: post.user_id.toString() },
+    params: { slug: post.user_code.toString() },
   }));
   return {
     paths: users,
@@ -184,7 +184,7 @@ export async function getStaticProps(context) {
   let query: string = context.params.slug;
   const user = await prisma.user.findUnique({
     where: {
-      user_id: Number(query),
+      user_code: query,
     },
     select: {
       user_id: true,

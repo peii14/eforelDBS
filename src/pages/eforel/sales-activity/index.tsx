@@ -42,7 +42,7 @@ const SalesActivity = () => {
         <Suspense fallback="Loading...">
           <Link
             href={`/eforel/sales-activity/sales/${
-              loading ? "/sales/" : payloads[0].salesActivity_userId
+              loading ? "sales/" : session.user.user_code
             }`}
           >
             <a>
