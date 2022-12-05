@@ -4,13 +4,33 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const type = req.query.param;
+  const type = req.query.type;
   const query = req.query.q;
+
   if (req.method === "GET") {
     if (type === "nameOnly") {
-      const quotation = await prisma.quotation.findMany({
+      const quotation: any = await prisma.quotation.findMany({
         where: {
           quotation_num: { contains: query.toString() },
+        },
+        include: {
+          customer: {
+            include: {
+              VerticalMarket: {
+                select: {
+                  verticalMarket_name: true,
+                },
+              },
+              PIC: {
+                select: {
+                  pic_name: true,
+                  pic_position: true,
+                  pic_email: true,
+                  pic_phone: true,
+                },
+              },
+            },
+          },
         },
       });
       return res.send(quotation);

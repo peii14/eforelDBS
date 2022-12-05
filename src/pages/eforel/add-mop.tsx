@@ -14,10 +14,9 @@ import AutoCompleteBox from "@/components/Object/AutoCompleteBox";
 const AddMOP = () => {
   const [isLoading, setIsLoading] = useState(false);
   let [mop, setMOP]: any = useState([{}]);
-  let [pic_name, setPICNames]: any = useState([{}]);
+
   const [whichMOP, setWhichMOP] = useState(mop[0]);
-  const [whichCustomer, setWichCustomer]: any = useState([{}]);
-  const [whichPIC, setPIC] = useState(pic_name[0]);
+  const [whichGroup, setWhichGroup] = useState(null);
 
   const { data: session }: any = useSession();
 
@@ -34,10 +33,16 @@ const AddMOP = () => {
       if (mopQuery.length >= 2) {
         setIsLoading(true);
         const getQuotation = async () => {
-          const { data } = await axios.get("/api/quotation", {
-            params: { q: mopQuery },
-          });
-          data.forEach((obj) => renameKey(obj, "Q_num", "name"));
+          const { data } = await toast.promise(
+            axios.get("/api/quotation", {
+              params: { q: mopQuery, type: "nameOnly" },
+            }),
+            {
+              pending: "Fetching customer data",
+              success: "Data fethced",
+            }
+          );
+          data.forEach((obj) => renameKey(obj, "quotation_num", "name"));
           setMOP(data);
         };
         getQuotation();
@@ -49,18 +54,23 @@ const AddMOP = () => {
   }, [mopQuery]);
 
   useEffect(() => {
-    let q = "";
-
-    if (whichMOP.Customer_Cust_ID !== undefined) q = whichMOP.Customer_Cust_ID;
-    else return;
-
-    const getCustomer = async () => {
-      const { data } = await axios.get("/api/customer/id", {
-        params: { q: q },
-      });
-      setWichCustomer(data);
+    const getData = async () => {
+      if (whichMOP.customer && whichMOP.customer.length != 0) {
+        console.log(whichMOP.customer.customer_groupID);
+        const group = await toast.promise(
+          axios.get("/api/group", {
+            params: { id: 2 },
+          }),
+          {
+            pending: "Fetching Group",
+          }
+        );
+        setWhichGroup(group.data);
+      } else {
+        setWhichGroup(null);
+      }
     };
-    getCustomer();
+    getData();
   }, [whichMOP]);
 
   const submitHandler = async ({ vertical_market, group }) => {
@@ -106,19 +116,27 @@ const AddMOP = () => {
               </div>
               <p>Customer Name</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.cust_name}` : ""}
+                {whichMOP && whichMOP.customer
+                  ? `${whichMOP.customer.customer_name}`
+                  : "undefined"}
               </div>
               <p>Customer Code</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.city}` : ""}
+                {whichMOP && whichMOP.customer
+                  ? `${whichMOP.customer.customer_code}`
+                  : "undefined"}
               </div>
               <p>Vertical Market</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.vertical_market}` : ""}
+                {whichMOP &&
+                whichMOP.customer &&
+                whichMOP.customer.VerticalMarket
+                  ? `${whichMOP.customer.VerticalMarket.verticalMarket_name}`
+                  : "undefined"}
               </div>
               <p>Group</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichMOP ? `${whichMOP.postal_code}` : ""}
+                {whichGroup ? `${whichGroup.group_name}` : "undefined"}
               </div>
             </div>
           </Neuromorphism>
@@ -127,19 +145,27 @@ const AddMOP = () => {
               <div className="p-5 grid-cols-4 mx-auto gap-5 items-center grid">
                 <p>Nama PIC</p>
                 <div className="min-h-max col-span-3 border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichPIC ? `${whichPIC.name}` : ""}
+                  {whichMOP && whichMOP.customer && whichMOP.customer.PIC
+                    ? `${whichMOP.customer.PIC[0].pic_name}`
+                    : "undefined"}
                 </div>
                 <p>Posisi</p>
                 <div className="min-h-max col-span-3 border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichPIC ? `${whichPIC.P_position}` : ""}
+                  {whichMOP && whichMOP.customer && whichMOP.customer.PIC
+                    ? `${whichMOP.customer.PIC[0].pic_position}`
+                    : "undefined"}
                 </div>
                 <p>Email</p>
                 <div className="min-h-max  col-span-3 border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichPIC ? `${whichPIC.P_email}` : ""}
+                  {whichMOP && whichMOP.customer && whichMOP.customer.PIC
+                    ? `${whichMOP.customer.PIC[0].pic_email}`
+                    : "undefined"}
                 </div>
                 <p>Phone</p>
                 <div className="min-h-max col-span-3 border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichPIC ? `${whichPIC.P_phone}` : ""}
+                  {whichMOP && whichMOP.customer && whichMOP.customer.PIC
+                    ? `${whichMOP.customer.PIC[0].pic_phone}`
+                    : "undefined"}
                 </div>
               </div>
             </Neuromorphism>
@@ -147,23 +173,34 @@ const AddMOP = () => {
               <div className="p-5 grid grid-cols-4 gap-5 mx-auto">
                 <p>Alamat Customer</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichMOP ? `${whichMOP.address}` : ""}
+                  {whichMOP && whichMOP.customer
+                    ? `${whichMOP.customer.customer_address}`
+                    : "undefined"}
                 </div>
                 <p>Kota</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichMOP ? `${whichMOP.city}` : ""}
+                  {whichMOP && whichMOP.customer
+                    ? `${whichMOP.customer.customer_city}`
+                    : "undefined"}
                 </div>
                 <p>Provinsi</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichMOP ? `${whichMOP.province}` : ""}
+                  {whichMOP && whichMOP.customer
+                    ? `${whichMOP.customer.customer_province}`
+                    : "undefined"}
                 </div>
                 <p>Kode Pos</p>
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichMOP ? `${whichMOP.postal_code}` : ""}
+                  {whichMOP && whichMOP.customer
+                    ? `${whichMOP.customer.customer_postalCode}`
+                    : "undefined"}
                 </div>
                 <p>Telp. Customer</p>
+
                 <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                  {whichMOP ? `${whichMOP.cust_phone}` : ""}
+                  {whichMOP && whichMOP.customer
+                    ? `${whichMOP.customer.customer_phone}`
+                    : "undefined"}
                 </div>
               </div>
             </Neuromorphism>
