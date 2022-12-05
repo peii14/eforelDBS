@@ -56,7 +56,6 @@ const AddMOP = () => {
   useEffect(() => {
     const getData = async () => {
       if (whichMOP.customer && whichMOP.customer.length != 0) {
-        console.log(whichMOP.customer.customer_groupID);
         const group = await toast.promise(
           axios.get("/api/group", {
             params: { id: 2 },
@@ -209,7 +208,7 @@ const AddMOP = () => {
             <div className="p-5 grid grid-cols-2 w-1/2 mx-auto gap-5">
               <p>Quotation Value (Rp)</p>
               <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichMOP ? `${whichMOP.M_value}` : ""}
+                {whichMOP ? `${whichMOP.quotation_value}` : ""}
               </div>
               <p>MOP Value</p>
               <div className="">

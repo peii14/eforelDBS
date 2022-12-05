@@ -25,7 +25,6 @@ interface ActivitiesProps {
     salesActivity_folowup?: string;
     salesActivity_jobdesc?: string;
     salesActivity_customerID?: number;
-    salesActivity_userID?: number;
     salesActivity_customerName?: string;
   };
   customers: {
@@ -81,9 +80,7 @@ const Activites = ({ path = "", activities, customers }: ActivitiesProps) => {
           error: "Something went wrong 🤯",
         }
       );
-      router.push(
-        `/eforel/sales-activity/sales/${activities.salesActivity_userID}`
-      );
+      router.push(`/eforel/sales-activity/sales/${session.user.user_code}`);
     } catch (err) {
       toast.error(err);
     }
@@ -212,7 +209,6 @@ export async function getStaticProps(context) {
         salesActivity_folowup: activity.salesActivity_followup,
         salesActivity_jobdesc: activity.salesActivity_jobDesc,
         salesActivity_customerID: activity.salesActivity_customerID,
-        salesActivity_userID: activity.salesActivity_userId,
         salesActivity_customerName: activity.customer.customer_name,
       },
       customers: customers,
