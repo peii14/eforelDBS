@@ -82,7 +82,7 @@ const Activites = ({ path = "", activities, customers }: ActivitiesProps) => {
       );
       router.push(`/eforel/sales-activity/sales/${session.user.user_code}`);
     } catch (err) {
-      toast.error(err);
+      toast.error("You still have default activities");
     }
   };
 
