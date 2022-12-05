@@ -8,7 +8,7 @@ async function main(){
     for(let i = 0; i < 10; i++){
         await prisma.verticalMarket.create({
             data:{
-                verticalMarket_name:`${faker.company.companySuffix()}`,
+                verticalMarket_name:`${faker.company.name()}`,
                 customer:{
                     create:{
                         customer_name:`${faker.name.fullName()}`,
@@ -68,7 +68,7 @@ async function main(){
                 },
                 Group:{
                     create:{
-                        group_name:`${faker.company.companySuffix()}`
+                        group_name:`${faker.company.catchPhraseNoun()}`
                     }
                 }
 

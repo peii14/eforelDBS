@@ -45,7 +45,6 @@ const AddQuotation = () => {
     } catch (err) {
       toast.error(err);
     }
-    console.log(whichCustomer);
   }, [nameQuery]);
 
   useEffect(() => {
@@ -134,11 +133,13 @@ const AddQuotation = () => {
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
                 {whichCustomer && whichCustomer.VerticalMarket
                   ? `${whichCustomer.VerticalMarket.verticalMarket_name}`
-                  : ""}
+                  : "undefined"}
               </div>
               <p>Group</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.customer_postal_code}` : ""}
+                {whichCustomer && whichCustomer.VerticalMarket
+                  ? `${whichCustomer.VerticalMarket.Group[0].group_name}`
+                  : "undefined"}
               </div>
             </div>
           </Neuromorphism>

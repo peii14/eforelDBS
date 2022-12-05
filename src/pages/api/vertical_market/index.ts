@@ -2,9 +2,15 @@ import { NextApiRequest, NextApiResponse } from "next"
 
 const handler = async (req:NextApiRequest,res: NextApiResponse) => {
     if(req.method === "POST"){
-        const vm = await prisma.verticalMarket.create({data:{
-            verticalMarket_name: req.body.verticalMarket_name.toString()
-        }})
+        const vm = await prisma.verticalMarket.upsert({
+            where:{
+                verticalMarket_name:req.body.verticalMarket_name.toString()
+            },
+            update:{},
+            create:{
+                verticalMarket_name: req.body.verticalMarket_name.toString()
+            }
+        })
         if(req.body.group != '-'){
         await prisma.group.create({data:{
             group_name: req.body.group.toString(),

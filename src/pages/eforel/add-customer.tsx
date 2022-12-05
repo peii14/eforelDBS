@@ -10,20 +10,17 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import RadioGroups from "@/components/Object/RadioGroups";
 import { renameKey } from "@/utils/renameKey";
+import { PrismaClient } from "@prisma/client";
 
 interface AddCustomerProps {
-  vertical_market: [
-    {
-      name?: string;
-      verticalMarket_id?: string;
-    }
-  ];
+  vertical_marketJSON?: string;
 }
 
-const AddCustomer = ({ vertical_market }: AddCustomerProps) => {
+const AddCustomer = ({ vertical_marketJSON }: AddCustomerProps) => {
   const area = [{ name: "Surabaya" }, { name: "Bandung" }, { name: "Jakarta" }];
   const [whichArea, setWhichArea] = useState(area[0]);
-
+  const vertical_market = JSON.parse(vertical_marketJSON);
+  const [selectedGroup, setSelectedGroup] = useState(null);
   const [whichVerticalMarket, setWhichVerticalMarket]: any = useState({});
   const { data: session }: any = useSession();
   const {
@@ -58,6 +55,7 @@ const AddCustomer = ({ vertical_market }: AddCustomerProps) => {
           customer_city: city,
           customer_postalCode: postal_code,
           customer_phone: cust_phone,
+          customer_groupID: selectedGroup,
         }),
         {
           pending: "Adding new customer",
@@ -118,6 +116,8 @@ const AddCustomer = ({ vertical_market }: AddCustomerProps) => {
             <div>
               <p className="text-xl">Area: </p>
               <RadioGroups
+                selectedGroup={selectedGroup}
+                setSelectedGroup={setSelectedGroup}
                 title="area"
                 plans={area}
                 selected={whichArea}
@@ -130,6 +130,8 @@ const AddCustomer = ({ vertical_market }: AddCustomerProps) => {
               <div className="">
                 <p className="text-xl">Verical Market:</p>
                 <RadioGroups
+                  selectedGroup={selectedGroup}
+                  setSelectedGroup={setSelectedGroup}
                   title="vertical market"
                   plans={vertical_market}
                   selected={whichVerticalMarket}
@@ -232,19 +234,26 @@ export async function getServerSideProps(context) {
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59"
   );
-  const vertical_market: any = await prisma.verticalMarket.findMany({
-    select: {
-      verticalMarket_name: true,
-      verticalMarket_id: true,
+  const prisma = new PrismaClient();
+
+  const vertical_market = await prisma.verticalMarket.findMany({
+    include: {
+      Group: {
+        select: {
+          group_name: true,
+          group_id: true,
+        },
+      },
     },
   });
+
   vertical_market.forEach((obj) =>
     renameKey(obj, "verticalMarket_name", "name")
   );
 
   return {
     props: {
-      vertical_market,
+      vertical_marketJSON: JSON.stringify(vertical_market),
     },
   };
 }

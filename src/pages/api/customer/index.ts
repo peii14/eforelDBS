@@ -16,9 +16,13 @@ export default async function handler(
             },
             include:{
                 VerticalMarket:{
-                    select:{
-                        verticalMarket_name:true
-                    },
+                    include:{
+                        Group:{
+                            select:{
+                                group_name:true
+                            }
+                        }
+                    }
                 }
             }
         });
