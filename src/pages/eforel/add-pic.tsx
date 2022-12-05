@@ -23,21 +23,19 @@ const AddPIC = () => {
     formState: { errors },
   }: any = useForm();
   const [query, setQuery] = useState("''");
-  
+
   useEffect(() => {
     try {
-      if (query.length >= 3) {
-        setIsLoading(true);
-        const getCustomerName = async () => {
-          const { data } = await axios.get("/api/customer", {
-            params: { q: query },
-          });
-          data.forEach((obj) => renameKey(obj, "customer_name", "name"));
-          setCustomerNames(data);
-        };
-        getCustomerName();
-        setIsLoading(false);
-      }
+      setIsLoading(true);
+      const getCustomerName = async () => {
+        const { data } = await axios.get("/api/customer", {
+          params: { q: query, salesCode: session.user.user_code },
+        });
+        data.forEach((obj) => renameKey(obj, "customer_name", "name"));
+        setCustomerNames(data);
+      };
+      getCustomerName();
+      setIsLoading(false);
     } catch (err) {
       toast.error(err);
     }
@@ -46,18 +44,24 @@ const AddPIC = () => {
   const submitHandler = async ({ name, position, email, phone }) => {
     try {
       const salesCode = session.user.user_code;
-      await axios.post("/api/pic", {
-        pic_name: name,
-        pic_position: position,
-        pic_email: email,
-        pic_phone: phone,
-        pic_sales_code: salesCode,
-        pic_customerID: whichCustomer.cust_id,
-      });
+      await toast.promise(
+        axios.post("/api/pic", {
+          pic_name: name,
+          pic_position: position,
+          pic_email: email,
+          pic_phone: phone,
+          pic_sales_code: salesCode,
+          pic_customerID: whichCustomer.customer_id,
+        }),
+        {
+          pending: "Adding PIC",
+          success: "PIC has been added",
+          error: "Error",
+        }
+      );
     } catch (err) {
       return toast.error(getError(err));
     }
-    toast.success("Customer has been added");
   };
   return (
     <Layout title="Add PIC">

@@ -34,7 +34,7 @@ const AddQuotation = () => {
         setIsLoading(true);
         const getCustomerName = async () => {
           const { data } = await axios.get("/api/customer", {
-            params: { q: nameQuery },
+            params: { q: nameQuery, salesCode: session.user.user_code },
           });
           data.forEach((obj) => renameKey(obj, "customer_name", "name"));
           setCustomerNames(data);
@@ -131,11 +131,15 @@ const AddQuotation = () => {
               </div>
               <p>Vertical Market</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.customer_postalCode}` : ""}
+                {whichCustomer && whichCustomer.VerticalMarket
+                  ? `${whichCustomer.VerticalMarket.verticalMarket_name}`
+                  : "undefined"}
               </div>
               <p>Group</p>
               <div className="col-span-2 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichCustomer ? `${whichCustomer.customer_postal_code}` : ""}
+                {whichCustomer && whichCustomer.VerticalMarket
+                  ? `${whichCustomer.VerticalMarket.Group[0].group_name}`
+                  : "undefined"}
               </div>
             </div>
           </Neuromorphism>

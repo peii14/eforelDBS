@@ -16,8 +16,8 @@ export default async function handler(
     return res.send(pic);
   } else if (req.method === "POST") {
     const { body: data } = req;
-    console.log(data);
     const newPIC = await prisma.pIC.create({ data });
+
     return res.status(201).send(newPIC);
   }
 }

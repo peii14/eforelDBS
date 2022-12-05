@@ -9,22 +9,19 @@ import Button from "@/components/Object/Button";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import RadioGroups from "@/components/Object/RadioGroups";
+import { renameKey } from "@/utils/renameKey";
+import { PrismaClient } from "@prisma/client";
 
-const AddCustomer = () => {
+interface AddCustomerProps {
+  vertical_marketJSON?: string;
+}
+
+const AddCustomer = ({ vertical_marketJSON }: AddCustomerProps) => {
   const area = [{ name: "Surabaya" }, { name: "Bandung" }, { name: "Jakarta" }];
   const [whichArea, setWhichArea] = useState(area[0]);
-  const verticalMarket = [
-    { name: "SI" },
-    { name: "Factory" },
-    { name: "Oil and Gas" },
-    { name: "Mining" },
-    { name: "Personal" },
-    { name: "Power and Energy" },
-    { name: "Goverment" },
-  ];
-  const [whichVerticalMarket, setWhichVerticalMarket] = useState(
-    verticalMarket[2]
-  );
+  const vertical_market = JSON.parse(vertical_marketJSON);
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [whichVerticalMarket, setWhichVerticalMarket]: any = useState({});
   const { data: session }: any = useSession();
   const {
     handleSubmit,
@@ -32,6 +29,7 @@ const AddCustomer = () => {
     getValues,
     formState: { errors },
   }: any = useForm();
+
   const submitHandler = async ({
     cust_name,
     cust_code,
@@ -43,21 +41,30 @@ const AddCustomer = () => {
   }) => {
     try {
       const salesCode = session.user.user_code;
-      await axios.post("/api/customer", {
-        cust_name: cust_name,
-        cust_code: cust_code,
-        sales_code: salesCode,
-        vertical_market: whichVerticalMarket.name,
-        address: address,
-        province: province,
-        city: city,
-        postal_code: postal_code,
-        cust_phone: cust_phone,
-      });
+      const vm_id = vertical_market.find(
+        ({ name }) => name === whichVerticalMarket
+      );
+      await toast.promise(
+        axios.post("/api/customer", {
+          customer_name: cust_name,
+          customer_code: cust_code,
+          customer_salesCode: salesCode,
+          customer_verticalMarketID: vm_id.verticalMarket_id,
+          customer_address: address,
+          customer_province: province,
+          customer_city: city,
+          customer_postalCode: postal_code,
+          customer_phone: cust_phone,
+          customer_groupID: selectedGroup,
+        }),
+        {
+          pending: "Adding new customer",
+          success: "Customer added",
+        }
+      );
     } catch (err) {
       toast.error(getError(err));
     }
-    toast.success("Customer has been added");
   };
 
   return (
@@ -109,6 +116,8 @@ const AddCustomer = () => {
             <div>
               <p className="text-xl">Area: </p>
               <RadioGroups
+                selectedGroup={selectedGroup}
+                setSelectedGroup={setSelectedGroup}
                 title="area"
                 plans={area}
                 selected={whichArea}
@@ -121,8 +130,10 @@ const AddCustomer = () => {
               <div className="">
                 <p className="text-xl">Verical Market:</p>
                 <RadioGroups
+                  selectedGroup={selectedGroup}
+                  setSelectedGroup={setSelectedGroup}
                   title="vertical market"
-                  plans={verticalMarket}
+                  plans={vertical_market}
                   selected={whichVerticalMarket}
                   setSelected={setWhichVerticalMarket}
                   columns={3}
@@ -217,6 +228,35 @@ const AddCustomer = () => {
     </Layout>
   );
 };
+
+export async function getServerSideProps(context) {
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
+  const prisma = new PrismaClient();
+
+  const vertical_market = await prisma.verticalMarket.findMany({
+    include: {
+      Group: {
+        select: {
+          group_name: true,
+          group_id: true,
+        },
+      },
+    },
+  });
+
+  vertical_market.forEach((obj) =>
+    renameKey(obj, "verticalMarket_name", "name")
+  );
+
+  return {
+    props: {
+      vertical_marketJSON: JSON.stringify(vertical_market),
+    },
+  };
+}
 
 AddCustomer.auth = true;
 export default AddCustomer;
