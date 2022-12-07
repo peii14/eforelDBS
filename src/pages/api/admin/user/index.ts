@@ -12,18 +12,22 @@ const handler = async(req: NextApiRequest, res: NextApiResponse) =>{
             }
         })
         return res.status(200)
-    }else if(req.method === "PUT"){
-        const user = await prisma.user.create({
-            data: {
-              user_email: "template@gmail.com",
-              user_fullname: "admin",
-              user_isAdmin: true,
-              user_password: await argon2.hash("123123123"),
-              user_area: 1,
-              user_code: "BD",
-            },
-          });
-          return res.status(200)
+    }else if(req.method === "POST"){
+        try{
+            const user = await prisma.user.create({
+                data: {
+                    user_email: "default@gmail.com",
+                    user_fullname: "default",
+                    user_isAdmin: false,
+                    user_password: await argon2.hash("123123123"),
+                    user_area: 1,
+                    user_code: "--",
+                },
+            });
+            return res.status(200).send(user)
+        }catch(error){
+            return res.status(500).send(error)
+        }
     }
 }
 
