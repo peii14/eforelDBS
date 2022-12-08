@@ -10,8 +10,6 @@ import Button from "@/components/Object/Button";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-
 
 const settings = ({ user }) => {
   const router = useRouter();
@@ -27,7 +25,7 @@ const settings = ({ user }) => {
         pending: "Creating user",
         success: "New user has been created",
       });
-      router.push(`/admin/edit-user/${addUser.data.user_code}`);
+      router.push(`/admin/settings/edit-user/${addUser.data.user_code}`);
     } catch (error) {
       toast.error(error);
     }
@@ -98,7 +96,7 @@ const settings = ({ user }) => {
                   >
                     <td className=" p-3 ">{user.user_fullname}</td>
                     <td className=" p-3 ">{user.user_code}</td>
-                    <td className=" p-3 ">{user.user_isAdmin}</td>
+                    <td className=" p-3 ">{user.user_role}</td>
                     <td className=" p-3 ">{user.user_area}</td>
                     <td className=" p-3 ">{user.user_email}</td>
                     <td className=" p-3 ">{user.user_created}</td>

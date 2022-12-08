@@ -18,17 +18,37 @@ const handler = async(req: NextApiRequest, res: NextApiResponse) =>{
                 data: {
                     user_email: "default@gmail.com",
                     user_fullname: "default",
-                    user_isAdmin: false,
+                    user_role: 1,
                     user_password: await argon2.hash("123123123"),
                     user_area: 1,
-                    user_code: "--",
+                    user_code: "00",
                 },
             });
             return res.status(200).send(user)
         }catch(error){
             return res.status(500).send(error)
         }
+    } else if(req.method === "PUT"){
+        const {user_name , user_email,user_area, user_code, user_role, user_password} = req.body
+        const user = await prisma.user.update({
+                where:{
+                    user_email:"default@gmail.com",
+                },
+                data:{
+                    user_fullname:user_name,
+                    user_email: user_email,
+                    user_area:Number(user_area),
+                    user_password: await argon2.hash(user_password),
+                    user_code: user_code,
+                    user_role: Number(user_role)
+                    }
+                })
+        console.log(user)
+        
+        return res.status(200)
     }
+       
+    return res.status(200)
 }
 
 export default handler

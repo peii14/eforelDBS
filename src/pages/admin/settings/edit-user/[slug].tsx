@@ -7,6 +7,8 @@ import axios from "axios";
 import { getError } from "@/utils/error";
 import Neuromorphism from "@/components/Object/Neuromorphism";
 import Button from "@/components/Object/Button";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface EditUserProps {
   user: {
@@ -15,23 +17,52 @@ interface EditUserProps {
     user_email: string;
     user_area: string;
     user_code: string;
+    user_role: number;
   };
 }
 
 const EditUser = ({ user }: EditUserProps) => {
+  const router = useRouter();
   const {
     handleSubmit,
     register,
     getValues,
+    setValue,
     formState: { errors },
   }: any = useForm();
 
-  const submitHandler = async ({ user_name }) => {
+  useEffect(() => {
+    setValue("user_name", user.user_fullname);
+    setValue("user_email", user.user_email);
+    setValue("user_area", user.user_area);
+    setValue("user_code", user.user_code);
+    setValue("user_role", user.user_role);
+  }, []);
+
+  const submitHandler = async ({
+    user_name,
+    user_email,
+    user_area,
+    user_code,
+    user_role,
+    user_password,
+  }) => {
     try {
-      await toast.promise(axios.post("/api/customer", { user_name }), {
-        pending: "Adding new customer",
-        success: "Customer added",
-      });
+      await toast.promise(
+        axios.put("/api/admin/user", {
+          user_name,
+          user_email,
+          user_area,
+          user_code,
+          user_role,
+          user_password,
+        }),
+        {
+          pending: "Editing user",
+          success: "Customer added",
+        }
+      );
+      router.push("/admin/settings/edit-user");
     } catch (err) {
       toast.error(getError(err));
     }
@@ -46,7 +77,7 @@ const EditUser = ({ user }: EditUserProps) => {
             onSubmit={handleSubmit(submitHandler)}
           >
             <p>Nama User</p>
-            <div className="col-span-2 grid g">
+            <div className="col-span-2 grid">
               <input
                 {...register("user_name", {
                   required: "Please enter name",
@@ -129,7 +160,7 @@ const EditUser = ({ user }: EditUserProps) => {
             <p>Role</p>
             <div className="col-span-2 grid">
               <input
-                {...register("user_password", {
+                {...register("user_role", {
                   required: "Please enter role",
                 })}
                 className="px-2 w-full"
@@ -154,7 +185,7 @@ const EditUser = ({ user }: EditUserProps) => {
 
 export async function getStaticPaths() {
   const prisma = new PrismaClient();
-
+  prisma.$connect();
   const users = await prisma.user.findMany({
     select: {
       user_code: true,
@@ -163,6 +194,8 @@ export async function getStaticPaths() {
   const categories = users.map((post) => ({
     params: { slug: post.user_code },
   }));
+  prisma.$disconnect();
+
   return {
     paths: categories,
     fallback: "blocking",
@@ -172,13 +205,13 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   let query: string = context.params.slug;
   const prisma = new PrismaClient();
-
+  prisma.$connect();
   const users = await prisma.user.findUnique({
     where: {
       user_code: query,
     },
   });
-  console.log(users);
+  prisma.$connect();
 
   return {
     props: {
@@ -188,6 +221,7 @@ export async function getStaticProps(context) {
         user_email: users.user_email,
         user_area: users.user_area,
         user_code: users.user_code,
+        user_role: users.user_role,
       },
     },
     revalidate: 10,
