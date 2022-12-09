@@ -1,15 +1,18 @@
 import { SessionProvider, useSession } from "next-auth/react";
 import "@/styles/globals.css";
+import { StoreProvider } from "@/utils/Store";
 import { Suspense } from "react";
 const App = ({ Component, pageProps: { session, ...pageProps } }) => (
   <SessionProvider session={session}>
-    {Component.auth ? (
-      <Auth adminOnly={Component.auth.adminOnly}>
+    <StoreProvider>
+      {Component.auth ? (
+        <Auth adminOnly={Component.auth.adminOnly}>
+          <Component {...pageProps} />
+        </Auth>
+      ) : (
         <Component {...pageProps} />
-      </Auth>
-    ) : (
-      <Component {...pageProps} />
-    )}
+      )}
+    </StoreProvider>
   </SessionProvider>
 );
 function Auth({ children }: any) {

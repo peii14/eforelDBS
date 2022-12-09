@@ -14,10 +14,8 @@ import AutoCompleteBox from "@/components/Object/AutoCompleteBox";
 const AddMOP = () => {
   const [isLoading, setIsLoading] = useState(false);
   let [mop, setMOP]: any = useState([{}]);
-
   const [whichMOP, setWhichMOP] = useState(mop[0]);
   const [whichGroup, setWhichGroup] = useState(null);
-
   const { data: session }: any = useSession();
 
   const {

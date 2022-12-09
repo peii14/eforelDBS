@@ -130,7 +130,6 @@ const settings = ({ user }) => {
 
 export async function getStaticProps(context) {
   const prisma = new PrismaClient();
-
   const user = await prisma.user.findMany({});
   return {
     props: {
