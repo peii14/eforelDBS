@@ -15,9 +15,7 @@ const settings = ({ user }) => {
   const router = useRouter();
   const json = JSON.parse(user);
   const [users, setUsers] = useState(json);
-  useEffect(() => {
-    console.log(users);
-  }, []);
+
 
   const addHandler = async () => {
     try {

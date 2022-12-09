@@ -21,7 +21,6 @@ export default async function handler(
     else if(req.method === "POST")
     {
         const {body: data} = req;
-        console.log(data);
         const newUser = await prisma.user.create({data});
         return res.status(201).send(newUser)
     }
