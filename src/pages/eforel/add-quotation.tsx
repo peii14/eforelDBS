@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import Title from "@/components/Layout/Title";
 import AutoCompleteBox from "@/components/Object/AutoCompleteBox";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { renameKey } from "@/utils/renameKey";
 import { useSession } from "next-auth/react";
@@ -10,8 +10,13 @@ import Neuromorphism from "@/components/Object/Neuromorphism";
 import { toast } from "react-toastify";
 import { getError } from "@/utils/error";
 import Button from "@/components/Object/Button";
+import Link from "next/link";
+import { Store } from "@/utils/Store";
+import Products from "@/components/Object/Products";
 
 const AddQuotation = () => {
+  const { state, dispatch }: any = useContext(Store);
+  const { cart } = state;
   let [customer_name, setCustomerNames]: any = useState([{}]);
   let [pic_name, setPICNames]: any = useState([{}]);
   const [whichCustomer, setCustomer] = useState(customer_name[0]);
@@ -63,6 +68,15 @@ const AddQuotation = () => {
       toast.error(err);
     }
   }, [picQuery]);
+
+  const addProductsHandler = async (product) => {
+    const existItem = cart.cartItems.find((x) => x.name === product.name);
+    const quantity = existItem
+      ? existItem.quantity + 1
+      : Number(getValues("quotation_qty"));
+
+    dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+  };
 
   const submitHandler = async ({ vertical_market, group }) => {
     try {
@@ -208,8 +222,8 @@ const AddQuotation = () => {
               <p>Product</p>
               <div className="col-span-2">
                 <input
-                  {...register("Quotation_value", {
-                    required: "Please enter Quotation Value",
+                  {...register("quotation_products", {
+                    required: "Please enter quotation products",
                   })}
                   className="px-2 w-full"
                 />
@@ -219,24 +233,34 @@ const AddQuotation = () => {
                   </div>
                 )}
               </div>
-              <p>Qty</p>
-              <div className="col-span-1">
-                <input
-                  {...register("Quotation_value", {
-                    required: "Please enter Quotation Value",
-                  })}
-                  className="px-2 w-full"
-                  type="number"
-                />
-                {errors.quotation_value && (
-                  <div className="text-red-500">
-                    {errors.group.quotation_value}
-                  </div>
-                )}
+              <div className="col-span-1 flex flex-row">
+                <p>Qty</p>
+                <div>
+                  <input
+                    {...register("quotation_qty", {
+                      required: "Please enter product quantity value",
+                    })}
+                    className="px-2 w-2/3 mx-4"
+                    type="number"
+                  />
+                  {errors.quotation_value && (
+                    <div className="text-red-500">
+                      {errors.group.quotation_value}
+                    </div>
+                  )}
+                </div>
               </div>
+              <div
+                onClick={() =>
+                  addProductsHandler({ name: getValues("quotation_products") })
+                }
+              >
+                <Button btn="Add product" />
+              </div>
+              <Products state={state} dispatch={dispatch} />
             </div>
           </Neuromorphism>
-          <div className="w-full mt-5 ">
+          <div className="w-full mt-5">
             <div className="w-1/3 mx-auto">
               <button className="w-full">
                 <Button btn="Add Quotation" />

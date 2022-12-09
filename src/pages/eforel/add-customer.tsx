@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { getError } from "@/utils/error";
 import Button from "@/components/Object/Button";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import RadioGroups from "@/components/Object/RadioGroups";
 import { renameKey } from "@/utils/renameKey";
 import { PrismaClient } from "@prisma/client";

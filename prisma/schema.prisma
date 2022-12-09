@@ -31,7 +31,7 @@ model user {
   user_area     Int
   user_code     String    @unique @db.Char(2)
   user_password String    @db.LongText
-  user_isAdmin  Boolean   @default(false)
+  user_role     Int       @default(1)
 
   // user_salesActivity Int
   // salesActivity      SalesActivity @relation(fields: [user_salesActivity], references: [salesActivity_user])
