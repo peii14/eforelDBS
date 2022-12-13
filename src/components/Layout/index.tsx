@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, Suspense } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import Navbar from "./navbar";
@@ -31,14 +31,20 @@ const Layout = ({ children, title = "Eforel" }: Props) => {
           limit={5}
           pauseOnFocusLoss
         />
+        {/* <Suspense fallback="Loading..."> */}
         <div className=" min-h-screen flex flex-row  gap-16">
-          <header className={`basis-1/12 ${session ? "block" : "hidden"}`}>
+          <header
+            className={`basis-1/12 ${session && children ? "block" : "hidden"}`}
+          >
             <Navbar />
           </header>
-          <div className="basis-5/6 p-10 min-h-screen overflow-y-hidden">
+          <div
+            className={`basis-5/6 p-10 min-h-screen overflow-y-hidden`}
+          >
             <main className="">{children}</main>
           </div>
         </div>
+        {/* </Suspense> */}
         <footer>
           <Footer />
         </footer>

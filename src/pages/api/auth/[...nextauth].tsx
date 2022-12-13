@@ -53,7 +53,7 @@ export const authOptions: NextAuthOptions = {
             userEmail: user.user_email,
             user_code: user.user_code,
             user_area: user.user_area,
-            isAdmin: user.user_isAdmin,
+            user_role: user.user_role,
           };
         }
         throw new Error("Invalid email or password");
