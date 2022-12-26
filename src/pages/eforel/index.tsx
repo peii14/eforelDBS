@@ -6,18 +6,46 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { PrismaClient } from "@prisma/client";
+// import { getStaticProps } from "./sales-activity";
 
-const Dashboard = () => {
+export async function getServerSideProps(){
+  const [Customer, Group, MOP, PIC, Quotation, SalesActivity, User, VerticalMarket] =  await Promise.all([
+    prisma.customer.findMany(),
+    prisma.group.findMany(),
+    prisma.mOP.findMany(),
+    prisma.pIC.findMany(),
+    prisma.quotation.findMany(),
+    prisma.salesActivity.findMany(),
+    prisma.user.findMany(),
+    prisma.verticalMarket.findMany(),
+  ])
+
+  return {
+     props: {
+      customer: Customer,
+      group: JSON.parse(JSON.stringify(Group)),
+      mop: MOP,
+      pic: PIC,
+      quotation: Quotation,
+      salesActivity: JSON.parse(JSON.stringify(SalesActivity)),
+      user: JSON.parse(JSON.stringify(User)),
+      verticalMarket: JSON.parse(JSON.stringify(VerticalMarket)),
+    }
+  }
+}
+
+const Dashboard = ({ customer,group,mop,pic,quotation,salesActivity,user,verticalMarket }) => {
+  // console.log(customer[20]);
+
+  const originalArray = ['Customer', 'Group', 'MOP', 'PIC', 'Quotation', 'SalesActivity', 'User', 'VerticalMarket']
+  const arrayOfObjects = []
+  originalArray.forEach(value => {
+    arrayOfObjects.push({ name: value })
+  })
+
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [tabList, setTab] = useState([
-    {
-      name: "Customer"
-    },
-    {
-      name: "MOP",
-    }
-  ])
+  const [tabList, setTab] = useState(arrayOfObjects)
   const [whichTable, setWhichTable] = useState([])
   const [whichTab , setWhichTab] = useState(0)
   if (status === "loading") {
@@ -29,45 +57,10 @@ const Dashboard = () => {
     return <p>Access Denied</p>;
   }
 
-  const Customer = useState([
-    {
-      id: 1,
-      Name: 'Adam',
-      Area: 'Jakarta',
-      Vertical_Market: 'Cormier Inc',
-      Group: "hub",
-      Alamat: 'jalan kontol',
-      Kota: 'Jakarta',
-      Telpon: '123123'
-    },
-    {
-      id: 2,
-      Name: 'Adam',
-      Area: 'Jakarta',
-      Vertical_Market: 'Cormier Inc',
-      Group: "hub",
-      Alamat: 'jalan kontol',
-      Kota: 'Jakarta',
-      Telpon: '123123'
-    },
-  ])
-  const MOP = useState([
-    {
-      id: 1,
-      mop_number: '5pk1ri1',
-      mop_value: 'Cheese',
-      customer_name: 'Adam',
-      quotation_number: '89ai2kd',
-      quotation_value: '20000',
-      quotation_product: 'motor',
-      quotation_quantity: '8',
-    },
-  ])
-
-  useEffect(()=>{
-    whichTab === 0 ?  setWhichTable(Customer):
-    setWhichTable(MOP)
-  },[whichTab])
+  // useEffect(()=>{
+  //   whichTab === 0 ?  setWhichTable(Customer):
+  //   setWhichTable(MOP)
+  // },[whichTab])
 
   return (
     <Layout title="Dashboard" session={true}>
@@ -88,12 +81,12 @@ const Dashboard = () => {
 //       }
 //     }
 //   }}) ,prisma.mOP.findMany({select:{
-    
+
 //   }}),prisma.quotation.findMany({})])
 
 //   return {
 //     props: {
-      
+
 //     },
 //     revalidate: 15,
 //   }

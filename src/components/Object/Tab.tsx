@@ -14,7 +14,8 @@ function classNames(...classes) {
 
 export default function Example({ table, tab, whichTab, setTab }: ExampleProps) {
   return (
-    <div className="w-full max-w-md px-2 py-16 sm:px-0">
+    // space-x-1 apus dr div
+    <div className="w-full px-2 py-16 sm:px-0">
       <Tab.Group
       onChange={(index) => {
        setTab(index)
