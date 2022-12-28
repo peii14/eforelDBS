@@ -35,18 +35,29 @@ export async function getServerSideProps(){
 }
 
 const Dashboard = ({ customer,group,mop,pic,quotation,salesActivity,user,verticalMarket }) => {
-  // console.log(customer[20]);
+  // console.log(customer[0]);
+  // console.log(Object.keys(customer[0]))
 
-  const originalArray = ['Customer', 'Group', 'MOP', 'PIC', 'Quotation', 'SalesActivity', 'User', 'VerticalMarket']
-  const arrayOfObjects = []
-  originalArray.forEach(value => {
-    arrayOfObjects.push({ name: value })
+  const tablistArray = ['Customer', 'Group', 'MOP', 'PIC', 'Quotation', 'SalesActivity', 'User', 'VerticalMarket']
+  const tabListObj = []
+  tablistArray.forEach(value => {
+    tabListObj.push({ name: value })
   })
+
+  const tabPanelsArray = Object.keys(customer[0]);
+  const filterTxt = []
+  tabPanelsArray.forEach(value =>{filterTxt.push(value.replace("customer_", ""))})
+  const tabPanelObj = []
+  filterTxt.forEach(value => {
+    tabPanelObj.push({ title: value })
+  })
+
+  console.log(tabPanelObj)
 
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [tabList, setTab] = useState(arrayOfObjects)
-  const [whichTable, setWhichTable] = useState([])
+  const [tabList, setTab] = useState(tabListObj)
+  const [whichTable, setWhichTable] = useState(tabPanelObj)
   const [whichTab , setWhichTab] = useState(0)
   if (status === "loading") {
     return <p>Loading...</p>;

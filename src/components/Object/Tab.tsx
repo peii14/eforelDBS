@@ -40,14 +40,36 @@ export default function Example({ table, tab, whichTab, setTab }: ExampleProps) 
           ))}
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <table className="min-w-full ">
-            <thead className="border-y-2 border-sec sticky">
-              {/* {table.map()} */}
+          <table className="w-full">
+            <thead className="border-y-2 border-sec sticky flex justify-center items-center">
+              {table.map((category, idx) => (
+                <Tab
+                  key={idx}
+                  className="px-4 font-bold"
+                  >
+                    {category.title}
+                </Tab>
+              ))}
             </thead>
             <tbody>
-
             </tbody>
           </table>
+          {/* <table className="w-full mt-2">
+            <tbody className="border-y-2 border-sec sticky flex justify-center items-center">
+              {table.map((category, idx) => (
+                  <tr>
+                    <td>
+                      <Tab
+                        key={idx}
+                        className="px-4"
+                        >
+                          {category.title}
+                      </Tab>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table> */}
         </Tab.Panels>
       </Tab.Group>
     </div>
