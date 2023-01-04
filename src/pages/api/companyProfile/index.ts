@@ -16,7 +16,7 @@ export default async function handler(
                 company_id: 1
             },
             include: {
-                user: true 
+                user: true
             }
         });
         return res.send(companyProfile)
@@ -24,7 +24,6 @@ export default async function handler(
     else if(req.method === "POST")
     {
         const {body: data} = req;
-        console.log(data);
         const newComp = await prisma.companyProfile.create({data});
         return res.status(201).send(newComp)
     }

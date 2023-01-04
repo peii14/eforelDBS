@@ -1,22 +1,31 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
 
 interface ExampleProps {
-  readonly categories?: any;
+  readonly tab?: any;
+  readonly table?: any;
+  readonly subtable?: any;
+  whichTab?: number
+  setTab?: Dispatch<SetStateAction<number>>
 }
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example({ categories }: ExampleProps) {
+export default function Example({ table,subtable, tab, whichTab, setTab }: ExampleProps) {
   return (
-    <div className="w-full max-w-md px-2 py-16 sm:px-0">
-      <Tab.Group>
+    // space-x-1 apus dr div
+    <div className="w-full px-2 py-16 sm:px-0">
+      <Tab.Group
+      onChange={(index) => {
+       setTab(index)
+      }}
+      >
         <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-          {Object.keys(categories).map((category) => (
+          {tab.map((category,idx) => (
             <Tab
-              key={category}
+              key={idx}
               className={({ selected }) =>
                 classNames(
                   "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
@@ -27,48 +36,47 @@ export default function Example({ categories }: ExampleProps) {
                 )
               }
             >
-              {category}
+              {category.name}
             </Tab>
           ))}
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <table className="min-w-full ">
-            <thead className="border-y-2 border-sec sticky">
-              <tr>
-                {Object.entries(categories).map(([key, value], idx) => {
-                  return (
-                    <th key={idx} className="px-5 text-left">
-                      {key}
-                    </th>
-                  );
-                })}
-              </tr>
+          <table className="w-full">
+            <thead className="border-y-2 border-sec sticky flex justify-start items-center">
+              {table.map((category, idx) => (
+            <th key={idx}
+            className="px-9 font-bold">
+                {category.title}
+              </th>
+              ))}
             </thead>
-            {/* <tbody>
-                      {post.map((product) => (
-                        <tr
-                          key={product._id}
-                          className="border-b-2 border-sec border-double border-opacity-20"
-                        >
-                          <td className=" p-5 ">
-                            {product._id.substring(20, 24)}
-                          </td>
-                          <td className=" p-5 ">{product.title}</td>
-                          <td className=" p-5 ">{product.link}</td>
-
-                          <td className=" p-5 ">
-                            <button
-                              onClick={() => deleteHandler(product._id)}
-                              className="default-button"
-                              type="button"
-                            >
-                              <Button btn="Delete" whichBtn={2} />
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody> */}
+            <tbody className="flex justify-start items-center">
+              {subtable.map((category, idx) => (
+                <Tab
+                  key={idx}
+                  className="mx-9"
+                  >
+                    {category.content}
+                </Tab>
+              ))}
+            </tbody>
           </table>
+          {/* <table className="w-full mt-2">
+            <tbody className="border-y-2 border-sec sticky flex justify-center items-center">
+              {table.map((category, idx) => (
+                  <tr>
+                    <td>
+                      <Tab
+                        key={idx}
+                        className="px-4"
+                        >
+                          {category.title}
+                      </Tab>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table> */}
         </Tab.Panels>
       </Tab.Group>
     </div>

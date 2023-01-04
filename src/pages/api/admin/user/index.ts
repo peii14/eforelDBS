@@ -43,7 +43,7 @@ const handler = async(req: NextApiRequest, res: NextApiResponse) =>{
                     user_role: Number(user_role)
                     }
                 })
-        console.log(user)
+
         
         return res.status(200)
     }

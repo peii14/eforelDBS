@@ -1,13 +1,80 @@
 import Layout from "@/components/Layout";
 import Title from "@/components/Layout/Title";
 import Neuromorphism from "@/components/Object/Neuromorphism";
+import Tab from "@/components/Object/Tab"
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { PrismaClient } from "@prisma/client";
+// import { getStaticProps } from "./sales-activity";
 
-const Dashboard = () => {
+export async function getStaticProps(){
+  const [Customer, Group, MOP, PIC, Quotation, SalesActivity, User, VerticalMarket] =  await Promise.all([
+    prisma.customer.findMany(),
+    prisma.group.findMany(),
+    prisma.mOP.findMany(),
+    prisma.pIC.findMany(),
+    prisma.quotation.findMany(),
+    prisma.salesActivity.findMany(),
+    prisma.user.findMany(),
+    prisma.verticalMarket.findMany(),
+  ])
+
+  return {
+     props: {
+      customer: Customer,
+      group: JSON.parse(JSON.stringify(Group)),
+      mop: MOP,
+      pic: PIC,
+      quotation: Quotation,
+      salesActivity: JSON.parse(JSON.stringify(SalesActivity)),
+      user: JSON.parse(JSON.stringify(User)),
+      verticalMarket: JSON.parse(JSON.stringify(VerticalMarket)),
+    },
+    revalidate: 60
+  }
+}
+
+const Dashboard = ({ customer,group,mop,pic,quotation,salesActivity,user,verticalMarket }) => {
+  // console.log(customer[0]);
+  // console.log(Object.keys(customer[0]))
+
+  const tablistArray = ['Customer', 'Group', 'MOP', 'PIC', 'Quotation', 'SalesActivity', 'User', 'VerticalMarket']
+  const tabListObj = []
+  tablistArray.forEach(value => {
+    tabListObj.push({ name: value })
+  })
+
+  const tabPanelsArray = Object.keys(customer[0]);
+  const filterTxt = []
+  tabPanelsArray.forEach(value =>{filterTxt.push(value.replace("customer_", ""))})
+  const tabPanelObj = []
+  filterTxt.forEach(value => {
+    tabPanelObj.push({ title: value })
+  })
+
+  const contentList = Object.values(customer[0]);
+  const filterContent = contentList.map(value => {
+    if(value === null){
+    return "--";
+    }else{
+    return value;
+    }
+    });
+  const content = []
+  filterContent.forEach(value=> {
+    content.push({content: value})
+  })
+
+
+  console.log(Object.values(customer));
+
   const router = useRouter();
   const { data: session, status } = useSession();
-
+  const [tabList, setTab] = useState(tabListObj);
+  const [whichTable, setWhichTable] = useState(tabPanelObj);
+  const [contentTable, subtable] = useState(content);
+  const [whichTab , setWhichTab] = useState(0)
   if (status === "loading") {
     return <p>Loading...</p>;
   }
@@ -17,63 +84,16 @@ const Dashboard = () => {
     return <p>Access Denied</p>;
   }
 
+  // useEffect(()=>{
+  //   whichTab === 0 ?  setWhichTable(Customer):
+  //   setWhichTable(MOP)
+  // },[whichTab])
+
   return (
     <Layout title="Dashboard" session={session}>
       <Title title="Dashboard" />
-      <section className="flex flex-col gap-10 ">
-        <Neuromorphism whichNeuro={1}>
-          <div className="p-5">
-            <h1 className="font-medium text-3xl mb-1">Overall Report</h1>
-            <div className="flex flex-row justify-between w-full">
-              <div className="grid grid-cols-2 gap-5">
-                <div className="px-10 py-5 shadow-xl border-2 text-center rounded-3xl col-span-2">
-                  <p className="mb-3 text-lg">Total Revenue (USD)</p>
-                  <p className="text-xl">20</p>
-                </div>
-                <div className="text-center">
-                  <p>PO rate</p>
-                  <p>75%</p>
-                </div>
-                <div className="text-center">
-                  <p>Target</p>
-                  <p>Rp. 20</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Neuromorphism>
-        <Neuromorphism whichNeuro={1}>
-          <div className="p-5">
-            <h2 className="font-normal">Top Customers</h2>
-            <div className="flex flex-row justify-between">
-              <table>
-                <thead>
-                  <tr>
-                    <th className="p-5 text-left">Customer Name</th>
-                    <th className="p-5 text-left">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr></tr>
-                </tbody>
-              </table>
-            </div>
-            <h2 className="font-normal mt-5">Top Products</h2>
-            <div>
-              <table>
-                <thead>
-                  <tr>
-                    <th className="p-5 text-left">Customer Name</th>
-                    <th className="p-5 text-left">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </Neuromorphism>
+      <section className="flex flex-col gap-10">
+        <Tab tab={tabList} table={whichTable} subtable={contentTable} setTab={setWhichTab} whichTab={whichTab} />
       </section>
     </Layout>
   );
