@@ -9,6 +9,7 @@ import Neuromorphism from "@/components/Object/Neuromorphism";
 import Button from "@/components/Object/Button";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 interface EditUserProps {
   user: {
@@ -30,6 +31,7 @@ const EditUser = ({ user }: EditUserProps) => {
     setValue,
     formState: { errors },
   }: any = useForm();
+  const { data: session }: any = useSession();
 
   useEffect(() => {
     setValue("user_name", user.user_fullname);
@@ -68,7 +70,7 @@ const EditUser = ({ user }: EditUserProps) => {
     }
   };
   return (
-    <Layout title="Edit User">
+    <Layout session={session} title="Edit User">
       <Title title="Edit User" />
       <section className="w-2/3 mx-auto">
         <Neuromorphism whichNeuro={1}>

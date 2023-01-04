@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }: any) {
       if (user?.user_id) token.id = user.user_id;
-      if (user?.user_email) token.email = user.user_email;
+      if (user?.user_role) token.user_role = user.user_role;
       if (user?.user_code) token.user_code = user.user_code;
       if (user?.user_area) token.user_area = user.user_area;
       if (user?.user_salesActivity)
@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }: any) {
       if (token?.user_id) session.user.id = token.id;
-      if (token?.user_isAdmin) session.user.isAdmin = token.isAdmin;
+      if (token?.user_role) session.user.role = token.user_role;
       if (token?.user_code) session.user.user_code = token.user_code;
       if (token?.user_area) session.user.user_area = token.user_area;
       if (token?.user_salesActivity)

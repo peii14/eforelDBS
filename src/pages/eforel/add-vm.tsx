@@ -39,7 +39,7 @@ const AddVM = () => {
   };
 
   return (
-    <Layout title="Add Vertical Market">
+    <Layout session={session} title="Add Vertical Market">
       <Title title="Add Vertikal Market & Group" />
       <form onSubmit={handleSubmit(submitHandler)}>
         <section>

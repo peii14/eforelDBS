@@ -36,7 +36,7 @@ const SalesActivity = () => {
     getLastUpdate();
   }, []);
   return (
-    <Layout title="Sales Activity">
+    <Layout session={session} title="Sales Activity">
       <Title title="Sales Activity " />
       <section className="gird gird-cols-5 max-w-md">
         <Suspense fallback="Loading...">

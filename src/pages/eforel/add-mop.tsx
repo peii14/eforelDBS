@@ -26,7 +26,7 @@ const AddMOP = () => {
     getValues,
     formState: { errors },
   }: any = useForm();
-  const [mopQuery, setmopQuery] = useState("'-'");
+  const [mopQuery, setmopQuery] = useState("");
 
   useEffect(() => {
     try {
@@ -38,7 +38,7 @@ const AddMOP = () => {
               params: { q: mopQuery, type: "nameOnly" },
             }),
             {
-              pending: "Fetching customer data",
+              pending: "Fetching quotation data",
               success: "Data fethced",
             }
           );
@@ -51,7 +51,7 @@ const AddMOP = () => {
     } catch (err) {
       toast.error(err);
     }
-  }, [mopQuery]);
+  }, [mopQuery.length]);
 
   useEffect(() => {
     const getData = async () => {
@@ -83,7 +83,7 @@ const AddMOP = () => {
   };
 
   return (
-    <Layout title="Add MOP">
+    <Layout session={session} title="Add MOP">
       <Title title="Add MOP" />
       <form onSubmit={handleSubmit(submitHandler)}>
         <section className="flex flex-col space-y-10">

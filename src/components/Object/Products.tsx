@@ -28,6 +28,7 @@ const Products = ({ state = {}, dispatch }: ProductsProps) => {
         <thead className="border-y-2 border-sec sticky">
           <tr>
             <th className="px-5 text-left">Full Name</th>
+            <th className="text-left px-5">Quotation </th>
             <th className="text-left px-5">Quantity</th>
             <th className="text-left px-5">Actions</th>
           </tr>
@@ -40,9 +41,12 @@ const Products = ({ state = {}, dispatch }: ProductsProps) => {
             >
               <td className=" px-5">{item.name}</td>
               <td className="p-5">
+                Rp {Intl.NumberFormat("en-US").format(item.quotationValue)}
+              </td>
+              <td className="p-5">
                 <select
                   value={item.quantity}
-                  className="cursor-pointer p-3 bg-background "
+                  className="cursor-pointer border p-3 bg-background "
                   onChange={(e) => updateCartHandler(item, e.target.value)}
                 >
                   {[...Array.from({ length: 100 }, (_, i) => i + 1)].map(

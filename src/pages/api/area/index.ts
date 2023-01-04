@@ -20,7 +20,7 @@ export default async function handler(
     else if(req.method === "POST")
     {
         const {body: data} = req;
-        console.log(data);
+
         const newComp = await prisma.area.create({data});
         return res.status(201).send(newComp)
     }

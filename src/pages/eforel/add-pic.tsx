@@ -64,7 +64,7 @@ const AddPIC = () => {
     }
   };
   return (
-    <Layout title="Add PIC">
+    <Layout session={session} title="Add PIC">
       <Title title="Add PIC" />
       <form onSubmit={handleSubmit(submitHandler)}>
         <section className="grid grid-cols-3 gap-10 ">

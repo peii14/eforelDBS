@@ -18,7 +18,7 @@ const Dashboard = () => {
   }
 
   return (
-    <Layout title="Dashboard" session={true}>
+    <Layout title="Dashboard" session={session}>
       <Title title="Dashboard" />
       <section className="flex flex-col gap-10 ">
         <Neuromorphism whichNeuro={1}>

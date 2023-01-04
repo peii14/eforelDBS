@@ -10,14 +10,14 @@ import Button from "@/components/Object/Button";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const settings = ({ user }) => {
   const router = useRouter();
   const json = JSON.parse(user);
   const [users, setUsers] = useState(json);
-  useEffect(() => {
-    console.log(users);
-  }, []);
+
+  const { data: session }: any = useSession();
 
   const addHandler = async () => {
     try {
@@ -51,7 +51,7 @@ const settings = ({ user }) => {
     }
   };
   return (
-    <Layout title="Settings">
+    <Layout session={session} title="Settings">
       <Title title="Settings" />
       <section className="flex flex-row justify-around py-5">
         <div onClick={() => addHandler()} className="basis-1/4">
@@ -138,5 +138,5 @@ export async function getStaticProps(context) {
     revalidate: 10,
   };
 }
-
+settings.auth = true;
 export default settings;

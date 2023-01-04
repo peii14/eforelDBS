@@ -5,19 +5,17 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSession } from "next-auth/react";
 
 type Props = {
   children?: ReactNode;
   title?: string;
-  session?: boolean;
+  session: any;
 };
 
-const Layout = ({ children, title = "Eforel" }: Props) => {
-  const { status, data: session } = useSession();
-
+const Layout = ({ children, title = "Eforel", session }: Props) => {
+  console.log(session);
   return (
-    <div className="">
+    <>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -28,28 +26,26 @@ const Layout = ({ children, title = "Eforel" }: Props) => {
           rtl={false}
           autoClose={3000}
           position="bottom-center"
-          limit={5}
+          limit={1}
           pauseOnFocusLoss
         />
-        {/* <Suspense fallback="Loading..."> */}
+
         <div className=" min-h-screen flex flex-row  gap-16">
           <header
             className={`basis-1/12 ${session && children ? "block" : "hidden"}`}
           >
-            <Navbar />
+            <Navbar role={session ? Number(session.user.role) : null} />
           </header>
-          <div
-            className={`basis-5/6 p-10 min-h-screen overflow-y-hidden`}
-          >
-            <main className="">{children}</main>
-          </div>
+          <main className={`basis-5/6 p-10 min-h-screen overflow-y-hidden`}>
+            {children}
+          </main>
         </div>
-        {/* </Suspense> */}
+
         <footer>
           <Footer />
         </footer>
       </div>
-    </div>
+    </>
   );
 };
 
