@@ -1,4 +1,4 @@
-import React, { ReactNode, Suspense } from "react";
+import React, { ReactNode, Suspense, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import Navbar from "./navbar";
@@ -13,6 +13,9 @@ type Props = {
 };
 
 const Layout = ({ children, title = "Eforel", session }: Props) => {
+  const [onHover, setHover] = useState(false);
+  const [height, setHeight]: any = useState(0);
+
   return (
     <>
       <Head>
@@ -29,13 +32,31 @@ const Layout = ({ children, title = "Eforel", session }: Props) => {
           pauseOnFocusLoss
         />
 
-        <div className=" min-h-screen flex flex-row  gap-16">
+        <div className=" min-h-screen flex flex-row justify-between mr-10 space-x-16">
           <header
-            className={`basis-1/12 ${session && children ? "block" : "hidden"}`}
+            className={`hover:basis-1/12 basis-0 duration-300 ${
+              session && children ? "block" : "hidden"
+            }`}
+            onMouseEnter={() => {
+              setHover(!onHover);
+              setHeight(20);
+            }}
+            onMouseLeave={() => {
+              setHover(!onHover);
+              setHeight(0);
+            }}
           >
-            <Navbar role={session ? Number(session.user.role) : null} />
+            <Navbar
+              isOpen={onHover}
+              height={height}
+              role={session ? Number(session.user.role) : null}
+            />
           </header>
-          <main className={`basis-5/6 p-10 min-h-screen overflow-y-hidden`}>
+          <main
+            className={`duration-300  ${
+              onHover ? "basis-10/12" : "basis-11/12"
+            } py-10 min-h-screen overflow-y-hidden`}
+          >
             {children}
           </main>
         </div>

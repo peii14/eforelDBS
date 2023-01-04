@@ -21,7 +21,7 @@ export default function Tabs({
   setTab,
 }: TabsProps) {
   return (
-    <div className="w-full px-2 sm:px-0">
+    <div className="w-full p-5 sm:px-0">
       <Tab.Group
         onChange={(index) => {
           setTab(index);
@@ -71,22 +71,6 @@ export default function Tabs({
               ))}
             </tbody>
           </table>
-          {/* <table className="w-full mt-2">
-            <tbody className="border-y-2 border-sec sticky flex justify-center items-center">
-              {table.map((category, idx) => (
-                  <tr>
-                    <td>
-                      <Tab
-                        key={idx}
-                        className="px-4"
-                        >
-                          {category.title}
-                      </Tab>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table> */}
         </Tab.Panels>
       </Tab.Group>
     </div>

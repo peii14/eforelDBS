@@ -119,18 +119,21 @@ const Dashboard = ({
     <Layout title="Dashboard" session={session}>
       <Title title="Dashboard" />
       <section className="">
-        <Tabs
-          tab={tabList}
-          table={whichTable}
-          contents={whichContent}
-          setTab={setWhichTab}
-          whichTab={whichTab}
-        />
+        <Neuromorphism whichNeuro={1}>
+          <Tabs
+            tab={tabList}
+            table={whichTable}
+            contents={whichContent}
+            setTab={setWhichTab}
+            whichTab={whichTab}
+          />
+        </Neuromorphism>
       </section>
     </Layout>
   );
 };
 export async function getStaticProps() {
+  const prisma = new PrismaClient();
   const [
     Customer,
     Group,
