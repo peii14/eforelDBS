@@ -13,7 +13,6 @@ type Props = {
 };
 
 const Layout = ({ children, title = "Eforel", session }: Props) => {
-  console.log(session);
   return (
     <>
       <Head>

@@ -14,7 +14,6 @@ const Products = ({ state = {}, dispatch }: ProductsProps) => {
   } = state;
   const updateCartHandler = async (item, qty) => {
     const quantity = Number(qty);
-    // const { data } = await axios.get(`/api/products/${item._id}`);
 
     dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
     toast.success("Product updated in the cart");
@@ -39,7 +38,7 @@ const Products = ({ state = {}, dispatch }: ProductsProps) => {
               key={item.name}
               className="border-b-2 border-sec border-double border-opacity-20"
             >
-              <td className=" px-5">{item.name}</td>
+              <td className="px-5">{item.name}</td>
               <td className="p-5">
                 Rp {Intl.NumberFormat("en-US").format(item.quotationValue)}
               </td>

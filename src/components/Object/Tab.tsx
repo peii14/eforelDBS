@@ -1,38 +1,43 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
 
-interface ExampleProps {
-  readonly tab?: any;
-  readonly table?: any;
-  readonly subtable?: any;
-  whichTab?: number
-  setTab?: Dispatch<SetStateAction<number>>
+interface TabsProps {
+  readonly tab: any;
+  readonly table: any;
+  readonly contents: any;
+  whichTab: number;
+  setTab: Dispatch<SetStateAction<number>>;
 }
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example({ table,subtable, tab, whichTab, setTab }: ExampleProps) {
+export default function Tabs({
+  table,
+  contents,
+  tab,
+  whichTab,
+  setTab,
+}: TabsProps) {
   return (
-    // space-x-1 apus dr div
-    <div className="w-full px-2 py-16 sm:px-0">
+    <div className="w-full px-2 sm:px-0">
       <Tab.Group
-      onChange={(index) => {
-       setTab(index)
-      }}
+        onChange={(index) => {
+          setTab(index);
+        }}
       >
-        <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-          {tab.map((category,idx) => (
+        <Tab.List className="flex space-x-3 rounded-xl bg-primary p-1">
+          {tab.map((category, idx) => (
             <Tab
               key={idx}
               className={({ selected }) =>
                 classNames(
-                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
-                  "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
+                  "ring-white ring-opacity-60 duration-200 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                   selected
-                    ? "bg-white shadow"
-                    : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                    ? "bg-background text-black"
+                    : "text-forth hover:bg-background hover:text-black"
                 )
               }
             >
@@ -40,24 +45,29 @@ export default function Example({ table,subtable, tab, whichTab, setTab }: Examp
             </Tab>
           ))}
         </Tab.List>
-        <Tab.Panels className="mt-2">
+        <Tab.Panels className="mt-2 overflow-scroll">
           <table className="w-full">
-            <thead className="border-y-2 border-sec sticky flex justify-start items-center">
-              {table.map((category, idx) => (
-            <th key={idx}
-            className="px-9 font-bold">
-                {category.title}
-              </th>
-              ))}
+            <thead className="border-y-2 border-sec sticky">
+              <tr>
+                {table.map((category, idx) => (
+                  <th key={idx} scope="col" className="px-5 font-bold">
+                    {category.title}
+                  </th>
+                ))}
+              </tr>
             </thead>
-            <tbody className="flex justify-start items-center">
-              {subtable.map((category, idx) => (
-                <Tab
-                  key={idx}
-                  className="mx-9"
-                  >
-                    {category.content}
-                </Tab>
+            <tbody className="text-center">
+              {[...Array(contents.length)].map((_, i) => (
+                <tr
+                  className="border-b-2 border-opacity-20 border-sec border-double "
+                  key={i}
+                >
+                  {Object.values(contents[i]).map((obj, id) => (
+                    <td key={id} className="px-5 w-10 ">
+                      {obj ? obj : "--"}
+                    </td>
+                  ))}
+                </tr>
               ))}
             </tbody>
           </table>
