@@ -1,13 +1,43 @@
 import Layout from "@/components/Layout";
 import Title from "@/components/Layout/Title";
 import Neuromorphism from "@/components/Object/Neuromorphism";
+import Tabs from "@/components/Object/Tab";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { PrismaClient } from "@prisma/client";
+// import { getStaticProps } from "./sales-activity";
 
-const Dashboard = () => {
+const Dashboard = ({
+  customer,
+  group,
+  mop,
+  pic,
+  quotation,
+  salesActivity,
+  user,
+  verticalMarket,
+}) => {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [tabList, setTab] = useState([
+    { name: "Customer" },
+    { name: "Group" },
+    { name: "MOP" },
+    { name: "PIC" },
+    { name: "Quotation" },
+    { name: "Sales Activity" },
+    { name: "User" },
+    { name: "Vertical Market" },
+  ]);
 
+  const [whichTable, setWhichTable] = useState(
+    Object.keys(customer[0]).map((keys) => ({
+      title: keys.split("_")[1],
+    }))
+  );
+  const [whichTab, setWhichTab] = useState(0);
+  const [whichContent, setWhichContent] = useState([]);
   if (status === "loading") {
     return <p>Loading...</p>;
   }
@@ -16,68 +46,125 @@ const Dashboard = () => {
     router.push("/");
     return <p>Access Denied</p>;
   }
+  useEffect(() => {
+    switch (whichTab) {
+      case 0:
+        setWhichTable(
+          Object.keys(customer[0]).map((keys) => ({
+            title: keys.split("_")[1],
+          }))
+        );
+        setWhichContent(customer);
+        break;
+      case 1:
+        setWhichTable(
+          Object.keys(group[0]).map((keys) => ({
+            title: keys.split("_")[1],
+          }))
+        );
+        setWhichContent(group);
+        break;
+      case 2:
+        setWhichTable(
+          Object.keys(mop[0]).map((keys) => ({
+            title: keys.split("_")[1],
+          }))
+        );
+        setWhichContent(mop);
+        break;
+      case 3:
+        setWhichTable(
+          Object.keys(pic[0]).map((keys) => ({
+            title: keys.split("_")[1],
+          }))
+        );
+        setWhichContent(pic);
+        break;
+      case 4:
+        setWhichTable(
+          Object.keys(quotation[0]).map((keys) => ({
+            title: keys.split("_")[1],
+          }))
+        );
+        setWhichContent(quotation);
+        break;
+      case 5:
+        setWhichTable(
+          Object.keys(salesActivity[0]).map((keys) => ({
+            title: keys.split("_")[1],
+          }))
+        );
+        setWhichContent(salesActivity);
+        break;
+      case 6:
+        setWhichTable(
+          Object.keys(user[0]).map((keys) => ({
+            title: keys.split("_")[1],
+          }))
+        );
+        setWhichContent(user);
+        break;
+      case 7:
+        setWhichTable(
+          Object.keys(verticalMarket[0]).map((keys) => ({
+            title: keys.split("_")[1],
+          }))
+        );
+        setWhichContent(verticalMarket);
+        break;
+    }
+  }, [whichTab]);
 
   return (
-    <Layout title="Dashboard" session={true}>
+    <Layout title="Dashboard" session={session}>
       <Title title="Dashboard" />
-      <section className="flex flex-col gap-10 ">
-        <Neuromorphism whichNeuro={1}>
-          <div className="p-5">
-            <h1 className="font-medium text-3xl mb-1">Overall Report</h1>
-            <div className="flex flex-row justify-between w-full">
-              <div className="grid grid-cols-2 gap-5">
-                <div className="px-10 py-5 shadow-xl border-2 text-center rounded-3xl col-span-2">
-                  <p className="mb-3 text-lg">Total Revenue (USD)</p>
-                  <p className="text-xl">20</p>
-                </div>
-                <div className="text-center">
-                  <p>PO rate</p>
-                  <p>75%</p>
-                </div>
-                <div className="text-center">
-                  <p>Target</p>
-                  <p>Rp. 20</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Neuromorphism>
-        <Neuromorphism whichNeuro={1}>
-          <div className="p-5">
-            <h2 className="font-normal">Top Customers</h2>
-            <div className="flex flex-row justify-between">
-              <table>
-                <thead>
-                  <tr>
-                    <th className="p-5 text-left">Customer Name</th>
-                    <th className="p-5 text-left">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr></tr>
-                </tbody>
-              </table>
-            </div>
-            <h2 className="font-normal mt-5">Top Products</h2>
-            <div>
-              <table>
-                <thead>
-                  <tr>
-                    <th className="p-5 text-left">Customer Name</th>
-                    <th className="p-5 text-left">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </Neuromorphism>
+      <section className="">
+        <Tabs
+          tab={tabList}
+          table={whichTable}
+          contents={whichContent}
+          setTab={setWhichTab}
+          whichTab={whichTab}
+        />
       </section>
     </Layout>
   );
 };
+export async function getStaticProps() {
+  const [
+    Customer,
+    Group,
+    MOP,
+    PIC,
+    Quotation,
+    SalesActivity,
+    User,
+    VerticalMarket,
+  ] = await Promise.all([
+    prisma.customer.findMany(),
+    prisma.group.findMany(),
+    prisma.mOP.findMany(),
+    prisma.pIC.findMany(),
+    prisma.quotation.findMany(),
+    prisma.salesActivity.findMany(),
+    prisma.user.findMany(),
+    prisma.verticalMarket.findMany(),
+  ]);
+
+  return {
+    props: {
+      customer: Customer,
+      group: JSON.parse(JSON.stringify(Group)),
+      mop: MOP,
+      pic: PIC,
+      quotation: Quotation,
+      salesActivity: JSON.parse(JSON.stringify(SalesActivity)),
+      user: JSON.parse(JSON.stringify(User)),
+      verticalMarket: JSON.parse(JSON.stringify(VerticalMarket)),
+    },
+    revalidate: 60,
+  };
+}
 
 Dashboard.auth = true;
 export default Dashboard;

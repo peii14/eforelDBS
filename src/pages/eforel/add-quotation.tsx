@@ -21,7 +21,7 @@ const AddQuotation = () => {
   let [pic_name, setPICNames]: any = useState([{}]);
   const [whichCustomer, setCustomer] = useState(customer_name[0]);
   const [whichPIC, setPIC] = useState(pic_name[0]);
-
+  const [value, setValue] = useState(0);
   const { data: session }: any = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -74,8 +74,12 @@ const AddQuotation = () => {
     const quantity = existItem
       ? existItem.quantity + 1
       : Number(getValues("quotation_qty"));
+    const quotationValue = Number(getValues("Quotation_value"));
 
-    dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+    dispatch({
+      type: "CART_ADD_ITEM",
+      payload: { ...product, quantity, quotationValue },
+    });
   };
 
   const submitHandler = async ({ vertical_market, group }) => {
@@ -90,8 +94,15 @@ const AddQuotation = () => {
     }
     toast.success("Customer has been added");
   };
+  const addCommas = (num) =>
+    num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const removeNonNumeric = (num) => num.toString().replace(/[^0-9]/g, "");
+
+  const handleComma = (event) =>
+    setValue(addCommas(removeNonNumeric(event.target.value)));
+
   return (
-    <Layout title="Add Quotation">
+    <Layout session={session} title="Add Quotation">
       <Title title="Add Quotation" />
       <form onSubmit={handleSubmit(submitHandler)}>
         <section className="flex flex-col space-y-10">
@@ -212,6 +223,8 @@ const AddQuotation = () => {
                     required: "Please enter Quotation Value",
                   })}
                   className="px-2 w-full"
+                  onChange={handleComma}
+                  value={value}
                 />
                 {errors.quotation_value && (
                   <div className="text-red-500">

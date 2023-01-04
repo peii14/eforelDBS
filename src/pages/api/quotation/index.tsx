@@ -43,4 +43,5 @@ export default async function handler(
     const quotation = await prisma.quotation.create({ data });
     return res.status(201).send(quotation);
   }
+  res.status(201).end();
 }

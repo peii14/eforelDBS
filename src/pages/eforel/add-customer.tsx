@@ -68,7 +68,7 @@ const AddCustomer = ({ vertical_marketJSON }: AddCustomerProps) => {
   };
 
   return (
-    <Layout title="Add Customer">
+    <Layout session={session} title="Add Customer">
       <Title title="Add New Customer" />
       <form className="w-full" onSubmit={handleSubmit(submitHandler)}>
         <div className="grid grid-cols-3 gap-10">

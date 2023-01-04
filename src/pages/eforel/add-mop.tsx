@@ -26,7 +26,7 @@ const AddMOP = () => {
     getValues,
     formState: { errors },
   }: any = useForm();
-  const [mopQuery, setmopQuery] = useState("'-'");
+  const [mopQuery, setmopQuery] = useState("");
 
   useEffect(() => {
     try {
@@ -38,7 +38,7 @@ const AddMOP = () => {
               params: { q: mopQuery, type: "nameOnly" },
             }),
             {
-              pending: "Fetching customer data",
+              pending: "Fetching quotation data",
               success: "Data fethced",
             }
           );
@@ -51,25 +51,34 @@ const AddMOP = () => {
     } catch (err) {
       toast.error(err);
     }
-  }, [mopQuery]);
+  }, [mopQuery.length]);
 
   useEffect(() => {
-    const getData = async () => {
-      if (whichMOP.customer && whichMOP.customer.length != 0) {
-        const group = await toast.promise(
-          axios.get("/api/group", {
-            params: { id: 2 },
-          }),
-          {
-            pending: "Fetching Group",
-          }
-        );
-        setWhichGroup(group.data);
-      } else {
-        setWhichGroup(null);
+    try{
+
+      if(mop.length != 0 && mop[0].customer.customer_groupID != null){
+        console.log(mop[0].customer.customer_groupID)
+        const getData = async () => {
+          if (whichMOP.customer && whichMOP.customer.length != 0) {
+            const group = await toast.promise(
+              axios.get("/api/group", {
+                params: { id:  mop[0].customer.customer_groupID },
+              }),
+              {
+                pending: "Fetching Group",
+              }
+              );
+              setWhichGroup(group.data);
+            } else {
+              setWhichGroup(null);
+            }
+          };
+          getData();
+        }
+      }catch(error){
+        console.log("kontol")
       }
-    };
-    getData();
+
   }, [whichMOP]);
 
   const submitHandler = async ({ vertical_market, group }) => {
@@ -83,7 +92,7 @@ const AddMOP = () => {
   };
 
   return (
-    <Layout title="Add MOP">
+    <Layout session={session} title="Add MOP">
       <Title title="Add MOP" />
       <form onSubmit={handleSubmit(submitHandler)}>
         <section className="flex flex-col space-y-10">

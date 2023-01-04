@@ -87,7 +87,7 @@ const Activites = ({ path = "", activities, customers }: ActivitiesProps) => {
   };
 
   return (
-    <Layout title="New Activities">
+    <Layout session={session} title="New Activities">
       <Title title="New Activities" />
       <form
         className="flex flex-row justify-around"

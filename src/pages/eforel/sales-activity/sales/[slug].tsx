@@ -9,7 +9,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
+import { useSession } from "next-auth/react";
 interface UserProps {
   readonly query?: string;
   users: {
@@ -32,6 +32,7 @@ const Users = ({ query, users }: UserProps) => {
     payloads: [],
     error: "",
   });
+  const { data: session }: any = useSession();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,7 +79,7 @@ const Users = ({ query, users }: UserProps) => {
   };
 
   return (
-    <Layout title="Sales Activity">
+    <Layout session={session} title="Sales Activity">
       <Title title="Sales" />
       <section className="flex flex-row space-x-10">
         <h1 className="text-5xl">{users.user_fullname}</h1>
