@@ -4,6 +4,7 @@ import { Tab } from "@headlessui/react";
 interface ExampleProps {
   readonly tab?: any;
   readonly table?: any;
+  readonly subtable?: any;
   whichTab?: number
   setTab?: Dispatch<SetStateAction<number>>
 }
@@ -12,7 +13,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example({ table, tab, whichTab, setTab }: ExampleProps) {
+export default function Example({ table,subtable, tab, whichTab, setTab }: ExampleProps) {
   return (
     // space-x-1 apus dr div
     <div className="w-full px-2 py-16 sm:px-0">
@@ -41,17 +42,23 @@ export default function Example({ table, tab, whichTab, setTab }: ExampleProps) 
         </Tab.List>
         <Tab.Panels className="mt-2">
           <table className="w-full">
-            <thead className="border-y-2 border-sec sticky flex justify-center items-center">
+            <thead className="border-y-2 border-sec sticky flex justify-start items-center">
               {table.map((category, idx) => (
-                <Tab
-                  key={idx}
-                  className="px-4 font-bold"
-                  >
-                    {category.title}
-                </Tab>
+            <th key={idx}
+            className="px-9 font-bold">
+                {category.title}
+              </th>
               ))}
             </thead>
-            <tbody>
+            <tbody className="flex justify-start items-center">
+              {subtable.map((category, idx) => (
+                <Tab
+                  key={idx}
+                  className="mx-9"
+                  >
+                    {category.content}
+                </Tab>
+              ))}
             </tbody>
           </table>
           {/* <table className="w-full mt-2">

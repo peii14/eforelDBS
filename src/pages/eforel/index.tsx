@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { PrismaClient } from "@prisma/client";
 // import { getStaticProps } from "./sales-activity";
 
-export async function getServerSideProps(){
+export async function getStaticProps(){
   const [Customer, Group, MOP, PIC, Quotation, SalesActivity, User, VerticalMarket] =  await Promise.all([
     prisma.customer.findMany(),
     prisma.group.findMany(),
@@ -30,7 +30,8 @@ export async function getServerSideProps(){
       salesActivity: JSON.parse(JSON.stringify(SalesActivity)),
       user: JSON.parse(JSON.stringify(User)),
       verticalMarket: JSON.parse(JSON.stringify(VerticalMarket)),
-    }
+    },
+    revalidate: 60
   }
 }
 
@@ -52,12 +53,27 @@ const Dashboard = ({ customer,group,mop,pic,quotation,salesActivity,user,vertica
     tabPanelObj.push({ title: value })
   })
 
-  console.log(tabPanelObj)
+  const contentList = Object.values(customer[0]);
+  const filterContent = contentList.map(value => {
+    if(value === null){
+    return "--";
+    }else{
+    return value;
+    }
+    });
+  const content = []
+  filterContent.forEach(value=> {
+    content.push({content: value})
+  })
+
+
+  console.log(Object.values(customer));
 
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [tabList, setTab] = useState(tabListObj)
-  const [whichTable, setWhichTable] = useState(tabPanelObj)
+  const [tabList, setTab] = useState(tabListObj);
+  const [whichTable, setWhichTable] = useState(tabPanelObj);
+  const [contentTable, subtable] = useState(content);
   const [whichTab , setWhichTab] = useState(0)
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -77,32 +93,11 @@ const Dashboard = ({ customer,group,mop,pic,quotation,salesActivity,user,vertica
     <Layout title="Dashboard" session={true}>
       <Title title="Dashboard" />
       <section className="flex flex-col gap-10">
-        <Tab tab={tabList} table={whichTable} setTab={setWhichTab} whichTab={whichTab} />
+        <Tab tab={tabList} table={whichTable} subtable={contentTable} setTab={setWhichTab} whichTab={whichTab} />
       </section>
     </Layout>
   );
 };
-
-// export async function getStaticProps() {
-//   const prisma = new PrismaClient()
-//   const [Customer, MOP, Quotation] =  await Promise.all([prisma.customer.findMany({include:{
-//     VerticalMarket:{
-//       select:{
-//         verticalMarket_name: true,
-//       }
-//     }
-//   }}) ,prisma.mOP.findMany({select:{
-
-//   }}),prisma.quotation.findMany({})])
-
-//   return {
-//     props: {
-
-//     },
-//     revalidate: 15,
-//   }
-// }
-
 
 Dashboard.auth = true;
 export default Dashboard;
