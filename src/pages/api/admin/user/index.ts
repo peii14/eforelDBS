@@ -1,7 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import * as argon2 from "argon2";
+import { getSession } from "next-auth/react";
 
 const handler = async(req: NextApiRequest, res: NextApiResponse) =>{
+    const session: any = await getSession({ req });
+    if (!session || (session && session.user.role === 3)) {
+        return res.status(401).send("signin required");
+      }
+
     if(req.method === "GET"){
         const users = await prisma.user.findMany({})
         return res.status(200).send(users)
