@@ -39,9 +39,7 @@ const Products = ({ state = {}, dispatch }: ProductsProps) => {
               className="border-b-2 border-sec border-double border-opacity-20"
             >
               <td className="px-5">{item.name}</td>
-              <td className="p-5">
-                Rp {Intl.NumberFormat("en-US").format(item.quotationValue)}
-              </td>
+              <td className="p-5">Rp {item.quotationValue}</td>
               <td className="p-5">
                 <select
                   value={item.quantity}
@@ -65,12 +63,10 @@ const Products = ({ state = {}, dispatch }: ProductsProps) => {
                 </Link>
                 <button
                   onClick={() => removeItemHandler(item)}
-                  className="default-button"
                   type="button"
+                  className="ml-3 border-2 duration-300 hover:bg-primary-400 border-primary rounded-full px-3 py-1"
                 >
-                  <div className="ml-3 border-2 duration-300 hover:bg-primary-400 border-primary rounded-full px-3 py-1">
-                    Delete
-                  </div>
+                  Delete
                 </button>
               </td>
             </tr>
