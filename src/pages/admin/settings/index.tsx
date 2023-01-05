@@ -19,11 +19,14 @@ const settings = ({ user }) => {
 
   const { data: session }: any = useSession();
 
+  useEffect(() => {}, []);
+
   const addHandler = async () => {
     try {
       const addUser = await toast.promise(axios.post("/api/admin/user"), {
         pending: "Creating user",
         success: "New user has been created",
+        error: "Please change default user",
       });
       router.push(`/admin/settings/edit-user/${addUser.data.user_code}`);
     } catch (error) {
@@ -135,7 +138,6 @@ export async function getStaticProps(context) {
     props: {
       user: JSON.stringify(Object.values(user)),
     },
-    revalidate: 10,
   };
 }
 settings.auth = true;

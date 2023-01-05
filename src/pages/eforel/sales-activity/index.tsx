@@ -69,10 +69,5 @@ const SalesActivity = () => {
   );
 };
 
-export async function getStaticProps(context) {
-  return {
-    props: {},
-  };
-}
 SalesActivity.auth = true;
 export default SalesActivity;

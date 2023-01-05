@@ -133,7 +133,9 @@ const Navbar = ({ role, isOpen, height }: NavbarProps) => {
           {(role === 1 || role === 2) && (
             <li
               className={`${
-                asPath === "/admin/settings" ? "bg-primary text-white" : ""
+                asPath.includes("/admin/settings")
+                  ? "bg-primary text-white"
+                  : ""
               } cursor-pointer hover:bg-primary hover:text-white duration-300 px-3 py-2 rounded-xl`}
             >
               <Link href={"/admin/settings"}>

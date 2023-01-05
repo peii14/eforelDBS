@@ -64,7 +64,7 @@ const EditUser = ({ user }: EditUserProps) => {
           success: "Customer added",
         }
       );
-      router.push("/admin/settings/edit-user");
+      router.push("/admin/settings");
     } catch (err) {
       toast.error(getError(err));
     }

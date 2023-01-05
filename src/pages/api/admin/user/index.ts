@@ -11,7 +11,9 @@ const handler = async(req: NextApiRequest, res: NextApiResponse) =>{
                 user_id: Number(req.query.id)
             }
         })
-        return res.status(200)
+        res.revalidate('/admin/settings')
+        res.json({ revalidated: true })
+        return res.status(200).end()
     }else if(req.method === "POST"){
         try{
             const user = await prisma.user.create({
@@ -24,13 +26,15 @@ const handler = async(req: NextApiRequest, res: NextApiResponse) =>{
                     user_code: "00",
                 },
             });
+            res.revalidate('/admin/settings')
             return res.status(200).send(user)
         }catch(error){
             return res.status(500).send(error)
         }
     } else if(req.method === "PUT"){
         const {user_name , user_email,user_area, user_code, user_role, user_password} = req.body
-        const user = await prisma.user.update({
+        try{
+            const user = await prisma.user.update({
                 where:{
                     user_email:"default@gmail.com",
                 },
@@ -41,14 +45,15 @@ const handler = async(req: NextApiRequest, res: NextApiResponse) =>{
                     user_password: await argon2.hash(user_password),
                     user_code: user_code,
                     user_role: Number(user_role)
-                    }
-                })
-
-        
-        return res.status(200)
+                }
+            })
+            res.revalidate('/admin/settings')
+            res.json({ revalidated: true })
+            return res.status(200).end()
+        }catch(error){
+            return res.status(500).end()
+        }
     }
-       
-    return res.status(200)
 }
 
 export default handler
