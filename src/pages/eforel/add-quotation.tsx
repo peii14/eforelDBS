@@ -74,7 +74,7 @@ const AddQuotation = () => {
     const quantity = existItem
       ? existItem.quantity + 1
       : Number(getValues("quotation_qty"));
-    const quotationValue = Number(getValues("Quotation_value"));
+    const quotationValue = getValues("Quotation_value");
 
     dispatch({
       type: "CART_ADD_ITEM",
