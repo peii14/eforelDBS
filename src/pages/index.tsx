@@ -43,77 +43,77 @@ export default function LoginScreen() {
     }
   };
   return (
-    <Layout title={"Login"} session={false}>
-      <div className="flex h-screen -mt-16 w-screen">
-        <div className="m-auto w-1/3">
-          <Neuromorphism whichNeuro={1}>
-            <form
-              className="mx-auto max-w-screen-md p-5 text-secondary"
-              onSubmit={handleSubmit(submitHandler)}
-            >
-              <h1 className="mb-4 font-semibold text-4xl text-center">Login</h1>
-              <div className="mb-4">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  {...register("email", {
-                    required: "Please enter email",
-                    pattern: {
-                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/i,
-                      message: "Please enter valid email",
-                    },
-                  })}
-                  className={`w-full px-1 py-0.5 text-black ${
-                    errors.email ? "ring-1 ring-red-600" : ""
-                  }`}
-                  id="email"
-                  autoFocus
-                ></input>
-                {errors.email && (
-                  <div className="text-red-600 font-bold  p-1 w-max">
-                    <p className="text-sm">{errors.email.message}</p>
-                  </div>
-                )}
-              </div>
-              <div className="mb-4">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  {...register("password", {
-                    required: "Please enter password",
-                    minLength: {
-                      value: 6,
-                      message: "password is more than 5 chars",
-                    },
-                  })}
-                  className={`w-full px-1 py-0.5 text-black ${
-                    errors.password ? "ring-1 ring-red-600" : ""
-                  }`}
-                  id="password"
-                  autoFocus
-                ></input>
-                {errors.password && (
-                  <div className=" text-red-600 font-bold  p-1 w-max ">
-                    <p className="text-sm">{errors.password.message}</p>
-                  </div>
-                )}
-              </div>
-              <div className="mb-4">
-                <Link href={`/ForgotPassword?redirect=${redirect || "/"}`}>
-                  <p className="font-light text-sm cursor-pointer">
-                    Forgot Password
-                  </p>
-                </Link>
-              </div>
-              <div className="mb-4 ">
-                <button className="primary-button">
-                  <Button btn={"Login"} />
-                </button>
-              </div>
-            </form>
-          </Neuromorphism>
-        </div>
+    // <Layout title={"Login"} session={false}>
+    <div className="flex h-screen -mt-16 w-screen">
+      <div className="m-auto w-1/3">
+        <Neuromorphism whichNeuro={1}>
+          <form
+            className="mx-auto max-w-screen-md p-5 text-secondary"
+            onSubmit={handleSubmit(submitHandler)}
+          >
+            <h1 className="mb-4 font-semibold text-4xl text-center">Login</h1>
+            <div className="mb-4">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                {...register("email", {
+                  required: "Please enter email",
+                  pattern: {
+                    value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/i,
+                    message: "Please enter valid email",
+                  },
+                })}
+                className={`w-full px-1 py-0.5 text-black ${
+                  errors.email ? "ring-1 ring-red-600" : ""
+                }`}
+                id="email"
+                autoFocus
+              ></input>
+              {errors.email && (
+                <div className="text-red-600 font-bold  p-1 w-max">
+                  <p className="text-sm">{errors.email.message}</p>
+                </div>
+              )}
+            </div>
+            <div className="mb-4">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                {...register("password", {
+                  required: "Please enter password",
+                  minLength: {
+                    value: 6,
+                    message: "password is more than 5 chars",
+                  },
+                })}
+                className={`w-full px-1 py-0.5 text-black ${
+                  errors.password ? "ring-1 ring-red-600" : ""
+                }`}
+                id="password"
+                autoFocus
+              ></input>
+              {errors.password && (
+                <div className=" text-red-600 font-bold  p-1 w-max ">
+                  <p className="text-sm">{errors.password.message}</p>
+                </div>
+              )}
+            </div>
+            <div className="mb-4">
+              <Link href={`/ForgotPassword?redirect=${redirect || "/"}`}>
+                <p className="font-light text-sm cursor-pointer">
+                  Forgot Password
+                </p>
+              </Link>
+            </div>
+            <div className="mb-4 ">
+              <button className="primary-button">
+                <Button btn={"Login"} />
+              </button>
+            </div>
+          </form>
+        </Neuromorphism>
       </div>
-    </Layout>
+    </div>
+    // </Layout>
   );
 }

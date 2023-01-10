@@ -50,20 +50,23 @@ export default function Tabs({
             <thead className="border-y-2 border-sec sticky">
               <tr>
                 {table.map((category, idx) => (
-                  <th key={idx} scope="col" className="px-5 font-bold">
+                  <th key={idx} scope="col" className="px-5 font-bold border-x border-primary opacity-60">
                     {category.title}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="text-center">
+            <tbody className="">
               {[...Array(contents.length)].map((_, i) => (
                 <tr
                   className="border-b-2 border-opacity-20 border-sec border-double "
                   key={i}
                 >
                   {Object.values(contents[i]).map((obj, id) => (
-                    <td key={id} className="px-5 w-10 ">
+                    <td
+                      key={id}
+                      className="px-5 w-max border-x border-primary  "
+                    >
                       {obj ? obj : "--"}
                     </td>
                   ))}
