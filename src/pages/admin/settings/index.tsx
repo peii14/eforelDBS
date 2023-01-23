@@ -19,7 +19,7 @@ const settings = ({ user }) => {
 
   const { data: session }: any = useSession();
 
-  useEffect(() => {}, []);
+
 
   const addHandler = async () => {
     try {

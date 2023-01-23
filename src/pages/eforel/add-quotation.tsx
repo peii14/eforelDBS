@@ -85,14 +85,14 @@ const AddQuotation = () => {
   const submitHandler = async ({ vertical_market, group }) => {
     try {
       const salesCode = session.user.user_code;
-      await axios.post("/api/vertical_market", {
+      await axios.post("/api/quotation", {
         cust_name: vertical_market,
         cust_code: group,
       });
     } catch (err) {
       toast.error(getError(err));
     }
-    toast.success("Customer has been added");
+    toast.success("Quotation added");
   };
   const addCommas = (num) =>
     num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

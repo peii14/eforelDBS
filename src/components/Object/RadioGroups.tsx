@@ -42,7 +42,7 @@ const RadioGroups = ({
   selectedGroup,
 }: RadioGroupsProps) => {
   useEffect(() => {
-    if (plans[0].Group) {
+    if (plans[0] && plans[0].Group) {
       setSelectedGroup(null);
     }
   }, [selected]);

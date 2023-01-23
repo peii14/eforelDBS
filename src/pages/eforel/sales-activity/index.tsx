@@ -20,18 +20,25 @@ const SalesActivity = () => {
 
   useEffect(() => {
     const getLastUpdate = async () => {
-      dispatch({ type: "FETCH_REQUEST" });
-      const { data } = await toast.promise(
-        axios.get("/api/salesActivity", {
-          params: { whichSales: session.user.user_id },
-        }),
-        {
-          pending: "Fetchin data",
-          success: "Data fetched",
-          error: "Something went wrong 🤯",
+      try {
+        dispatch({ type: "FETCH_REQUEST" });
+        const { data } = await toast.promise(
+          axios.get("/api/salesActivity", {
+            params: { whichSales: session.user.user_id },
+          }),
+          {
+            pending: "Fetchin data",
+            success: "Data fetched",
+            error: "Something went wrong 🤯",
+          }
+        );
+
+        if (data.length > 0) {
+          dispatch({ type: "FETCH_SUCCESS", payload: data });
         }
-      );
-      dispatch({ type: "FETCH_SUCCESS", payload: data });
+      } catch (err) {
+        console.log(err);
+      }
     };
     getLastUpdate();
   }, []);

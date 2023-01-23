@@ -32,9 +32,10 @@ const Dashboard = ({
   ]);
 
   const [whichTable, setWhichTable] = useState(
-    Object.keys(customer[0]).map((keys) => ({
-      title: keys.split("_")[1],
-    }))
+    customer[0] &&
+      Object.keys(customer[0]).map((keys) => ({
+        title: keys.split("_")[1],
+      }))
   );
   const [whichTab, setWhichTab] = useState(0);
   const [whichContent, setWhichContent] = useState([]);
@@ -47,71 +48,75 @@ const Dashboard = ({
     return <p>Access Denied</p>;
   }
   useEffect(() => {
-    switch (whichTab) {
-      case 0:
-        setWhichTable(
-          Object.keys(customer[0]).map((keys) => ({
-            title: keys.split("_")[1],
-          }))
-        );
-        setWhichContent(customer);
-        break;
-      case 1:
-        setWhichTable(
-          Object.keys(group[0]).map((keys) => ({
-            title: keys.split("_")[1],
-          }))
-        );
-        setWhichContent(group);
-        break;
-      case 2:
-        setWhichTable(
-          Object.keys(mop[0]).map((keys) => ({
-            title: keys.split("_")[1],
-          }))
-        );
-        setWhichContent(mop);
-        break;
-      case 3:
-        setWhichTable(
-          Object.keys(pic[0]).map((keys) => ({
-            title: keys.split("_")[1],
-          }))
-        );
-        setWhichContent(pic);
-        break;
-      case 4:
-        setWhichTable(
-          Object.keys(quotation[0]).map((keys) => ({
-            title: keys.split("_")[1],
-          }))
-        );
-        setWhichContent(quotation);
-        break;
-      case 5:
-        setWhichTable(
-          Object.keys(salesActivity[0]).map((keys) => ({
-            title: keys.split("_")[1],
-          }))
-        );
-        setWhichContent(salesActivity);
-        break;
-      case 6:
-        setWhichTable(
-          Object.keys(user[0]).map((keys) => ({
-            title: keys.split("_")[1],
-          }))
-        );
-        setWhichContent(user);
-        break;
-      case 7:
-        setWhichTable(
-          Object.keys(verticalMarket[0]).map((keys) => ({
-            title: keys.split("_")[1],
-          }))
-        );
-        setWhichContent(verticalMarket);
-        break;
+    try {
+      switch (whichTab) {
+        case 0:
+          setWhichTable(
+            Object.keys(customer[0]).map((keys) => ({
+              title: keys.split("_")[1],
+            }))
+          );
+          setWhichContent(customer);
+          break;
+        case 1:
+          setWhichTable(
+            Object.keys(group[0]).map((keys) => ({
+              title: keys.split("_")[1],
+            }))
+          );
+          setWhichContent(group);
+          break;
+        case 2:
+          setWhichTable(
+            Object.keys(mop[0]).map((keys) => ({
+              title: keys.split("_")[1],
+            }))
+          );
+          setWhichContent(mop);
+          break;
+        case 3:
+          setWhichTable(
+            Object.keys(pic[0]).map((keys) => ({
+              title: keys.split("_")[1],
+            }))
+          );
+          setWhichContent(pic);
+          break;
+        case 4:
+          setWhichTable(
+            Object.keys(quotation[0]).map((keys) => ({
+              title: keys.split("_")[1],
+            }))
+          );
+          setWhichContent(quotation);
+          break;
+        case 5:
+          setWhichTable(
+            Object.keys(salesActivity[0]).map((keys) => ({
+              title: keys.split("_")[1],
+            }))
+          );
+          setWhichContent(salesActivity);
+          break;
+        case 6:
+          setWhichTable(
+            Object.keys(user[0]).map((keys) => ({
+              title: keys.split("_")[1],
+            }))
+          );
+          setWhichContent(user);
+          break;
+        case 7:
+          setWhichTable(
+            Object.keys(verticalMarket[0]).map((keys) => ({
+              title: keys.split("_")[1],
+            }))
+          );
+          setWhichContent(verticalMarket);
+          break;
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [whichTab]);
 

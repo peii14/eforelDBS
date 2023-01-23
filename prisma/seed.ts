@@ -32,9 +32,8 @@ async function main(){
                         Quotation:{
                             create:{
                                 quotation_num:`${faker.random.alphaNumeric(7)}`,
-                                quotation_value:`${faker.commerce.product()}`,
+                                quotation_value: Number(faker.random.numeric(5)),
                                 quotation_product:`${faker.commerce.productName()}`,
-                                quotation_quantity:Number(faker.random.numeric(1)),
         
                                 MOP:{
                                     create:{

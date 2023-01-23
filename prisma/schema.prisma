@@ -88,9 +88,8 @@ model PIC {
 model Quotation {
   quotation_id       Int    @id @default(autoincrement())
   quotation_num      String @db.VarChar(50)
-  quotation_value    String @db.VarChar(50)
-  quotation_product  String @db.VarChar(50)
-  quotation_quantity Int
+  quotation_value    Int 
+  quotation_product  String 
 
   quotation_customerID Int
   customer             Customer @relation(fields: [quotation_customerID], references: [customer_id])
