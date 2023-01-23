@@ -76,12 +76,15 @@ const AddQuotation = () => {
     let day = d.getUTCDate();
     let month = d.getUTCMonth();
     let year = d.getUTCFullYear();
-    let dates = day.toString() + (month + 1).toString() + year.toString();
+    let dates =
+      year.toString().slice(-2) +
+      (month < 10 ? "0" + (month + 1).toString() : "asd") +
+      day.toString();
     let _quotationNumber = whichCustomer.customer_code
       ? [
           area[whichCustomer.customer_city],
-          session.user.user_code,
           dates.toString(),
+          "001",
           session.user.user_code,
           whichCustomer.customer_code,
         ].join("-")
@@ -95,20 +98,23 @@ const AddQuotation = () => {
     const quantity = existItem
       ? existItem.quantity + 1
       : Number(getValues("quotation_qty"));
-    const quotationValue = getValues("quotation_value");
 
     dispatch({
       type: "CART_ADD_ITEM",
-      payload: { ...product, quantity, quotationValue },
+      payload: { ...product, quantity },
     });
   };
 
   const submitHandler = async ({ vertical_market, group }) => {
     try {
-      const salesCode = session.user.user_code;
       await axios.post("/api/quotation", {
-        // quotation_num:
-        quotation_value: getValues("quotation_value"),
+        quotation_num: quotationNumber,
+        quotation_value: parseFloat(
+          getValues("quotation_value").replace(/,/g, "")
+        ),
+        quotation_product: JSON.stringify(cart),
+        quotation_customerID: whichCustomer.customer_id,
+        quotation_PIC_ID: whichPIC.pic_id,
       });
     } catch (err) {
       toast.error(getError(err));
@@ -259,9 +265,7 @@ const AddQuotation = () => {
               <p>Product</p>
               <div className="col-span-2">
                 <input
-                  {...register("quotation_products", {
-                    required: "Please enter quotation products",
-                  })}
+                  {...register("quotation_products", {})}
                   className="px-2 w-full"
                 />
                 {errors.quotation_value && (
@@ -274,9 +278,7 @@ const AddQuotation = () => {
                 <p>Qty</p>
                 <div>
                   <input
-                    {...register("quotation_qty", {
-                      required: "Please enter product quantity value",
-                    })}
+                    {...register("quotation_qty", {})}
                     className="px-2 w-2/3 mx-4"
                     type="number"
                   />
