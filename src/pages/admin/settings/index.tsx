@@ -65,15 +65,6 @@ const settings = ({ user }) => {
             </div>
           </Neuromorphism>
         </div>
-
-        <div className="basis-1/4">
-          <Neuromorphism whichNeuro={2}>
-            <div className="flex flex-col items-center gap-5">
-              <AiFillProfile className="text-5xl" />
-              <h3 className="font-thin text-center">Company Profile</h3>
-            </div>
-          </Neuromorphism>
-        </div>
       </section>
       <section className="mt-5">
         <Neuromorphism whichNeuro={1}>
