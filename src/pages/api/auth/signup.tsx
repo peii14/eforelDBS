@@ -38,7 +38,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     data: {
       user_email: "admin@gmail.com",
       user_fullname: "admin",
-      user_role: 3,
+      user_role: 1,
       user_password: await argon2.hash("123123123"),
       user_area: 1,
       user_code: "BD",
