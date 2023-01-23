@@ -86,8 +86,8 @@ const AddQuotation = () => {
     try {
       const salesCode = session.user.user_code;
       await axios.post("/api/quotation", {
-        cust_name: vertical_market,
-        cust_code: group,
+        // quotation_num:
+        // quotation_value
       });
     } catch (err) {
       toast.error(getError(err));

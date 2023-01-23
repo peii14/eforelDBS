@@ -45,7 +45,7 @@ const AddVM = () => {
         <section>
           <Neuromorphism whichNeuro={1}>
             <div className="p-5 grid grid-cols-3 gap-5 w-2/3 mx-auto">
-              <p>Input vertical Market</p>
+              <p>Input vertical market</p>
               <div className="col-span-2">
                 <input
                   {...register("vertical_market", {

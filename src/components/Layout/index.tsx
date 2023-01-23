@@ -32,7 +32,7 @@ const Layout = ({ children, title = "Eforel", session }: Props) => {
           pauseOnFocusLoss
         />
 
-        <div className=" min-h-screen flex flex-row justify-between mr-10 space-x-16">
+        <div className="min-h-screen flex flex-row justify-between space-x-16">
           <header
             className={`hover:basis-1/12 basis-0 duration-300 ${
               session && children ? "block" : "hidden"
@@ -53,8 +53,8 @@ const Layout = ({ children, title = "Eforel", session }: Props) => {
             />
           </header>
           <main
-            className={`duration-300  ${
-              onHover ? "basis-10/12" : "basis-11/12"
+            className={`duration-300 bg-transparent pl-5 pr-20  ${
+              onHover ? "basis-11/12 " : "basis-11/12"
             } py-10 min-h-screen overflow-y-hidden`}
           >
             {children}
