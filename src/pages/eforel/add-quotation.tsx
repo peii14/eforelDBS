@@ -32,6 +32,7 @@ const AddQuotation = () => {
   }: any = useForm();
   const [nameQuery, setNameQuery] = useState("'-'");
   const [picQuery, setPicQuery] = useState("'-'");
+  const [quotationNumber, setQuotationNumber] = useState("-");
 
   useEffect(() => {
     try {
@@ -69,12 +70,32 @@ const AddQuotation = () => {
     }
   }, [picQuery]);
 
+  useEffect(() => {
+    const area = { surabaya: "SQ", bandung: "BQ", jakarta: "JQ" };
+    const d = new Date();
+    let day = d.getUTCDate();
+    let month = d.getUTCMonth();
+    let year = d.getUTCFullYear();
+    let dates = day.toString() + (month + 1).toString() + year.toString();
+    let _quotationNumber = whichCustomer.customer_code
+      ? [
+          area[whichCustomer.customer_city],
+          session.user.user_code,
+          dates.toString(),
+          session.user.user_code,
+          whichCustomer.customer_code,
+        ].join("-")
+      : "-";
+
+    setQuotationNumber(_quotationNumber);
+  }, [pic_name, customer_name]);
+
   const addProductsHandler = async (product) => {
     const existItem = cart.cartItems.find((x) => x.name === product.name);
     const quantity = existItem
       ? existItem.quantity + 1
       : Number(getValues("quotation_qty"));
-    const quotationValue = getValues("Quotation_value");
+    const quotationValue = getValues("quotation_value");
 
     dispatch({
       type: "CART_ADD_ITEM",
@@ -87,7 +108,7 @@ const AddQuotation = () => {
       const salesCode = session.user.user_code;
       await axios.post("/api/quotation", {
         // quotation_num:
-        // quotation_value
+        quotation_value: getValues("quotation_value"),
       });
     } catch (err) {
       toast.error(getError(err));
@@ -135,6 +156,9 @@ const AddQuotation = () => {
                 />
               )}
             </div>
+            <p>Quotation Number</p>
+
+            <p className="font-semibold">{quotationNumber}</p>
           </div>
           <Neuromorphism whichNeuro={1}>
             <div className="p-5 grid-cols-4 gap-5 items-center grid">
@@ -219,7 +243,7 @@ const AddQuotation = () => {
               <p>Quotation Value (Rp)</p>
               <div className="col-span-4">
                 <input
-                  {...register("Quotation_value", {
+                  {...register("quotation_value", {
                     required: "Please enter Quotation Value",
                   })}
                   className="px-2 w-full"
