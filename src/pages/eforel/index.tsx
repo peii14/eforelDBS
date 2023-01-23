@@ -15,7 +15,6 @@ const Dashboard = ({
   pic,
   quotation,
   salesActivity,
-  user,
   verticalMarket,
 }) => {
   const router = useRouter();
@@ -27,7 +26,6 @@ const Dashboard = ({
     { name: "PIC" },
     { name: "Quotation" },
     { name: "Sales Activity" },
-    { name: "User" },
     { name: "Vertical Market" },
   ]);
 
@@ -100,14 +98,6 @@ const Dashboard = ({
           break;
         case 6:
           setWhichTable(
-            Object.keys(user[0]).map((keys) => ({
-              title: keys.split("_")[1],
-            }))
-          );
-          setWhichContent(user);
-          break;
-        case 7:
-          setWhichTable(
             Object.keys(verticalMarket[0]).map((keys) => ({
               title: keys.split("_")[1],
             }))
@@ -133,6 +123,9 @@ const Dashboard = ({
             whichTab={whichTab}
           />
         </Neuromorphism>
+        <div className="ml-3 border-2 duration-300 hover:bg-primary-400 border-primary rounded-full px-3 py-1">
+          Delete
+        </div>
       </section>
     </Layout>
   );
@@ -146,7 +139,6 @@ export async function getStaticProps() {
     PIC,
     Quotation,
     SalesActivity,
-    User,
     VerticalMarket,
   ] = await Promise.all([
     prisma.customer.findMany(),
@@ -155,7 +147,6 @@ export async function getStaticProps() {
     prisma.pIC.findMany(),
     prisma.quotation.findMany(),
     prisma.salesActivity.findMany(),
-    prisma.user.findMany(),
     prisma.verticalMarket.findMany(),
   ]);
 
@@ -167,7 +158,6 @@ export async function getStaticProps() {
       pic: PIC,
       quotation: Quotation,
       salesActivity: JSON.parse(JSON.stringify(SalesActivity)),
-      user: JSON.parse(JSON.stringify(User)),
       verticalMarket: JSON.parse(JSON.stringify(VerticalMarket)),
     },
     revalidate: 60,
