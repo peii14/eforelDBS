@@ -14,12 +14,11 @@ import AutoCompleteBox from "@/components/Object/AutoCompleteBox";
 const AddMOP = () => {
   const [isLoading, setIsLoading] = useState(false);
   let [mop, setMOP]: any = useState([{}]);
-
+  const [value, setValue] = useState(0);
   const [whichMOP, setWhichMOP] = useState(mop[0]);
   const [whichGroup, setWhichGroup] = useState(null);
-
   const { data: session }: any = useSession();
-
+  const [mopNumber, setMOPNumber] = useState("-");
   const {
     handleSubmit,
     register,
@@ -53,38 +52,69 @@ const AddMOP = () => {
     }
   }, [mopQuery.length]);
 
-  useEffect(() => {
-    try{
+  const addCommas = (num) =>
+    num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const removeNonNumeric = (num) => num.toString().replace(/[^0-9]/g, "");
 
-      if(mop.length != 0 && mop[0].customer.customer_groupID != null){
-        console.log(mop[0].customer.customer_groupID)
+  const handleComma = (event) =>
+    setValue(addCommas(removeNonNumeric(event.target.value)));
+
+  useEffect(() => {
+    const area = { surabaya: "SM", bandung: "BM", jakarta: "JM" };
+    const d = new Date();
+    let day = d.getUTCDate();
+    let month = d.getUTCMonth();
+    let year = d.getUTCFullYear();
+    let dates =
+      year.toString().slice(-2) +
+      (month < 10 ? "0" + (month + 1).toString() : "asd") +
+      day.toString();
+    try {
+      if (mop.length != 0 && mop[0].customer.customer_groupID != null) {
         const getData = async () => {
           if (whichMOP.customer && whichMOP.customer.length != 0) {
             const group = await toast.promise(
               axios.get("/api/group", {
-                params: { id:  mop[0].customer.customer_groupID },
+                params: { id: mop[0].customer.customer_groupID },
               }),
-              {
-                pending: "Fetching Group",
-              }
-              );
-              setWhichGroup(group.data);
-            } else {
-              setWhichGroup(null);
-            }
-          };
-          getData();
-        }
-      }catch(error){
-        console.log("kontol")
+              {}
+            );
+            setWhichGroup(group.data);
+            const MOPNumber = whichMOP.customer.customer_code
+              ? [
+                  area[whichMOP.customer.customer_city],
+                  dates.toString(),
+                  "001",
+                  session.user.user_code,
+                  whichMOP.customer.customer_code,
+                ].join("-")
+              : "-";
+            setMOPNumber(MOPNumber);
+          } else {
+            setWhichGroup(null);
+          }
+        };
+        getData();
       }
-
+    } catch (error) {
+      console.log(error);
+    }
   }, [whichMOP]);
 
   const submitHandler = async ({ vertical_market, group }) => {
     try {
       const salesCode = session.user.user_code;
-      await axios.post("/api/mop", {});
+      const mop = await toast.promise(
+        axios.post("/api/mop", {
+          mop_num: mopNumber,
+          mop_value: value,
+          mop_quotationID: whichMOP.quotation_id,
+        }),
+        {
+          pending: "Adding MOP",
+          success: "MOP Added",
+        }
+      );
     } catch (err) {
       toast.error(getError(err));
     }
@@ -111,6 +141,8 @@ const AddMOP = () => {
                 />
               )}
             </div>
+            <p>MOP Number</p>
+            <p>{mopNumber}</p>
           </div>
           <Neuromorphism whichNeuro={1}>
             <div className="p-5 grid-cols-4 gap-5 items-center grid">
@@ -217,14 +249,18 @@ const AddMOP = () => {
             <div className="p-5 grid grid-cols-2 w-1/2 mx-auto gap-5">
               <p>Quotation Value (Rp)</p>
               <div className="col-span-3 min-h-max border-2 border-sec px-3 py-1.5 rounded-xl">
-                {whichMOP ? `${whichMOP.quotation_value}` : ""}
+                {whichMOP.quotation_value
+                  ? `${addCommas(removeNonNumeric(whichMOP.quotation_value))}`
+                  : "0"}
               </div>
-              <p>MOP Value</p>
+              <p>MOP Value (Rp)</p>
               <div className="">
                 <input
                   {...register("Quotation_value", {
                     required: "Please enter Quotation Value",
                   })}
+                  onChange={handleComma}
+                  value={value}
                   className="px-2 w-full"
                 />
                 {errors.quotation_value && (
