@@ -1,11 +1,11 @@
 export const area = [
-    {
-      city: "Surabaya",
-    },
-    {
-      city: "Bandung",
-    },
-    {
-      city: "Jakarta",
-    },
+  {
+    name: "Surabaya",
+  },
+  {
+    name: "Bandung",
+  },
+  {
+    name: "Jakarta",
+  },
 ];

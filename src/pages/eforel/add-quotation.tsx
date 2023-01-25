@@ -10,7 +10,6 @@ import Neuromorphism from "@/components/Object/Neuromorphism";
 import { toast } from "react-toastify";
 import { getError } from "@/utils/error";
 import Button from "@/components/Object/Button";
-import Link from "next/link";
 import { Store } from "@/utils/Store";
 import Products from "@/components/Object/Products";
 import { generateQuotationCounter } from "@/utils/activityCounter";
@@ -74,10 +73,10 @@ const AddQuotation = () => {
 
   useEffect(() => {
     generateQuotationCounter(session.user.user_code).then((value) => {
-      setCounter(value);
+      setCounter(value.toString());
     });
 
-    const area = { surabaya: "SQ", bandung: "BQ", jakarta: "JQ" };
+    const area = { Surabaya: "SQ", Bandung: "BQ", Jakarta: "JQ" };
     const d = new Date();
     let day = d.getUTCDate();
     let month = d.getUTCMonth();
@@ -89,7 +88,7 @@ const AddQuotation = () => {
 
     let _quotationNumber = whichCustomer.customer_code
       ? [
-          area[whichCustomer.customer_city],
+          area[session.user.user_area],
           dates.toString(),
           counter,
           session.user.user_code,

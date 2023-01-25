@@ -13,7 +13,7 @@ import Neuromorphism from "../Object/Neuromorphism";
 import AnimateHeight from "react-animate-height";
 
 interface NavbarProps {
-  readonly role: number;
+  readonly role: string;
   readonly isOpen: boolean;
   readonly height: number;
 }
@@ -130,7 +130,7 @@ const Navbar = ({ role, isOpen, height }: NavbarProps) => {
               </a>
             </Link>
           </li>
-          {(role === 1 || role === 2) && (
+          {(role === "Master" || role === "Admin") && (
             <li
               className={`${
                 asPath.includes("/admin/settings")

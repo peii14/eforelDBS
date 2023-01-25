@@ -7,9 +7,12 @@ import axios from "axios";
 import { getError } from "@/utils/error";
 import Neuromorphism from "@/components/Object/Neuromorphism";
 import Button from "@/components/Object/Button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import AutoCompleteBox from "@/components/Object/AutoCompleteBox";
+import { roles } from "@/utils/role";
+import { area } from "@/utils/area";
 
 interface EditUserProps {
   user: {
@@ -18,12 +21,16 @@ interface EditUserProps {
     user_email: string;
     user_area: string;
     user_code: string;
-    user_role: number;
+    user_role: string;
   };
 }
 
 const EditUser = ({ user }: EditUserProps) => {
   const router = useRouter();
+  const [selectedRole, setRoles] = useState({ name: "Sales" });
+  const [roleQuery, setRoleQuery] = useState("Sales");
+  const [selectedArea, setArea] = useState({ name: "Surabaya" });
+  const [areaQuery, setAreaQuery] = useState("Surabaya");
   const {
     handleSubmit,
     register,
@@ -36,17 +43,15 @@ const EditUser = ({ user }: EditUserProps) => {
   useEffect(() => {
     setValue("user_name", user.user_fullname);
     setValue("user_email", user.user_email);
-    setValue("user_area", user.user_area);
+    setArea({ name: user.user_area });
     setValue("user_code", user.user_code);
-    setValue("user_role", user.user_role);
+    setRoles({ name: user.user_role });
   }, []);
 
   const submitHandler = async ({
     user_name,
     user_email,
-    user_area,
     user_code,
-    user_role,
     user_password,
   }) => {
     try {
@@ -54,9 +59,9 @@ const EditUser = ({ user }: EditUserProps) => {
         axios.put("/api/admin/user", {
           user_name,
           user_email,
-          user_area,
+          user_area: selectedArea.name,
           user_code,
-          user_role,
+          user_role: selectedRole.name,
           user_password,
         }),
         {
@@ -103,7 +108,16 @@ const EditUser = ({ user }: EditUserProps) => {
               )}
             </div>
             <p>Area</p>
-            <div className="col-span-2 grid">
+            <div className="col-span-2">
+              <AutoCompleteBox
+                list={area}
+                setQuery={setAreaQuery}
+                query={areaQuery}
+                selected={selectedArea}
+                setSelected={setArea}
+              />
+            </div>
+            {/* <div className="col-span-2 grid">
               <input
                 {...register("user_area", {
                   required: "Please enter area",
@@ -113,7 +127,7 @@ const EditUser = ({ user }: EditUserProps) => {
               {errors.user_area && (
                 <div className="text-red-500">{errors.user_area.message}</div>
               )}
-            </div>
+            </div> */}
             <p>Code</p>
             <div className="col-span-2 grid">
               <input
@@ -160,7 +174,14 @@ const EditUser = ({ user }: EditUserProps) => {
               />
             </div>
             <p>Role</p>
-            <div className="col-span-2 grid">
+            <AutoCompleteBox
+              list={roles}
+              setSelected={setRoles}
+              selected={selectedRole}
+              setQuery={setRoleQuery}
+              query={roleQuery}
+            />
+            {/* <div className="col-span-2 grid">
               <input
                 {...register("user_role", {
                   required: "Please enter role",
@@ -172,7 +193,7 @@ const EditUser = ({ user }: EditUserProps) => {
                   {errors.user_password.message}
                 </div>
               )}
-            </div>
+            </div> */}
             <div className="w-full justify-center mt-5 flex col-span-3">
               <button className="w-1/2">
                 <Button btn="Create User" />

@@ -65,7 +65,7 @@ const AddMOP = () => {
     generateMOPCounter(session.user.user_code).then((value) =>
       setCounter(value.toString())
     );
-    const area = { surabaya: "SM", bandung: "BM", jakarta: "JM" };
+    const area = { Surabaya: "SM", Bandung: "BM", Jakarta: "JM" };
     const d = new Date();
     let day = d.getUTCDate();
     let month = d.getUTCMonth();
@@ -75,6 +75,7 @@ const AddMOP = () => {
       (month < 10 ? "0" + (month + 1).toString() : "asd") +
       day.toString();
     try {
+      console.log(mop[0].customer.customer_groupID);
       if (mop.length != 0 && mop[0].customer.customer_groupID != null) {
         const getData = async () => {
           if (whichMOP.customer && whichMOP.customer.length != 0) {
@@ -87,7 +88,7 @@ const AddMOP = () => {
             setWhichGroup(group.data);
             const MOPNumber = whichMOP.customer.customer_code
               ? [
-                  area[whichMOP.customer.customer_city],
+                  area[session.user.user_area],
                   dates.toString(),
                   counter,
                   session.user.user_code,

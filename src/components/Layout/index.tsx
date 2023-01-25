@@ -1,5 +1,4 @@
 import React, { ReactNode, Suspense, useState } from "react";
-import Link from "next/link";
 import Head from "next/head";
 import Navbar from "./navbar";
 import Footer from "./footer";
@@ -49,7 +48,7 @@ const Layout = ({ children, title = "Eforel", session }: Props) => {
             <Navbar
               isOpen={onHover}
               height={height}
-              role={session ? Number(session.user.role) : null}
+              role={session ? session.user.role : null}
             />
           </header>
           <main

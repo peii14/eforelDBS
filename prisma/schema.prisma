@@ -28,10 +28,10 @@ model user {
   user_updated  DateTime? @updatedAt
   user_fullname String
   user_email    String    @unique
-  user_area     Int
+  user_area     String
   user_code     String    @unique @db.Char(2)
   user_password String    @db.LongText
-  user_role     Int       @default(1)
+  user_role     String
 
   // user_salesActivity Int
   // salesActivity      SalesActivity @relation(fields: [user_salesActivity], references: [salesActivity_user])

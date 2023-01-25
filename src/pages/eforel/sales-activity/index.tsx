@@ -47,18 +47,14 @@ const SalesActivity = () => {
       <Title title="Sales Activity " />
       <section className="gird gird-cols-5 max-w-md">
         <Suspense fallback="Loading...">
-          <Link
-            href={`/eforel/sales-activity/sales/${
-              loading ? "sales/" : session.user.user_code
-            }`}
-          >
+          <Link href={`/eforel/sales-activity/sales/${session.user.user_code}`}>
             <a>
               <Neuromorphism whichNeuro={2}>
                 <div className="p-5 ">
                   <h2 className="text-center">{session.user.name}</h2>
                   <div className="grid grid-cols-2 gap-5 my-5">
                     <p>Area</p>
-                    <p>{area[session.user.user_area].city}</p>
+                    <p>{session.user.user_area}</p>
                     <p>Last Update</p>
                     {loading ? (
                       <p>Loading...</p>

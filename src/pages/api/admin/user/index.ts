@@ -26,9 +26,9 @@ const handler = async(req: NextApiRequest, res: NextApiResponse) =>{
                 data: {
                     user_email: "default@gmail.com",
                     user_fullname: "default",
-                    user_role: 1,
+                    user_role: 'Sales',
                     user_password: await argon2.hash("123123123"),
-                    user_area: 1,
+                    user_area: 'Surabaya',
                     user_code: "00",
                 },
             });
@@ -41,16 +41,16 @@ const handler = async(req: NextApiRequest, res: NextApiResponse) =>{
         const {user_name , user_email,user_area, user_code, user_role, user_password} = req.body
         try{
             const user = await prisma.user.update({
-                where:{
+                where: {
                     user_email:"default@gmail.com",
                 },
-                data:{
+                data: {
                     user_fullname:user_name,
                     user_email: user_email,
-                    user_area:Number(user_area),
+                    user_area: user_area,
                     user_password: await argon2.hash(user_password),
                     user_code: user_code,
-                    user_role: Number(user_role)
+                    user_role: user_role
                 }
             })
             res.revalidate('/admin/settings')

@@ -27,7 +27,6 @@ const Products = ({ state = {}, dispatch }: ProductsProps) => {
         <thead className="border-y-2 border-sec sticky">
           <tr>
             <th className="px-5 text-left">Full Name</th>
-
             <th className="text-left px-5">Quantity</th>
             <th className="text-left px-5">Actions</th>
           </tr>

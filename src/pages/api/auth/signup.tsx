@@ -36,11 +36,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const newUser = await prisma.user.create({
     data: {
-      user_email: "admin@gmail.com",
-      user_fullname: "admin",
-      user_role: 1,
+      user_email: "Master@gmail.com",
+      user_fullname: "Master",
+      user_role: "Master",
       user_password: await argon2.hash("123123123"),
-      user_area: 1,
+      user_area: "Surabaya",
       user_code: "BD",
     },
   });

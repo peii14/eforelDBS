@@ -112,7 +112,7 @@ const AddCustomer = ({ vertical_marketJSON }: AddCustomerProps) => {
               </h1>
             </div>
           </Neuromorphism>
-          <Neuromorphism whichNeuro={1}>
+          {/* <Neuromorphism whichNeuro={1}>
             <div>
               <p className="text-xl">Area: </p>
               <RadioGroups
@@ -124,8 +124,8 @@ const AddCustomer = ({ vertical_marketJSON }: AddCustomerProps) => {
                 setSelected={setWhichArea}
               />
             </div>
-          </Neuromorphism>
-          <div className="col-span-2">
+          </Neuromorphism> */}
+          <div className="col-span-3">
             <Neuromorphism whichNeuro={1}>
               <div className="">
                 <p className="text-xl">Verical Market:</p>
@@ -136,7 +136,7 @@ const AddCustomer = ({ vertical_marketJSON }: AddCustomerProps) => {
                   plans={vertical_market}
                   selected={whichVerticalMarket}
                   setSelected={setWhichVerticalMarket}
-                  columns={3}
+                  columns={4}
                 />
               </div>
             </Neuromorphism>

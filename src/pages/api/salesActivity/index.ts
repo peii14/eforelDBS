@@ -24,7 +24,6 @@ export default async function handler(
                 salesActivity_followup: 'default',
                 salesActivity_jobDesc: 'default',
                 salesActivity_customerID:1
-                
             }
         });
         return res.status(201).send(newSalesActivity)

@@ -4,11 +4,11 @@ import { Combobox, Transition } from "@headlessui/react";
 import { AiFillCaretDown, AiOutlineCheck } from "react-icons/ai";
 
 type AutoCompleteBox = {
-  readonly list?: any;
-  selected?: any;
-  readonly query?: string;
-  setQuery?: Dispatch<SetStateAction<any>>;
-  setSelected?: Dispatch<SetStateAction<any>>;
+  readonly list: any;
+  selected: any;
+  readonly query: string;
+  setQuery: Dispatch<SetStateAction<any>>;
+  setSelected: Dispatch<SetStateAction<any>>;
 };
 
 export default function AutoCompleteBox({
