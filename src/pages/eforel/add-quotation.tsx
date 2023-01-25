@@ -13,6 +13,7 @@ import Button from "@/components/Object/Button";
 import Link from "next/link";
 import { Store } from "@/utils/Store";
 import Products from "@/components/Object/Products";
+import { generateQuotationCounter } from "@/utils/activityCounter";
 
 const AddQuotation = () => {
   const { state, dispatch }: any = useContext(Store);
@@ -33,6 +34,7 @@ const AddQuotation = () => {
   const [nameQuery, setNameQuery] = useState("'-'");
   const [picQuery, setPicQuery] = useState("'-'");
   const [quotationNumber, setQuotationNumber] = useState("-");
+  const [counter, setCounter] = useState("Loading...");
 
   useEffect(() => {
     try {
@@ -71,6 +73,10 @@ const AddQuotation = () => {
   }, [picQuery]);
 
   useEffect(() => {
+    generateQuotationCounter(session.user.user_code).then((value) => {
+      setCounter(value);
+    });
+
     const area = { surabaya: "SQ", bandung: "BQ", jakarta: "JQ" };
     const d = new Date();
     let day = d.getUTCDate();
@@ -80,11 +86,12 @@ const AddQuotation = () => {
       year.toString().slice(-2) +
       (month < 10 ? "0" + (month + 1).toString() : "asd") +
       day.toString();
+
     let _quotationNumber = whichCustomer.customer_code
       ? [
           area[whichCustomer.customer_city],
           dates.toString(),
-          "001",
+          counter,
           session.user.user_code,
           whichCustomer.customer_code,
         ].join("-")

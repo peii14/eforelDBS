@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { getError } from "@/utils/error";
 import Button from "@/components/Object/Button";
 import AutoCompleteBox from "@/components/Object/AutoCompleteBox";
+import { generateMOPCounter } from "@/utils/activityCounter";
 
 const AddMOP = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +20,7 @@ const AddMOP = () => {
   const [whichGroup, setWhichGroup] = useState(null);
   const { data: session }: any = useSession();
   const [mopNumber, setMOPNumber] = useState("-");
+  const [counter, setCounter] = useState("Loading");
   const {
     handleSubmit,
     register,
@@ -60,6 +62,9 @@ const AddMOP = () => {
     setValue(addCommas(removeNonNumeric(event.target.value)));
 
   useEffect(() => {
+    generateMOPCounter(session.user.user_code).then((value) =>
+      setCounter(value.toString())
+    );
     const area = { surabaya: "SM", bandung: "BM", jakarta: "JM" };
     const d = new Date();
     let day = d.getUTCDate();
@@ -84,7 +89,7 @@ const AddMOP = () => {
               ? [
                   area[whichMOP.customer.customer_city],
                   dates.toString(),
-                  "001",
+                  counter,
                   session.user.user_code,
                   whichMOP.customer.customer_code,
                 ].join("-")

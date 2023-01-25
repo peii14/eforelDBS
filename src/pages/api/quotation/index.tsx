@@ -34,6 +34,16 @@ export default async function handler(
         },
       });
       return res.send(quotation);
+    } else if (type === "totalQuotation") {
+      const totalQuotation = await prisma.quotation.findMany({
+        where: {
+          quotation_num: {
+            contains: `-${query}-`,
+          },
+        },
+        select: { quotation_num: true },
+      });
+      return res.send(totalQuotation);
     } else {
       const quotation = await prisma.quotation.findMany();
       return res.send(quotation);
