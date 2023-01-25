@@ -132,31 +132,24 @@ const Dashboard = ({
 };
 export async function getStaticProps() {
   const prisma = new PrismaClient();
-  const [
-    Customer,
-    Group,
-    MOP,
-    PIC,
-    Quotation,
-    SalesActivity,
-    VerticalMarket,
-  ] = await Promise.all([
-    prisma.customer.findMany(),
-    prisma.group.findMany(),
-    prisma.mOP.findMany(),
-    prisma.pIC.findMany(),
-    prisma.quotation.findMany(),
-    prisma.salesActivity.findMany(),
-    prisma.verticalMarket.findMany(),
-  ]);
+  const [Customer, Group, MOP, PIC, Quotation, SalesActivity, VerticalMarket] =
+    await Promise.all([
+      prisma.customer.findMany(),
+      prisma.group.findMany(),
+      prisma.mOP.findMany(),
+      prisma.pIC.findMany(),
+      prisma.quotation.findMany(),
+      prisma.salesActivity.findMany(),
+      prisma.verticalMarket.findMany(),
+    ]);
 
   return {
     props: {
       customer: Customer,
       group: JSON.parse(JSON.stringify(Group)),
-      mop: MOP,
-      pic: PIC,
-      quotation: Quotation,
+      mop: JSON.parse(JSON.stringify(MOP)),
+      pic: JSON.parse(JSON.stringify(PIC)),
+      quotation: JSON.parse(JSON.stringify(Quotation)),
       salesActivity: JSON.parse(JSON.stringify(SalesActivity)),
       verticalMarket: JSON.parse(JSON.stringify(VerticalMarket)),
     },

@@ -86,11 +86,11 @@ model PIC {
 }
 
 model Quotation {
-  quotation_id       Int    @id @default(autoincrement())
-  quotation_num      String @db.VarChar(50)
-  quotation_value    Int 
-  quotation_product  String 
-
+  quotation_id         Int      @id @default(autoincrement())
+  quotation_num        String   @db.VarChar(50)
+  quotation_value      Int
+  quotation_product    String
+  quotation_createdAt  DateTime @default(now())
   quotation_customerID Int
   customer             Customer @relation(fields: [quotation_customerID], references: [customer_id])
 
@@ -101,10 +101,10 @@ model Quotation {
 }
 
 model MOP {
-  mop_id    Int    @id @default(autoincrement())
-  mop_num   String @db.VarChar(50)
-  mop_value String @db.VarChar(50)
-
+  mop_id          Int       @id @default(autoincrement())
+  mop_num         String    @db.VarChar(50)
+  mop_value       String    @db.VarChar(50)
+  mop_createdAt   DateTime  @default(now())
   mop_quotationID Int       @unique
   Quotation       Quotation @relation(fields: [mop_quotationID], references: [quotation_id])
 }

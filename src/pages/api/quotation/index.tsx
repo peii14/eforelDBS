@@ -1,3 +1,4 @@
+import { startOfMonth, endOfMonth } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -40,6 +41,14 @@ export default async function handler(
           quotation_num: {
             contains: `-${query}-`,
           },
+          AND: [
+            {
+              quotation_createdAt: {
+                gte: startOfMonth(new Date()),
+                lte: endOfMonth(new Date()),
+              },
+            },
+          ],
         },
         select: { quotation_num: true },
       });

@@ -1,3 +1,4 @@
+import { endOfMonth, startOfMonth } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
@@ -8,7 +9,22 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
         const mop = await prisma.mOP.create({ data });
         return res.status(201).send(mop);
     }else if(req.method === "GET"){
-        const mop = await prisma.mOP.findMany({where:{mop_num:{contains:`-${query}-`}},select:{mop_num:true}})
+        const mop = await prisma.mOP.findMany({
+            where:{
+                mop_num:{contains:`-${query}-`},
+                AND:[
+                    {
+                        mop_createdAt:{
+                            gte: startOfMonth(new Date()),
+                            lte: endOfMonth(new Date())
+                        }
+                    }
+                ]
+            },
+            select:{
+                mop_num:true
+            }
+        })
         return res.status(200).send(mop)
     }
 }
