@@ -123,9 +123,6 @@ const Dashboard = ({
             whichTab={whichTab}
           />
         </Neuromorphism>
-        <div className="ml-3 border-2 duration-300 hover:bg-primary-400 border-primary rounded-full px-3 py-1">
-          Delete
-        </div>
       </section>
     </Layout>
   );
