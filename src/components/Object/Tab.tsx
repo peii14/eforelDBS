@@ -57,14 +57,14 @@ export default function Tabs({
                     <th
                       key={idx}
                       scope="col"
-                      className="px-5 font-bold border-x border-primary opacity-60"
+                      className="px-5 font-bold border-x-2 border-sec opacity-60"
                     >
                       {category.title}
                     </th>
                   ))}
                   <th
                   scope="col"
-                  className="px-5 font-bold border-x border-primary opacity-60">
+                  className="px-5 font-bold border-x-2 border-sec opacity-60">
                     Action
                   </th>
               </tr>
@@ -79,12 +79,12 @@ export default function Tabs({
                     {Object.values(contents[i]).map((obj, id) => (
                       <td
                         key={id}
-                        className="px-5 w-max border-x border-primary  "
+                        className="px-5 w-max border-x-2 border-sec  "
                       >
                         {obj ? obj : "--"}
                       </td>
                     ))}
-                      <td className="border-r border-primary">
+                      <td className="border-r-2 border-sec">
                         <div className="flex flex-row justify-center content-center">
                           <button
                             // onClick={()}
