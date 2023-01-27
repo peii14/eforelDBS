@@ -1,10 +1,12 @@
 import { startOfMonth, endOfMonth } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const token: any = await getToken({ req });
   const type = req.query.type;
   const query = req.query.q;
 
@@ -12,7 +14,10 @@ export default async function handler(
     if (type === "nameOnly") {
       const quotation: any = await prisma.quotation.findMany({
         where: {
-          quotation_num: { contains: query.toString() },
+          quotation_num: {
+            startsWith: query.toString(),
+            contains: token.user_code,
+          },
         },
         include: {
           customer: {

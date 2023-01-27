@@ -21,7 +21,7 @@ const Dashboard = ({
   const router = useRouter();
   const { data: session, status }: any = useSession();
   const [tabList, setTab] = useState([]);
-
+  var _customer, _mop, _pic, _quotation;
   const [whichTable, setWhichTable] = useState(
     customer[0] &&
       Object.keys(customer[0]).map((keys) => ({
@@ -30,6 +30,20 @@ const Dashboard = ({
   );
   const [whichTab, setWhichTab] = useState(0);
   const [whichContent, setWhichContent] = useState([]);
+
+  const sales_customer = customer.filter(
+    (data) => data.customer_salesCode === session.user.user_code
+  );
+  const sales_mop = mop.filter(
+    (data) => data.mop_num.split("-")[2] === session.user.user_code
+  );
+  const sales_pic = pic.filter(
+    (data) => data.pic_sales_code === session.user.user_code
+  );
+  const sales_quotation = quotation.filter(
+    (data) => data.quotation_num.split("-")[2] === session.user.user_code
+  );
+
   if (status === "loading") {
     return <p>Loading...</p>;
   }
@@ -49,6 +63,10 @@ const Dashboard = ({
         { name: "Group" },
         { name: "Vertical Market" },
       ]);
+      _customer = customer;
+      _mop = mop;
+      _pic = pic;
+      _quotation = quotation;
     } else if (session.user.role === "Sales") {
       setTab([
         { name: "Customer" },
@@ -56,6 +74,10 @@ const Dashboard = ({
         { name: "PIC" },
         { name: "Quotation" },
       ]);
+      _customer = sales_customer;
+      _mop = sales_mop;
+      _pic = sales_pic;
+      _quotation = sales_quotation;
     }
   }, []);
   useEffect(() => {
@@ -67,7 +89,7 @@ const Dashboard = ({
               title: keys.split("_")[1],
             }))
           );
-          setWhichContent(customer);
+          setWhichContent(_customer);
           break;
         case 1:
           setWhichTable(
@@ -75,7 +97,7 @@ const Dashboard = ({
               title: keys.split("_")[1],
             }))
           );
-          setWhichContent(mop);
+          setWhichContent(_mop);
           break;
         case 2:
           setWhichTable(
@@ -83,7 +105,7 @@ const Dashboard = ({
               title: keys.split("_")[1],
             }))
           );
-          setWhichContent(pic);
+          setWhichContent(_pic);
           break;
         case 3:
           setWhichTable(
@@ -91,7 +113,7 @@ const Dashboard = ({
               title: keys.split("_")[1],
             }))
           );
-          setWhichContent(quotation);
+          setWhichContent(_quotation);
           break;
         case 4:
           setWhichTable(
