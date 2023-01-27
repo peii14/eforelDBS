@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { getError } from "@/utils/error";
 import Button from "@/components/Object/Button";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RadioGroups from "@/components/Object/RadioGroups";
 import { renameKey } from "@/utils/renameKey";
 import { PrismaClient } from "@prisma/client";
@@ -22,6 +22,8 @@ const AddCustomer = ({ vertical_marketJSON }: AddCustomerProps) => {
   const vertical_market = JSON.parse(vertical_marketJSON);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [whichVerticalMarket, setWhichVerticalMarket]: any = useState({});
+  const [nameQuery, setNamequery] = useState("");
+  const [nameList, setNameList]: any = useState("");
   const { data: session }: any = useSession();
   const {
     handleSubmit,
@@ -66,6 +68,23 @@ const AddCustomer = ({ vertical_marketJSON }: AddCustomerProps) => {
       toast.error(getError(err));
     }
   };
+  useEffect(() => {
+    const getExistingName = async () => {
+      const names = await axios.get("/api/customer/customerName", {
+        params: { q: nameQuery },
+      });
+      setNameList(names.data);
+    };
+    try {
+      if (nameQuery.length > 2) {
+        getExistingName();
+      } else {
+        setNameList([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [nameQuery]);
 
   return (
     <Layout session={session} title="Add Customer">
@@ -76,15 +95,30 @@ const AddCustomer = ({ vertical_marketJSON }: AddCustomerProps) => {
             <Neuromorphism whichNeuro={1}>
               <div className="p-5 grid grid-cols-3 gap-5">
                 <p>Nama Customer</p>
-                <div className="col-span-2">
+                <div className="col-span-2 relative">
                   <input
                     {...register("cust_name", {
                       required: "Please enter name",
                     })}
+                    onChange={(e) => setNamequery(e.target.value)}
                     className="px-2 w-full"
                   />
                   {errors.name && (
                     <div className="text-red-500">{errors.name.message}</div>
+                  )}
+                  {nameList.length != 0 ? (
+                    <>
+                      <div className="bg-background z-30 border-2 mt-2 rounded-xl max-h-36 overflow-y-scroll border-red-600 flex flex-col min-h-max min-w-full px-3 py-1 absolute">
+                        {nameList.map((data) => (
+                          <p className="">{data.customer_name}</p>
+                        ))}
+                        <p className="text-xs w-full border-t-2 border-slate-400">
+                          Existing name !
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <></>
                   )}
                 </div>
                 <p>Kode Customer</p>
