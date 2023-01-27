@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { PrismaClient } from "@prisma/client";
+import { getToken } from "next-auth/jwt";
 // import { getStaticProps } from "./sales-activity";
 
 const Dashboard = ({
@@ -18,16 +19,8 @@ const Dashboard = ({
   verticalMarket,
 }) => {
   const router = useRouter();
-  const { data: session, status } = useSession();
-  const [tabList, setTab] = useState([
-    { name: "Customer" },
-    { name: "Group" },
-    { name: "MOP" },
-    { name: "PIC" },
-    { name: "Quotation" },
-    { name: "Sales Activity" },
-    { name: "Vertical Market" },
-  ]);
+  const { data: session, status }: any = useSession();
+  const [tabList, setTab] = useState([]);
 
   const [whichTable, setWhichTable] = useState(
     customer[0] &&
@@ -46,6 +39,26 @@ const Dashboard = ({
     return <p>Access Denied</p>;
   }
   useEffect(() => {
+    if (session.user.role === "Master" || session.user.role === "Admin") {
+      setTab([
+        { name: "Customer" },
+        { name: "MOP" },
+        { name: "PIC" },
+        { name: "Quotation" },
+        { name: "Sales Activity" },
+        { name: "Group" },
+        { name: "Vertical Market" },
+      ]);
+    } else if (session.user.role === "Sales") {
+      setTab([
+        { name: "Customer" },
+        { name: "MOP" },
+        { name: "PIC" },
+        { name: "Quotation" },
+      ]);
+    }
+  }, []);
+  useEffect(() => {
     try {
       switch (whichTab) {
         case 0:
@@ -58,21 +71,13 @@ const Dashboard = ({
           break;
         case 1:
           setWhichTable(
-            Object.keys(group[0]).map((keys) => ({
-              title: keys.split("_")[1],
-            }))
-          );
-          setWhichContent(group);
-          break;
-        case 2:
-          setWhichTable(
             Object.keys(mop[0]).map((keys) => ({
               title: keys.split("_")[1],
             }))
           );
           setWhichContent(mop);
           break;
-        case 3:
+        case 2:
           setWhichTable(
             Object.keys(pic[0]).map((keys) => ({
               title: keys.split("_")[1],
@@ -80,7 +85,7 @@ const Dashboard = ({
           );
           setWhichContent(pic);
           break;
-        case 4:
+        case 3:
           setWhichTable(
             Object.keys(quotation[0]).map((keys) => ({
               title: keys.split("_")[1],
@@ -88,13 +93,21 @@ const Dashboard = ({
           );
           setWhichContent(quotation);
           break;
-        case 5:
+        case 4:
           setWhichTable(
             Object.keys(salesActivity[0]).map((keys) => ({
               title: keys.split("_")[1],
             }))
           );
           setWhichContent(salesActivity);
+          break;
+        case 5:
+          setWhichTable(
+            Object.keys(group[0]).map((keys) => ({
+              title: keys.split("_")[1],
+            }))
+          );
+          setWhichContent(group);
           break;
         case 6:
           setWhichTable(
@@ -139,7 +152,6 @@ export async function getStaticProps() {
       prisma.salesActivity.findMany(),
       prisma.verticalMarket.findMany(),
     ]);
-
   return {
     props: {
       customer: Customer,
