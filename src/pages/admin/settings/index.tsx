@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
 
 const settings = ({ user }) => {
   const router = useRouter();
@@ -122,14 +123,26 @@ const settings = ({ user }) => {
   );
 };
 
-export async function getStaticProps(context) {
-  const prisma = new PrismaClient();
-  const user = await prisma.user.findMany({});
-  return {
-    props: {
-      user: JSON.stringify(Object.values(user)),
-    },
-  };
+export async function getServerSideProps({ req, res }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
+  const token = await getToken({ req });
+  if (token.user_role === "Master" || token.user_role === "Admin") {
+    const prisma = new PrismaClient();
+
+    const user = await prisma.user.findMany({});
+    return {
+      props: {
+        user: JSON.stringify(Object.values(user)),
+      },
+    };
+  } else {
+    return {
+      notFound: true,
+    };
+  }
 }
 settings.auth = true;
 export default settings;
