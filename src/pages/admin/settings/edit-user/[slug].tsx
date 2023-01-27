@@ -31,6 +31,7 @@ const EditUser = ({ user }: EditUserProps) => {
   const [roleQuery, setRoleQuery] = useState("Sales");
   const [selectedArea, setArea] = useState({ name: "Surabaya" });
   const [areaQuery, setAreaQuery] = useState("Surabaya");
+  const [oldMail, setOldMail] = useState("-");
   const {
     handleSubmit,
     register,
@@ -43,6 +44,7 @@ const EditUser = ({ user }: EditUserProps) => {
   useEffect(() => {
     setValue("user_name", user.user_fullname);
     setValue("user_email", user.user_email);
+    setOldMail(user.user_email);
     setArea({ name: user.user_area });
     setValue("user_code", user.user_code);
     setRoles({ name: user.user_role });
@@ -59,6 +61,7 @@ const EditUser = ({ user }: EditUserProps) => {
         axios.put("/api/admin/user", {
           user_name,
           user_email,
+          user_oldMail: oldMail,
           user_area: selectedArea.name,
           user_code,
           user_role: selectedRole.name,
@@ -234,7 +237,7 @@ export async function getStaticProps(context) {
       user_code: query,
     },
   });
-  prisma.$connect();
+  prisma.$disconnect();
 
   return {
     props: {
