@@ -2,75 +2,97 @@ import Layout from "@/components/Layout";
 import Title from "@/components/Layout/Title";
 import Neuromorphism from "@/components/Object/Neuromorphism";
 import { useSession } from "next-auth/react";
-import axios from "axios";
-import { area } from "@/utils/area";
+import { getToken } from "next-auth/jwt";
 import { toast } from "react-toastify";
 import { Suspense, useEffect, useReducer, useState } from "react";
-import { reducer } from "@/utils/reducer";
 import Link from "next/link";
+import { PrismaClient } from "@prisma/client";
 
-const SalesActivity = () => {
+const SalesActivity = ({ areaUser }) => {
   const { data: session }: any = useSession();
-
-  const [{ loading, error, payloads, loadingUpdate, loadingUpload }, dispatch] =
-    useReducer(reducer, {
-      loading: true,
-      error: "",
-    });
-
+  const [sales, setSales] = useState([]);
   useEffect(() => {
-    const getLastUpdate = async () => {
-      try {
-        dispatch({ type: "FETCH_REQUEST" });
-        const { data } = await toast.promise(
-          axios.get("/api/salesActivity", {
-            params: { whichSales: session.user.user_id },
-          }),
-          {
-            pending: "Fetchin data",
-            success: "Data fetched",
-            error: "Something went wrong 🤯",
-          }
-        );
-
-        if (data.length > 0) {
-          dispatch({ type: "FETCH_SUCCESS", payload: data });
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getLastUpdate();
+    if (!Array.isArray(JSON.parse(areaUser))) {
+      setSales([JSON.parse(areaUser)]);
+    } else {
+      setSales(JSON.parse(areaUser));
+    }
   }, []);
   return (
     <Layout session={session} title="Sales Activity">
       <Title title="Sales Activity " />
-      <section className="gird gird-cols-5 max-w-md">
-        <Suspense fallback="Loading...">
-          <Link href={`/eforel/sales-activity/sales/${session.user.user_code}`}>
-            <a>
-              <Neuromorphism whichNeuro={2}>
-                <div className="p-5 ">
-                  <h2 className="text-center">{session.user.name}</h2>
-                  <div className="grid grid-cols-2 gap-5 my-5">
-                    <p>Area</p>
-                    <p>{session.user.user_area}</p>
-                    <p>Last Update</p>
-                    {loading ? (
-                      <p>Loading...</p>
-                    ) : (
-                      <p>{payloads[0].salesActivity_date}</p>
-                    )}
+      <section className="grid grid-cols-2 gap-10">
+        {sales.map((data, idx) => (
+          <Suspense key={idx} fallback="Loading...">
+            <Link
+              className="w-11/12"
+              href={`/eforel/sales-activity/sales/${data.user_code}`}
+            >
+              <a>
+                <Neuromorphism whichNeuro={2}>
+                  <div className="p-5 relative">
+                    <div
+                      className={`z-0 absolute right-0 ${
+                        data.user_role === "Master"
+                          ? "bg-red-600 text-white"
+                          : data.user_role === "Admin"
+                          ? "bg-primary text-white"
+                          : "bg-third"
+                      }  rounded-full px-5 py-1 `}
+                    >
+                      <p>Role: {data.user_role}</p>
+                    </div>
+                    <h2 className="text-center">{data.user_fullname}</h2>
+                    <div className="grid grid-cols-2 gap-5 my-5">
+                      <p>Area</p>
+                      <p>{data.user_area}</p>
+                      <p>Sales Code</p>
+                      <p>{data.user_code}</p>
+                      <p>Sales Area</p>
+                      <p>{data.user_area}</p>
+                    </div>
                   </div>
-                </div>
-              </Neuromorphism>
-            </a>
-          </Link>
-        </Suspense>
+                </Neuromorphism>
+              </a>
+            </Link>
+          </Suspense>
+        ))}
       </section>
     </Layout>
   );
 };
+export async function getServerSideProps({ req, res }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
+  let areaUser: any = [];
+  const token = await getToken({ req });
+  const prisma = new PrismaClient();
+  if (token.user_role === "Admin") {
+    areaUser = await prisma.user.findMany({
+      where: {
+        user_area: {
+          equals: token.user_area.toString(),
+        },
+      },
+    });
+  } else if (token.user_role === "Master") {
+    areaUser = await prisma.user.findMany({});
+  } else if (token.user_role === "Sales") {
+    areaUser = await prisma.user.findUnique({
+      where: {
+        user_code: token.user_code.toString(),
+      },
+    });
+  }
+
+  return {
+    props: {
+      areaUser: JSON.stringify(areaUser),
+    },
+  };
+}
 
 SalesActivity.auth = true;
 export default SalesActivity;

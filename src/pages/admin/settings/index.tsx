@@ -19,8 +19,6 @@ const settings = ({ user }) => {
 
   const { data: session }: any = useSession();
 
-
-
   const addHandler = async () => {
     try {
       const addUser = await toast.promise(axios.post("/api/admin/user"), {
@@ -96,7 +94,9 @@ const settings = ({ user }) => {
                     <td className=" p-3 ">{user.user_created}</td>
                     <td className=" p-3 ">{user.user_updated}</td>
                     <td className=" p-5 flex flex-row ">
-                      <Link href={`/eforel/admin/edit-user`}>
+                      <Link
+                        href={`/admin/settings/edit-user/${user.user_code}`}
+                      >
                         <a>
                           <Button btn="Edit" />
                         </a>

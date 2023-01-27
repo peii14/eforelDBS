@@ -38,11 +38,11 @@ const handler = async(req: NextApiRequest, res: NextApiResponse) =>{
             return res.status(500).send(error)
         }
     } else if(req.method === "PUT"){
-        const {user_name , user_email,user_area, user_code, user_role, user_password} = req.body
+        const {user_name , user_email,user_area, user_code, user_role, user_password , user_oldMail} = req.body
         try{
             const user = await prisma.user.update({
                 where: {
-                    user_email:"default@gmail.com",
+                    user_email:user_oldMail,
                 },
                 data: {
                     user_fullname:user_name,
