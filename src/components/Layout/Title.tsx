@@ -17,7 +17,7 @@ const Title = ({ title = "-" }) => {
   const { status, data: session } = useSession();
 
   return (
-    <div className="flex flex-row items-center mb-5 justify-between">
+    <div className=" flex flex-row items-center mb-5 justify-between">
       <div>
         <h2 className="font-thin">{title}</h2>
       </div>
@@ -30,7 +30,7 @@ const Title = ({ title = "-" }) => {
               <Menu.Button className="text-secondary bg-sec py-2 px-5 rounded-full">
                 Hi, {session.user.name}
               </Menu.Button>
-              <Menu.Items className="absolute flex flex-col p-3 gap-2 mt-2 right-0 w-max origin-top-right rounded-xl bg-white shadow-lg ">
+              <Menu.Items className="z-50 absolute flex flex-col p-3 gap-2 mt-2 right-0 w-max origin-top-right rounded-xl bg-white shadow-lg ">
                 <Menu.Item>
                   <DropdownLink
                     className="hover:bg-sec duration-100  px-3 rounded-xl py-1"
