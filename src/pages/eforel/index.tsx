@@ -52,6 +52,7 @@ const Dashboard = ({
     router.push("/");
     return <p>Access Denied</p>;
   }
+  // useEffect(() => {}, []);
   useEffect(() => {
     if (session.user.role === "Master" || session.user.role === "Admin") {
       setTab([
@@ -79,8 +80,6 @@ const Dashboard = ({
       _pic = sales_pic;
       _quotation = sales_quotation;
     }
-  }, []);
-  useEffect(() => {
     try {
       switch (whichTab) {
         case 0:
