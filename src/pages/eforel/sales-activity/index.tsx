@@ -76,9 +76,13 @@ export async function getServerSideProps({ req, res }) {
           equals: token.user_area.toString(),
         },
       },
+      orderBy: [{ user_role: "asc" }],
     });
   } else if (token.user_role === "Master") {
-    areaUser = await prisma.user.findMany({});
+    areaUser = await prisma.user.findMany({
+      where: { NOT: { user_role: "Master" } },
+      orderBy: [{ user_role: "asc" }],
+    });
   } else if (token.user_role === "Sales") {
     areaUser = await prisma.user.findUnique({
       where: {
