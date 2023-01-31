@@ -37,7 +37,7 @@ export default function Tabs({
         manual
         onChange={(index) => {
           setTab(index);
-          // pagination(1);
+          setPage(1);
         }}
       >
         <Tab.List className="flex space-x-3 rounded-xl bg-primary p-1">
@@ -150,7 +150,7 @@ export default function Tabs({
           </table>
         </Tab.Panels>
       </Tab.Group>
-      <Pagination current={page} onChange={handlePageChange} hasNext={Math.ceil(contents.length/postPerPage)}></Pagination>
+      <Pagination current={page} onChange={handlePageChange} hasNext={Math.ceil(contents.length/postPerPage)} postPerPage={postPerPage} contentLength={contents.length}></Pagination>
     </div>
   );
 }
