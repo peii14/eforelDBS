@@ -1,16 +1,18 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
-import Pagination from "@/components/Object/Pagination";
+import Pagination from "@/components/Pagination/Pagination";
 
 interface TabsProps {
   readonly tab: any;
   readonly table: any;
   readonly contents: any;
+  readonly handlePageChange: any;
   readonly whichPost: any;
-  readonly pagination: any;
   whichTab: number;
+  page: number;
   postPerPage: number;
   setTab: Dispatch<SetStateAction<number>>;
+  setPage: Dispatch<SetStateAction<number>>;
 }
 
 function classNames(...classes) {
@@ -23,9 +25,11 @@ export default function Tabs({
   tab,
   whichTab,
   whichPost,
-  pagination,
   postPerPage,
+  page,
+  handlePageChange,
   setTab,
+  setPage,
 }: TabsProps) {
   return (
     <div className="w-full p-5 sm:px-0">
@@ -33,7 +37,7 @@ export default function Tabs({
         manual
         onChange={(index) => {
           setTab(index);
-          pagination(1);
+          // pagination(1);
         }}
       >
         <Tab.List className="flex space-x-3 rounded-xl bg-primary p-1">
@@ -146,7 +150,7 @@ export default function Tabs({
           </table>
         </Tab.Panels>
       </Tab.Group>
-      <Pagination postPerPage={postPerPage} totalPost={contents.length} paginate={pagination}></Pagination>
+      <Pagination current={page} onChange={handlePageChange} hasNext={Math.ceil(contents.length/postPerPage)}></Pagination>
     </div>
   );
 }

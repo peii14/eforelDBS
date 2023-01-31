@@ -20,8 +20,8 @@ const Dashboard = ({
   const router = useRouter();
   const { data: session, status }: any = useSession();
   const [tabList, setTab] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(2);
+  const [page, setPage] = useState(1);
   var _customer, _mop, _pic, _quotation;
   const [whichTable, setWhichTable] = useState(
     customer[0] &&
@@ -54,11 +54,12 @@ const Dashboard = ({
     return <p>Access Denied</p>;
   }
   //get current posts
-  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfLastPost = page * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   const currentPost = whichContent.slice(indexOfFirstPost, indexOfLastPost);
-  //change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const handlePageChange = (count: number) =>{
+    setPage(count);
+  }
 
   useEffect(() => {
     if (session.user.role === "Master" || session.user.role === "Admin") {
@@ -162,9 +163,11 @@ const Dashboard = ({
             contents={whichContent}
             whichPost = {currentPost}
             postPerPage={postPerPage}
-            pagination = {paginate}
+            setPage={setPage}
+            page={page}
             setTab={setWhichTab}
             whichTab={whichTab}
+            handlePageChange={handlePageChange}
           />
         </Neuromorphism>
       </section>
