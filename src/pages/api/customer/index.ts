@@ -10,7 +10,7 @@ export default async function handler(
         return res.status(401).end()
     }
     const query = req.query.q
-    
+
     if(req.method === "GET"){
         const customer = await prisma.customer.findMany({
             where:{

@@ -1,11 +1,15 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
+import Pagination from "@/components/Object/Pagination";
 
 interface TabsProps {
   readonly tab: any;
   readonly table: any;
   readonly contents: any;
+  readonly whichPost: any;
+  readonly pagination: any;
   whichTab: number;
+  postPerPage: number;
   setTab: Dispatch<SetStateAction<number>>;
 }
 
@@ -18,6 +22,9 @@ export default function Tabs({
   contents,
   tab,
   whichTab,
+  whichPost,
+  pagination,
+  postPerPage,
   setTab,
 }: TabsProps) {
   return (
@@ -26,6 +33,7 @@ export default function Tabs({
         manual
         onChange={(index) => {
           setTab(index);
+          pagination(1);
         }}
       >
         <Tab.List className="flex space-x-3 rounded-xl bg-primary p-1">
@@ -70,16 +78,16 @@ export default function Tabs({
               </tr>
             </thead>
             <tbody className="content-center">
-              {contents &&
-                [...Array(contents.length)].map((_, i) => (
+              {whichPost &&
+                [...Array(whichPost.length)].map((_, i) => (
                   <tr
                     className="border-b-2 border-opacity-20 border-sec border-double "
                     key={i}
                   >
-                    {Object.values(contents[i]).map((obj, id) => (
+                    {Object.values(whichPost[i]).map((obj, id) => (
                       <td
                         key={id}
-                        className="px-5 w-max border-x border-primary  "
+                        className="px-5 w-max border-x-2 border-sec  "
                       >
                         {obj ? obj : "--"}
                       </td>
@@ -138,6 +146,7 @@ export default function Tabs({
           </table>
         </Tab.Panels>
       </Tab.Group>
+      <Pagination postPerPage={postPerPage} totalPost={contents.length} paginate={pagination}></Pagination>
     </div>
   );
 }

@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import { getToken } from "next-auth/jwt";
-// import { getStaticProps } from "./sales-activity";
 
 const Dashboard = ({
   customer,
@@ -21,6 +20,8 @@ const Dashboard = ({
   const router = useRouter();
   const { data: session, status }: any = useSession();
   const [tabList, setTab] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage, setPostPerPage] = useState(2);
   var _customer, _mop, _pic, _quotation;
   const [whichTable, setWhichTable] = useState(
     customer[0] &&
@@ -52,7 +53,13 @@ const Dashboard = ({
     router.push("/");
     return <p>Access Denied</p>;
   }
-  // useEffect(() => {}, []);
+  //get current posts
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentPost = whichContent.slice(indexOfFirstPost, indexOfLastPost);
+  //change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   useEffect(() => {
     if (session.user.role === "Master" || session.user.role === "Admin") {
       setTab([
@@ -153,6 +160,9 @@ const Dashboard = ({
             tab={tabList}
             table={whichTable}
             contents={whichContent}
+            whichPost = {currentPost}
+            postPerPage={postPerPage}
+            pagination = {paginate}
             setTab={setWhichTab}
             whichTab={whichTab}
           />
