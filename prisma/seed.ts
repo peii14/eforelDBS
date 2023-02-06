@@ -4,8 +4,16 @@ import moment, { Moment } from "moment";
 
 // const prisma = new PrismaClient();
 
-async function main(){
-    // for(let i = 0; i < 10; i++){
+// async function main(){
+//     for(let i = 0; i < 50; i++){
+//         await prisma.customer.create({
+//             data:{
+//                 customer_name:`${faker.name.fullName()}`,
+//                 customer_code:`dsfkl`,
+//             }
+//         })
+//     }
+// }
     //     await prisma.verticalMarket.create({
     //         data:{
     //             verticalMarket_name:`${faker.company.name()}`,

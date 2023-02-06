@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import { getToken } from "next-auth/jwt";
-// import { getStaticProps } from "./sales-activity";
 
 const Dashboard = ({
   customer,
@@ -21,6 +20,8 @@ const Dashboard = ({
   const router = useRouter();
   const { data: session, status }: any = useSession();
   const [tabList, setTab] = useState([]);
+  const [postPerPage, setPostPerPage] = useState(2);
+  const [page, setPage] = useState(1);
   var _customer, _mop, _pic, _quotation;
   const [whichTable, setWhichTable] = useState(
     customer[0] &&
@@ -52,7 +53,14 @@ const Dashboard = ({
     router.push("/");
     return <p>Access Denied</p>;
   }
-  // useEffect(() => {}, []);
+  //get current posts
+  const indexOfLastPost = page * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentPost = whichContent.slice(indexOfFirstPost, indexOfLastPost);
+  const handlePageChange = (count: number) => {
+    setPage(count);
+  };
+
   useEffect(() => {
     if (session.user.role === "Master" || session.user.role === "Admin") {
       setTab([
@@ -147,14 +155,19 @@ const Dashboard = ({
   return (
     <Layout title="Dashboard" session={session}>
       <Title title="Dashboard" />
-      <section className="">
+      <section className="h-screen">
         <Neuromorphism whichNeuro={1}>
           <Tabs
             tab={tabList}
             table={whichTable}
             contents={whichContent}
+            whichPost={currentPost}
+            postPerPage={postPerPage}
+            setPage={setPage}
+            page={page}
             setTab={setWhichTab}
             whichTab={whichTab}
+            handlePageChange={handlePageChange}
           />
         </Neuromorphism>
       </section>

@@ -47,7 +47,7 @@ const Layout = ({ children, title = "Eforel", session }: Props) => {
           >
             <Navbar
               isOpen={onHover}
-              height={height}
+              height={height}  
               role={session ? session.user.role : null}
             />
           </header>
