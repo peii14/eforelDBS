@@ -22,17 +22,17 @@ const Pagination = ({
   const decrement = () => onChange(current - 1);
   const setPage = (num: number) => onChange(num);
 
-  const getSearchData = (val) => {
-    setSearchData(parseInt(val.target.value));
-  };
-  const handleClick = (search) => {
-    if (search <= hasNext) {
-      setPage(search);
-      setSearchData("");
-    } else {
-      toast.error("Something went wrong 🤯");
+    const getSearchData = (val) => {
+        setSearchData(parseInt(val.target.value));
     }
-  };
+    const handleClick = (search) => {
+        if (search<=hasNext && search>0){
+            setPage(search);
+        }
+        else{
+            toast.error("Something went wrong 🤯");
+        }
+    }
 
   let endIndex = current * postPerPage;
   let startIndex = (current - 1) * postPerPage + 1;
