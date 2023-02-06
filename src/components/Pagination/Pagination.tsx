@@ -20,9 +20,8 @@ const Pagination = ({current, onChange, hasNext, postPerPage, contentLength}) =>
         setSearchData(parseInt(val.target.value));
     }
     const handleClick = (search) => {
-        if (search<=hasNext){
+        if (search<=hasNext && search>0){
             setPage(search);
-            setSearchData('');
         }
         else{
             toast.error("Something went wrong 🤯");
