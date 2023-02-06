@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import { getToken } from "next-auth/jwt";
+import Search from "@/components/Object/Search";
 
 const Dashboard = ({
   customer,
@@ -157,18 +158,21 @@ const Dashboard = ({
       <Title title="Dashboard" />
       <section className="h-screen">
         <Neuromorphism whichNeuro={1}>
-          <Tabs
-            tab={tabList}
-            table={whichTable}
-            contents={whichContent}
-            whichPost={currentPost}
-            postPerPage={postPerPage}
-            setPage={setPage}
-            page={page}
-            setTab={setWhichTab}
-            whichTab={whichTab}
-            handlePageChange={handlePageChange}
-          />
+          <div className="flex flex-col justify-between h-full py-3">
+            <Search />
+            <Tabs
+              tab={tabList}
+              table={whichTable}
+              contents={whichContent}
+              whichPost={currentPost}
+              postPerPage={postPerPage}
+              setPage={setPage}
+              page={page}
+              setTab={setWhichTab}
+              whichTab={whichTab}
+              handlePageChange={handlePageChange}
+            />
+          </div>
         </Neuromorphism>
       </section>
     </Layout>
