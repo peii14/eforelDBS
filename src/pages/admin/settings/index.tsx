@@ -69,7 +69,7 @@ const settings = ({ user }) => {
         <Neuromorphism whichNeuro={1}>
           <div className=" py-10 max-h-screen overflow-y-auto">
             <table className="min-w-full  ">
-              <thead className="border-y-2 border-sec sticky">
+              <thead className="border-y-2 border-primary sticky">
                 <tr>
                   <th className="px-5 text-left">Full Name</th>
                   <th className="p-3 text-left">Code</th>
@@ -77,7 +77,6 @@ const settings = ({ user }) => {
                   <th className="p-3 text-left">Area</th>
                   <th className="p-3 text-left">Email</th>
                   <th className="p-3 text-left">Created</th>
-                  <th className="p-3 text-left">Updated</th>
                   <th className="p-3 text-left">Action</th>
                 </tr>
               </thead>
@@ -85,7 +84,7 @@ const settings = ({ user }) => {
                 {Object.values(users).map((user: any) => (
                   <tr
                     key={user.user_code}
-                    className="border-b-2 border-sec border-double border-opacity-20"
+                    className="border-b-2 border-primary border-double border-opacity-20"
                   >
                     <td className=" p-3 ">{user.user_fullname}</td>
                     <td className=" p-3 ">{user.user_code}</td>
@@ -93,7 +92,6 @@ const settings = ({ user }) => {
                     <td className=" p-3 ">{user.user_area}</td>
                     <td className=" p-3 ">{user.user_email}</td>
                     <td className=" p-3 ">{user.user_created}</td>
-                    <td className=" p-3 ">{user.user_updated}</td>
                     <td className=" p-5 flex flex-row ">
                       <Link
                         href={`/admin/settings/edit-user/${user.user_code}`}

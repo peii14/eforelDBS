@@ -57,9 +57,9 @@ const Dashboard = ({
   const indexOfLastPost = page * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   const currentPost = whichContent.slice(indexOfFirstPost, indexOfLastPost);
-  const handlePageChange = (count: number) =>{
+  const handlePageChange = (count: number) => {
     setPage(count);
-  }
+  };
 
   useEffect(() => {
     if (session.user.role === "Master" || session.user.role === "Admin") {
@@ -155,13 +155,13 @@ const Dashboard = ({
   return (
     <Layout title="Dashboard" session={session}>
       <Title title="Dashboard" />
-      <section className="">
+      <section className="h-screen">
         <Neuromorphism whichNeuro={1}>
           <Tabs
             tab={tabList}
             table={whichTable}
             contents={whichContent}
-            whichPost = {currentPost}
+            whichPost={currentPost}
             postPerPage={postPerPage}
             setPage={setPage}
             page={page}
