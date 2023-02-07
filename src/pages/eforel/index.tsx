@@ -20,6 +20,7 @@ const Dashboard = ({
 }) => {
   const router = useRouter();
   const { data: session, status }: any = useSession();
+  const [searchQuery, setSearch] = useState("");
   const [tabList, setTab] = useState([]);
   const [postPerPage, setPostPerPage] = useState(2);
   const [page, setPage] = useState(1);
@@ -62,7 +63,7 @@ const Dashboard = ({
     setPage(count);
   };
 
-  useEffect(() => {
+  function tables() {
     if (session.user.role === "Master" || session.user.role === "Admin") {
       setTab([
         { name: "Customer" },
@@ -151,6 +152,27 @@ const Dashboard = ({
     } catch (error) {
       console.log(error);
     }
+  }
+
+  useEffect(() => {
+    setWhichContent(
+      whichContent.filter(
+        (v) =>
+          Object.keys(v).filter((key) =>
+            v[key]
+              .toString()
+              .toLowerCase()
+              .includes(searchQuery.toString().toLowerCase())
+          ).length > 0
+      )
+    );
+    if (searchQuery.length === 0) {
+      tables();
+    }
+  }, [searchQuery]);
+
+  useEffect(() => {
+    tables();
   }, [whichTab]);
 
   return (
@@ -159,7 +181,7 @@ const Dashboard = ({
       <section className="h-screen">
         <Neuromorphism whichNeuro={1}>
           <div className="flex flex-col justify-between h-full py-3">
-            <Search />
+            <Search query={searchQuery} setQuery={setSearch} />
             <Tabs
               tab={tabList}
               table={whichTable}
