@@ -36,13 +36,13 @@ const Dashboard = ({
     (data) => data.customer_salesCode === session.user.user_code
   );
   const sales_mop = mop.filter(
-    (data) => data.mop_num.split("-")[2] === session.user.user_code
+    (data) => data.mop_num.split("-")[3] === session.user.user_code
   );
   const sales_pic = pic.filter(
     (data) => data.pic_sales_code === session.user.user_code
   );
   const sales_quotation = quotation.filter(
-    (data) => data.quotation_num.split("-")[2] === session.user.user_code
+    (data) => data.quotation_num.split("-")[3] === session.user.user_code
   );
 
   if (status === "loading") {
@@ -61,6 +61,14 @@ const Dashboard = ({
     setPage(count);
   };
 
+  function modifyQuotation(quotation){
+    const cartItems = JSON.parse(quotation.quotation_product).cartItems;
+    const formattedCartItems = cartItems.map((item) => `${item.name} ${item.quantity} pcs`).join(", ");
+    const modified_quotation = { ...quotation };
+    modified_quotation.quotation_product = formattedCartItems;
+    return modified_quotation;
+  };
+
   useEffect(() => {
     if (session.user.role === "Master" || session.user.role === "Admin") {
       setTab([
@@ -75,7 +83,7 @@ const Dashboard = ({
       _customer = customer;
       _mop = mop;
       _pic = pic;
-      _quotation = quotation;
+      _quotation = quotation.map((quotation) => modifyQuotation(quotation));
     } else if (session.user.role === "Sales") {
       setTab([
         { name: "Customer" },
@@ -86,7 +94,7 @@ const Dashboard = ({
       _customer = sales_customer;
       _mop = sales_mop;
       _pic = sales_pic;
-      _quotation = sales_quotation;
+      _quotation = sales_quotation.map((quotation) => modifyQuotation(quotation));
     }
     try {
       switch (whichTab) {
